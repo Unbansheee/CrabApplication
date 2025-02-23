@@ -71,3 +71,13 @@ include/*
 lib/*
 bin/*
 test/test_runner
+
+*.recipe
+*.tlog
+*.pdb
+*.lastbuildstate
+*.vcxproj
+*.sln
+*.vcxproj.filters
+*.ilk
+**/imgui.ini
