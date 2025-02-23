@@ -83,3 +83,4 @@ test/test_runner
 **/imgui.ini
 *.log
 *.vcxproj.*
+*.exp
