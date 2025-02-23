@@ -81,3 +81,5 @@ test/test_runner
 *.vcxproj.filters
 *.ilk
 **/imgui.ini
+*.log
+*.vcxproj.*
