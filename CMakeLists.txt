@@ -10,6 +10,7 @@ file(GLOB SOURCES
         src/*.c
         src/*.hpp
         src/*.cpp
+        resources/*.wgsl
 )
 
 add_executable(CrabApplication
@@ -45,12 +46,14 @@ if(DEV_MODE)
     # versionned.
     target_compile_definitions(CrabApplication PRIVATE
             RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources"
+            ENGINE_RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/resources"
     )
 else()
     # In release mode, we just load resources relatively to wherever the
     # executable is launched from, so that the binary is portable
     target_compile_definitions(CrabApplication PRIVATE
             RESOURCE_DIR="./resources"
+            ENGINE_RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/resources"
     )
 endif()
 
