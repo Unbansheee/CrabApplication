@@ -6,6 +6,7 @@
 #include "Nodes/NodeImGUIContextWindow.h"
 #include "Nodes/NodeWindow.h"
 #include "NodeEditorUI.h"
+#include "Gfx/Materials/StandardMaterial.h"
 
 int main (int, char**) {
 
@@ -13,6 +14,7 @@ int main (int, char**) {
 
     auto& app = Application::Get();
     auto window = app.SetRootNode(std::make_unique<NodeImGUIContextWindow>("Crab Editor"));
+    window->SetSurfaceDrawEnabled(false);
     window->AddChild<NodeEditorUI>("EditorUI");
     app.Begin();
     
@@ -25,24 +27,15 @@ int main (int, char**) {
     
     std::vector<MeshVertex> v;
     ResourceManager::loadGeometryFromObj(ENGINE_RESOURCE_DIR "/fourareen.obj", v);
-    std::shared_ptr<Mesh> m = std::make_shared<Mesh>(app.GetDevice(), v, std::nullopt);
-
-    Application::MyUniforms testUniforms;
-    std::shared_ptr<TestMaterial> mat = std::make_shared<TestMaterial>(app.GetDevice(), RESOURCE_DIR "/testShader.wgsl");
+    SharedRef<Mesh> m = MakeShared<Mesh>(app.GetDevice(), v, std::nullopt);
+    SharedRef<TextureResource> normal = MakeShared<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_normals.png");
+    SharedRef<TextureResource> albedo = MakeShared<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_albedo.jpg");
+    SharedRef<StandardMaterial> mat = MakeShared<StandardMaterial>(app.GetDevice(), ENGINE_RESOURCE_DIR"/standard_material.wgsl");
     mat->TargetTextureFormat = window->GetSurfaceFormat();
+    mat->NormalTextureView = normal;
+    mat->BaseColorTextureView = albedo;
     mat->Initialize();
     
-    Application::MyUniforms uniforms {};
-    uniforms.projectionMatrix = proj;
-    uniforms.viewMatrix = view;
-    uniforms.color = {0.0, 0.0, 1.0, 1.0};
-    uniforms.time = glfwGetTime();
-    uniforms.cameraWorldPosition = glm::vec3(0.0f, 3.f, 0.0f);
-
-    mat->uniformBuffer.SetData(uniforms);
-
-    glm::mat4x4 modelMat = meshInst->GetTransform().GetWorldModelMatrix();
-    mat->perObjectBuffer.SetData(modelMat);
     
     meshInst->SetMesh(m);
     meshInst->SetMaterial(mat);
