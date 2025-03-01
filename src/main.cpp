@@ -20,10 +20,10 @@ int main (int, char**) {
     
     auto meshInst = window->AddChild<NodeMeshInstance3D>("Mesh");
     meshInst->SetPosition({0, 0, 0});
-    meshInst->SetOrientation(Quat({0.0, 0.0, 90.f}));
+    meshInst->SetOrientation(Quat(glm::radians(glm::vec3{0.0, 0.0, 90.f})));
     
-    auto view = glm::lookAt(glm::vec3(4.0f, 0.f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
-    auto proj = glm::perspective(45 * PI / 180, 640.f/480.f, 0.01f, 1000.0f);
+    auto meshInst2 = meshInst->AddChild<NodeMeshInstance3D>("Child Mesh");
+    meshInst2->SetPosition({0, 0, 1});
     
     std::vector<MeshVertex> v;
     ResourceManager::loadGeometryFromObj(ENGINE_RESOURCE_DIR "/fourareen.obj", v);
@@ -39,6 +39,8 @@ int main (int, char**) {
     
     meshInst->SetMesh(m);
     meshInst->SetMaterial(mat);
+    meshInst2->SetMesh(m);
+    meshInst2->SetMaterial(mat);
     
     while (!app.ShouldClose())
     {

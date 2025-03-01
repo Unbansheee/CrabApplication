@@ -4,6 +4,11 @@
 #include "Utility/WeakRef.h"
 #include "Nodes/NodeWindow.h"
 
+namespace ImGuizmo
+{
+    struct matrix_t;
+}
+
 class NodeViewportUI : public Node
 {
 public:
@@ -30,10 +35,17 @@ public:
     wgpu::TextureView DepthTextureView = nullptr;
 
     wgpu::TextureFormat depthFormat = wgpu::TextureFormat::Depth24Plus;
-    
+
+    WeakRef<Node> selectedNode;
+    void SetViewedNode(Node* node);
+
     using PostProcessBindGroupLayout = MaterialHelpers::BindGroupLayoutBuilder<MaterialHelpers::TextureEntry<0, FRAGMENT>>;
     
     void CreateRenderTexture(uint32_t width, uint32_t height);
     void CreateDepthTexture(uint32_t width, uint32_t height);
     void CreateRenderViewTexture(uint32_t width, uint32_t height);
+
+    Camera cam;
+
+    void EditTransform(const Camera& camera, Matrix4& matrix);
 };

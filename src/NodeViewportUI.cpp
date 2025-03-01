@@ -1,8 +1,12 @@
 ﻿#include "NodeViewportUI.h"
 
-#include "imgui.h"
 #include "Nodes/NodeWindow.h"
 #include "Resource/TextureResource.h"
+//#include "ImGuizmo/ImGuizmo.h"
+#include "imgui/imgui.h"
+#include "ImGuizmo/ImGuizmo.h"
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 void NodeViewportUI::Begin()
 {
@@ -13,6 +17,9 @@ void NodeViewportUI::Begin()
         ViewTarget = window;
     }
 
+    cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
+    cam.ViewMatrix = glm::lookAt(glm::vec3(4.0f, 0.f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
+    cam.Position = glm::vec3(4.0f, 0.f, 0.0f);
     
     CreateDepthTexture(windowSize.x, windowSize.y);
     CreateRenderTexture(windowSize.x, windowSize.y);
@@ -23,7 +30,7 @@ void NodeViewportUI::DrawGUI()
 {
     Node::DrawGUI();
 
-    ImGui::Begin("Viewport");
+    ImGui::Begin("Viewport", 0);
     ViewTarget->SetSurfaceDrawEnabled(!ImGui::IsWindowDocked());
     
     ImVec2 currentWindowSize = ImGui::GetContentRegionAvail();
@@ -34,26 +41,73 @@ void NodeViewportUI::DrawGUI()
         CreateDepthTexture(windowSize.x, windowSize.y);
         CreateRenderTexture(windowSize.x, windowSize.y);
         CreateRenderViewTexture(windowSize.x, windowSize.y);
+        cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
+
     }
+
+
     
     if (ViewTarget)
     {
         //auto view = ViewTarget->GetCurrentTextureView();
         //WGPUTextureView v = view;
-        Camera cam;
-        cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
-        cam.ViewMatrix = glm::lookAt(glm::vec3(4.0f, 0.f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
-        cam.Position = glm::vec3(4.0f, 0.f, 0.0f);
+
         ViewTarget->GetRenderer().RenderNodeTree(ViewTarget.Get(), cam, RenderTextureView, DepthTextureView);
         
         CopySurface();
-        
         ImGui::Image((uint64_t)(WGPUTextureView)ViewTextureView, ImGui::GetContentRegionAvail());
-        
+    }
+
+
+
+    
+    if (selectedNode.IsValid())
+    {
+        if (auto node3d = dynamic_cast<Node3D*>(selectedNode.Get()))
+        {
+            auto t = selectedNode->GetTransform();
+            auto mat = t.ModelMatrix;
+    
+            static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::OPERATION::TRANSLATE);
+            static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
+            if (ImGui::IsKeyPressed(ImGuiKey_W))
+                mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+            if (ImGui::IsKeyPressed(ImGuiKey_E))
+                mCurrentGizmoOperation = ImGuizmo::ROTATE;
+            if (ImGui::IsKeyPressed(ImGuiKey_R)) // r Key
+                mCurrentGizmoOperation = ImGuizmo::SCALE;
+            if (ImGui::IsKeyPressed(ImGuiKey_Q)) // r Key
+                mCurrentGizmoOperation = ImGuizmo::UNIVERSAL;
+
+            ImGuizmo::SetDrawlist();
+            ImGuiIO& io = ImGui::GetIO();
+            auto pos = ImGui::GetWindowPos();
+            auto size = ImGui::GetWindowContentRegionMax();
+            ImGuizmo::SetOrthographic(false);
+            ImGuizmo::SetRect(pos.x, pos.y, size.x, size.y);
+
+            
+            if (ImGuizmo::Manipulate(glm::value_ptr(cam.ViewMatrix), glm::value_ptr(cam.ProjectionMatrix), mCurrentGizmoOperation, mCurrentGizmoMode, glm::value_ptr(mat), NULL, NULL))
+            {
+                glm::vec3 scale;
+                glm::quat rotation;
+                glm::vec3 translation;
+
+                MathUtils::DecomposeTransform(mat, translation, rotation, scale);
+
+                glm::quat deltaRotation = rotation - node3d->GetGlobalOrientation();
+                Vector3 deltaScale = scale - node3d->GetGlobalScale();
+                
+                node3d->SetGlobalPosition(translation);
+                node3d->SetGlobalOrientation(node3d->GetGlobalOrientation() + deltaRotation);
+                node3d->SetGlobalScale(node3d->GetGlobalScale() + deltaScale);
+            }
+            
+        }
     }
     
-    
     ImGui::End();
+
 }
 
 void NodeViewportUI::CopySurface()
@@ -80,6 +134,11 @@ void NodeViewportUI::CopySurface()
 float NodeViewportUI::GetAspectRatio() const
 {
     return windowSize.x / windowSize.y;
+}
+
+void NodeViewportUI::SetViewedNode(Node* node)
+{
+    selectedNode = node;
 }
 
 void NodeViewportUI::CreateRenderTexture(uint32_t width, uint32_t height)

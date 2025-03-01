@@ -13,6 +13,7 @@ void NodeEditorUI::Begin()
     auto viewport = AddChild<NodeViewportUI>("Viewport");
     
     tree->OnNodeSelected.connect(inspector, &NodeInspectorUI::SetViewedNode);
+    tree->OnNodeSelected.connect(viewport, &NodeViewportUI::SetViewedNode);
 }
 
 void NodeEditorUI::Update(float dt)
