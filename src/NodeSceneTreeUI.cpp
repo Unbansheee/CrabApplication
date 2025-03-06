@@ -10,7 +10,7 @@ void NodeSceneTreeUI::DrawGUI()
     ImGui::Begin("Scene");
 
     int idx = 0;
-    DrawNodeTree(Application::Get().GetRootNode(), idx);
+    DrawNodeTree(Application::Get().GetSceneTree().GetRoot<Node>(), idx);
 
     ImGui::End();
 }

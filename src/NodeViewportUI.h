@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Node.h"
+#include "Nodes/Node.h"
 #include "Renderer/Renderer.h"
 #include "Utility/WeakRef.h"
 #include "Nodes/NodeWindow.h"
@@ -14,12 +14,7 @@ class NodeViewportUI : public Node
 public:
     NodeViewportUI() = default;
 
-    explicit NodeViewportUI(const std::string& name)
-        : Node(name)
-    {
-    }
-
-    void Begin() override;
+    void Ready() override;
     void DrawGUI() override;
     void CopySurface();
 

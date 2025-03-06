@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "Application.h"
-#include "ResourceManager.h"
-#include "TestMaterial.h"
+#include "GLTFSceneParser.h"
+#include "Resource/ResourceManager.h"
 #include "Nodes/NodeImGUIContextWindow.h"
 #include "Nodes/NodeWindow.h"
 #include "NodeEditorUI.h"
@@ -11,7 +11,7 @@
 
 int main (int, char**) {
     auto& app = Application::Get();
-    auto window = app.SetRootNode(std::make_unique<NodeImGUIContextWindow>("Crab Editor"));
+    auto window = app.GetSceneTree().SetRoot(Node::NewNode<NodeImGUIContextWindow>("Crab Editor"));
     window->SetSurfaceDrawEnabled(false);
     window->AddChild<NodeEditorUI>("EditorUI");
     app.Begin();
@@ -22,6 +22,9 @@ int main (int, char**) {
     
     auto meshInst2 = meshInst->AddChild<NodeMeshInstance3D>("Child Mesh");
     meshInst2->SetPosition({0, 0, 1});
+
+    auto gltfParser = GLTFSceneParser();
+    window->AddChild(gltfParser.ParseGLTF(app.GetDevice(), ENGINE_RESOURCE_DIR"/Level1.glb"));
     
     std::vector<MeshVertex> v;
     ResourceManager::loadGeometryFromObj(ENGINE_RESOURCE_DIR "/fourareen.obj", v);

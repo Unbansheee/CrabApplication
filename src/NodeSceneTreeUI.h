@@ -2,7 +2,7 @@
 #include <rocket/rocket.hpp>
 
 #include "imgui.h"
-#include "Node.h"
+#include "Nodes/Node.h"
 #include "NodeEditorUI.h"
 #include "Utility/WeakRef.h"
 
@@ -12,11 +12,6 @@ class NodeSceneTreeUI : public Node
 {
 public:
     NodeSceneTreeUI() = default;
-
-    explicit NodeSceneTreeUI(const std::string& name)
-        : Node(name)
-    {
-    }
 
     void DrawGUI() override;
 
@@ -63,13 +58,11 @@ private:
                 {
                     if (draggedNode->GetParent() == node && node->GetParent() != nullptr)
                     {
-                        auto n = draggedNode->RemoveFromParent();
-                        node->GetParent()->AddChild(std::move(n), true);
+                        draggedNode->Reparent(node->GetParent());
                     }
                     else
                     {
-                        auto n = draggedNode->RemoveFromParent();
-                        node->AddChild(std::move(n), true);
+                        draggedNode->Reparent(node);
                     }
 
                 }

@@ -1,8 +1,8 @@
 ﻿#include "NodeInspectorUI.h"
 
 #include "imgui.h"
-#include "Node3D.h"
-#include "NodeMeshInstance3D.h"
+#include "Nodes/Node3D.h"
+#include "Nodes/NodeMeshInstance3D.h"
 #include "Core/ClassDB.h"
 
 class Node3D;

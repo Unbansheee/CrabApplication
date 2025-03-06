@@ -8,9 +8,9 @@
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-void NodeViewportUI::Begin()
+void NodeViewportUI::Ready()
 {
-    Node::Begin();
+    Node::Ready();
 
     if (auto window = GetAncestorOfType<NodeWindow>())
     {

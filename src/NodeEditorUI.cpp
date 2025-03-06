@@ -5,9 +5,9 @@
 #include "NodeSceneTreeUI.h"
 #include "NodeViewportUI.h"
 
-void NodeEditorUI::Begin()
+void NodeEditorUI::Init()
 {
-    Node::Begin();
+    Node::Init();
     auto tree = AddChild<NodeSceneTreeUI>("SceneTreePanel");
     auto inspector = AddChild<NodeInspectorUI>("InspectorPanel");
     auto viewport = AddChild<NodeViewportUI>("Viewport");

@@ -2,6 +2,7 @@
 #include "Gfx/Vertex.h"
 #include "Renderer/DynamicUniformBuffer.h"
 #include "Renderer/Material.h"
+#include "Renderer/MaterialHelpers.h"
 #include "Renderer/UniformBuffer.h"
 
 class TestMaterial : public Material

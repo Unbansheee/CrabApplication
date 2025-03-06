@@ -1,14 +1,12 @@
 ﻿#pragma once
-#include "Node.h"
+#include "Nodes/Node.h"
 
 class NodeEditorUI : public Node
 {
 public:
-    NodeEditorUI() : Node() {}
-    NodeEditorUI(const std::string name) : Node(name) {}
+    void Init() override;
 
 protected:
-    void Begin() override;
     void Update(float dt) override;
     void DrawGUI() override;
 
