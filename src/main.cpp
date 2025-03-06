@@ -6,12 +6,10 @@
 #include "Nodes/NodeImGUIContextWindow.h"
 #include "Nodes/NodeWindow.h"
 #include "NodeEditorUI.h"
+#include "Core/ClassDB.h"
 #include "Gfx/Materials/StandardMaterial.h"
 
 int main (int, char**) {
-
-    std::cout << "Hello World!" << std::endl;
-
     auto& app = Application::Get();
     auto window = app.SetRootNode(std::make_unique<NodeImGUIContextWindow>("Crab Editor"));
     window->SetSurfaceDrawEnabled(false);
@@ -36,6 +34,19 @@ int main (int, char**) {
     mat->BaseColorTextureView = albedo;
     mat->Initialize();
     
+    for (const Property& prop : meshInst->GetClassProperties())
+    {
+        std::cout << "Property: " << prop.name << " -> ";
+        if (prop.is<bool>())
+        {
+            std::cout << prop.get<bool>(meshInst);
+        }
+        if (prop.is<std::string>())
+        {
+            std::cout << prop.get<std::string>(meshInst);
+        }
+        std::cout << "\n";
+    }
     
     meshInst->SetMesh(m);
     meshInst->SetMaterial(mat);

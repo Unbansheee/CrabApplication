@@ -19,6 +19,7 @@ void NodeEditorUI::Begin()
 void NodeEditorUI::Update(float dt)
 {
     Node::Update(dt);
+    frametime = dt;
 }
 
 void NodeEditorUI::DrawGUI()
@@ -31,6 +32,11 @@ void NodeEditorUI::DrawGUI()
         ImGui::MenuItem("Edit");
         ImGui::EndMainMenuBar();
     }
+
+    ImGui::Begin("Stats");
+    ImGui::Text("FPS: %f", ImGui::GetIO().Framerate);
+    ImGui::Text("Frametime: %f", frametime * 1000.f);
+    ImGui::End();
 }
 
 NodeEditorUI::~NodeEditorUI()

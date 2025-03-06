@@ -13,5 +13,6 @@ protected:
     void DrawGUI() override;
 
 public:
+    float frametime = 0.0f;
     ~NodeEditorUI() override;
 };
