@@ -22,7 +22,7 @@ public:
 private:
     void DrawNodeTree(Node *node, int& idx_count) {
 
-        ImGuiTreeNodeFlags showArrow = node->GetChildren<Node>().empty() ? ImGuiTreeNodeFlags_Leaf : 0;
+        ImGuiTreeNodeFlags showArrow = node->GetChildren().empty() ? ImGuiTreeNodeFlags_Leaf : 0;
         ImGuiTreeNodeFlags selected = node == SelectedNode ? ImGuiTreeNodeFlags_Selected : 0;
         ImGuiTreeNodeFlags flags = showArrow | selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
         bool open = ImGui::TreeNodeEx((node->GetName() + "##" + std::to_string(idx_count-1)).c_str(), flags);
@@ -91,10 +91,11 @@ private:
         // recursive call for children
         if (open)
         {
-            for (auto child : node->GetChildren())
+            node->ForEachChild([this, &idx_count](Node* child)
             {
                 DrawNodeTree(child, idx_count);
-            }
+            });
+
             ImGui::TreePop();
         }
     }

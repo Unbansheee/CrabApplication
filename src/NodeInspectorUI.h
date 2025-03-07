@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "PropertyDrawUtility.h"
 #include "Nodes/Node.h"
 #include "Utility/WeakRef.h"
 
@@ -15,12 +16,6 @@ public:
     }
     WeakRef<Node> ViewedNode;
 
-    template<class... Ts>
-    struct overload : Ts... {
-        using Ts::operator()...;
-    };
-
-    template<class... Ts>
-    overload(Ts...) -> overload<Ts...>;
+    PropertyDrawUtility visitor;
 };
 
