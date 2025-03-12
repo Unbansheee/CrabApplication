@@ -2,8 +2,8 @@
 #include <rocket/rocket.hpp>
 
 #include "imgui.h"
+#include "NodeEditorSceneRoot.h"
 #include "Nodes/Node.h"
-#include "NodeEditorUI.h"
 #include "Utility/WeakRef.h"
 
 class NodeEditorUI;
@@ -19,6 +19,7 @@ public:
 
     void SelectNode(Node* node);
     WeakRef<Node> SelectedNode;
+    WeakRef<Node> SceneRootOverride;
 private:
     void DrawNodeTree(Node *node, int& idx_count) {
 
@@ -27,8 +28,8 @@ private:
         ImGuiTreeNodeFlags flags = showArrow | selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
         bool open = ImGui::TreeNodeEx((node->GetName() + "##" + std::to_string(idx_count-1)).c_str(), flags);
         idx_count++;
-        bool bIsEditorUI = node->GetAncestorOfType<NodeEditorUI>() != nullptr || node->IsA<NodeEditorUI>();
-        
+        //bool bIsEditorUI = node->GetAncestorOfType<NodeEditorUI>() != nullptr || node->IsA<NodeEditorUI>();
+        bool bIsEditorUI = false;
         bool bCanDelete = !bIsEditorUI && node != node->GetRootNode();
         bool bCanDrag = !bIsEditorUI && node != node->GetRootNode();
         bool bCanDrop = !bIsEditorUI;
@@ -88,6 +89,7 @@ private:
         }
 
 
+
         // recursive call for children
         if (open)
         {
@@ -95,7 +97,10 @@ private:
             {
                 DrawNodeTree(child, idx_count);
             });
-
+            if (auto treenode = dynamic_cast<NodeEditorSceneRoot*>(node))
+            {
+                DrawNodeTree(treenode->GetSubtree().GetRoot<Node>(), idx_count);
+            }
             ImGui::TreePop();
         }
     }

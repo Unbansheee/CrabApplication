@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "NodeEditorCamera3D.h"
 #include "Nodes/Node.h"
 #include "Renderer/Renderer.h"
 #include "Utility/WeakRef.h"
@@ -28,9 +29,9 @@ public:
     wgpu::TextureView ViewTextureView = nullptr;
     wgpu::TextureView RenderTextureView = nullptr;
     wgpu::TextureView DepthTextureView = nullptr;
-
+    
     wgpu::TextureFormat depthFormat = wgpu::TextureFormat::Depth24Plus;
-
+    
     WeakRef<Node> selectedNode;
     void SetViewedNode(Node* node);
 
@@ -40,7 +41,7 @@ public:
     void CreateDepthTexture(uint32_t width, uint32_t height);
     void CreateRenderViewTexture(uint32_t width, uint32_t height);
 
-    WeakRef<NodeCamera3D> ActiveCamera;
+    WeakRef<NodeEditorCamera3D> ActiveCamera;
 
     void EditTransform(const View& view, Matrix4& matrix);
 };

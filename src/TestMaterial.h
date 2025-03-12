@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Application.h"
 #include "Gfx/Vertex.h"
 #include "Renderer/DynamicUniformBuffer.h"
 #include "Renderer/Material.h"
@@ -36,6 +37,6 @@ public:
     void UpdateUniforms() override;
 
 public:
-    UniformBuffer<mat4x4> perObjectBuffer;
+    UniformBuffer<Matrix4> perObjectBuffer;
     UniformBuffer<Application::MyUniforms> uniformBuffer;
 };

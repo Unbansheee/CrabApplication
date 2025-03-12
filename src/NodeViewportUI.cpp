@@ -8,6 +8,8 @@
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Application.h"
+
 void NodeViewportUI::Ready()
 {
     Node::Ready();
@@ -56,7 +58,10 @@ void NodeViewportUI::DrawGUI()
     {
         if (ViewTarget)
         {
-            ActiveCamera = ViewTarget->ActiveCamera.Get();
+            if (auto editorCam = dynamic_cast<NodeEditorCamera3D*>(ViewTarget->ActiveCamera.Get()))
+            {
+                ActiveCamera = editorCam;
+            }
         }
         else
         {
@@ -69,27 +74,61 @@ void NodeViewportUI::DrawGUI()
     {
         //auto view = ViewTarget->GetCurrentTextureView();
         //WGPUTextureView v = view;
-
+        
         if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
         {
-            auto move = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
+            ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+
+            auto move = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right, 0.f);
             if (ActiveCamera)
             {
                 auto orientation = ActiveCamera->GetGlobalOrientation();
                 auto up = ActiveCamera->GetUpVector();
                 auto right = ActiveCamera->GetRightVector();
+                
+                ActiveCamera->HandleMouseMovement({move.x, move.y});
 
-                float yawAngle = -move.x * 0.01f;
-                float pitchAngle = -move.y * 0.01f;
+                Vector3 movement{0,0,0};
+                if (ImGui::IsKeyDown(ImGuiKey_W))
+                {
+                    movement += Vector3{1, 0, 0};
+                }
+                if (ImGui::IsKeyDown(ImGuiKey_S))
+                {
+                    movement -= Vector3{1, 0, 0};
+                }
+                if (ImGui::IsKeyDown(ImGuiKey_A))
+                {
+                    movement -= Vector3{0, 1, 0};
+                }
+                if (ImGui::IsKeyDown(ImGuiKey_D))
+                {
+                    movement += Vector3{0, 1, 0};
+                }
+                if (ImGui::IsKeyDown(ImGuiKey_E))
+                {
+                    movement += Vector3{0, 0, 1};
+                }
+                if (ImGui::IsKeyDown(ImGuiKey_Q))
+                {
+                    movement -= Vector3{0, 0, 1};
+                }
+                ActiveCamera->HandleKeyboardMovement(movement);
+                ///float yawAngle = -move.x * 0.01f;
+                //float pitchAngle = -move.y * 0.01f;
 
-                orientation = glm::rotate(orientation, pitchAngle, right);
+                //orientation = glm::rotate(orientation, pitchAngle, right);
                 //orientation = glm::rotate(orientation, yawAngle, up);
                 //orientation = glm::normalize(rotation * orientation);
                 
-                ActiveCamera->SetGlobalOrientation(orientation);
+                //ActiveCamera->SetGlobalOrientation(orientation);
                 
                 ImGui::ResetMouseDragDelta(ImGuiMouseButton_Right);
             }
+        }
+        if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
         }
         
         

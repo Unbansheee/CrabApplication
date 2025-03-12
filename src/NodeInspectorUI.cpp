@@ -23,12 +23,7 @@ void NodeInspectorUI::DrawGUI()
         {
             p.visit(visitor, ViewedNode.Get());
         }
-
-        if (ImGui::Button("SerializeTest"))
-        {
-            SceneSerializer s;
-            s.SerializeScene(ViewedNode.Get(), ENGINE_RESOURCE_DIR"/FunnyScene.json");
-        }
+        
     }
 
 

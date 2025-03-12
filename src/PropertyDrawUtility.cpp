@@ -1,9 +1,14 @@
 ﻿#include "PropertyDrawUtility.h"
 
 #include "imgui.h"
+#include "Core/ClassDB.h"
 #include "imgui/misc/cpp/imgui_stdlib.h"
 #include "Nodes/Node.h"
+#include "Resource/ImageTextureResource.h"
+#include "Resource/Mesh.h"
 #include "Resource/Resource.h"
+#include "Resource/ResourceManager.h"
+#include "Resource/TextureResource.h"
 
 
 void PropertyDrawUtility::operator()(PropertyView& prop, int& value)
@@ -98,11 +103,12 @@ void PropertyDrawUtility::operator()(PropertyView& prop, Transform& value)
     }
 }
 
-void PropertyDrawUtility::operator()(PropertyView& prop, ResourceHandle& val)
+void PropertyDrawUtility::operator()(PropertyView& prop, ResourceRef& val)
 {
-    auto str = val.ResourceID.to_string();
     ImGui::Text(prop.name().c_str());
     ImGui::SameLine();
+
+    /*
     ImGui::Text(val.ResourceID.to_string().c_str());
     if (ImGui::BeginDragDropTarget())
     {
@@ -115,5 +121,55 @@ void PropertyDrawUtility::operator()(PropertyView& prop, ResourceHandle& val)
         }
 
         ImGui::EndDragDropTarget();
+    }
+    */
+
+    if (auto res = val.Get<Resource>()) {
+        ImGui::Text("%s", res->GetResourcePath().c_str());
+        if (ImGui::BeginDragDropTarget()) {
+            // Handle drag-drop from resource browser
+        }
+    } else {
+        ImGui::Text("None");
+        if (ImGui::Button("Load")) {
+            // Open resource browser
+            ImGui::BeginPopup("Gegg");
+
+            ImGui::EndPopup();
+        }
+    }
+}
+
+void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
+{
+    if (auto res = val.Get<Resource>()) {
+        ImGui::Text("%s", res->GetResourcePath().c_str());
+        if (ImGui::BeginDragDropTarget()) {
+            // Handle drag-drop from resource browser
+        }
+    } else {
+        ImGui::Text("None");
+        if (ImGui::Button("Load")) {
+            ImGui::OpenPopup("ResourceSelector");
+        }
+        
+        if (ImGui::BeginPopup("ResourceSelector"))
+        {
+            int i = 0;
+            for (auto& r : ResourceManager::GetAllResources())
+            {
+                if (ClassDB::Get().IsSubclassOf<MeshResource>(*r.get()))
+                {
+                    if (ImGui::Button((r->GetResourcePath() + "##" + std::to_string(i)).c_str()))
+                    {
+                        val = r;
+                        prop.set<StrongResourceRef>(val);
+                    }
+                    
+                    i++;
+                }
+            }
+            ImGui::EndPopup();
+        }
     }
 }

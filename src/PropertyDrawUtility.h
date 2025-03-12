@@ -18,7 +18,8 @@ struct PropertyDrawUtility
     void operator()(PropertyView& prop, Vector4& val);
     void operator()(PropertyView& prop, Quat& val);
     void operator()(PropertyView& prop, Transform& val);
-    void operator()(PropertyView& prop, ResourceHandle& val);
+    void operator()(PropertyView& prop, ResourceRef& val);
+    void operator()(PropertyView& prop, StrongResourceRef& val);
     void operator()(PropertyView& prop, auto val) { std::cout << "Invalid variant for drawing: " << prop.name() << "\n"; }
     
 

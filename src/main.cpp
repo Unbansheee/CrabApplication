@@ -7,19 +7,23 @@
 #include "Nodes/NodeImGUIContextWindow.h"
 #include "Nodes/NodeWindow.h"
 #include "NodeEditorUI.h"
-#include "Core/ClassDB.h"
-#include "Gfx/Materials/StandardMaterial.h"
-#include "Nodes/NodeCamera3D.h"
+#include "Resource/OBJMeshResource.h"
 
 int main (int, char**) {
     auto& app = Application::Get();
     auto window = app.GetSceneTree().SetRoot(Node::NewNode<NodeImGUIContextWindow>("Crab Editor"));
     window->SetSurfaceDrawEnabled(false);
     window->AddChild<NodeEditorUI>("EditorUI");
-    window->AddChild<NodeCamera3D>("Editor Camera");
     
     app.Begin();
+
+    /*
+    auto e = ResourceManager::Load<OBJMeshResource>(ENGINE_RESOURCE_DIR"/fourareen.obj");
+    e->meshAssetPath = ENGINE_RESOURCE_DIR"/fourareen.obj";
+    e->LoadData();
+    */
     
+    /*
     auto meshInst = window->AddChild<NodeMeshInstance3D>("Mesh");
     meshInst->SetPosition({0, 0, 0});
     meshInst->SetOrientation(Quat(glm::radians(glm::vec3{0.0, 0.0, 90.f})));
@@ -33,11 +37,18 @@ int main (int, char**) {
     std::vector<MeshVertex> v;
     ResourceManager::loadGeometryFromObj(ENGINE_RESOURCE_DIR "/fourareen.obj", v);
     SharedRef<Mesh> m = MakeShared<Mesh>(app.GetDevice(), v, std::nullopt);
-    SharedRef<TextureResource> normal = Resource::CreateResource<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_normals.png");
-    SharedRef<TextureResource> albedo = Resource::CreateResource<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_albedo.jpg");
+    auto norm = ResourceManager::Load<ImageTextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_normals.png");
+    auto albedo = ResourceManager::Load<ImageTextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_albedo.jpg");
+    norm->imageFilePath = norm->GetResourcePath();
+    albedo->imageFilePath = albedo->GetResourcePath();
+    norm->LoadData();
+    albedo->LoadData();
+
+    //SharedRef<TextureResource> normal = Resource::CreateResource<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_normals.png");
+    //SharedRef<TextureResource> albedo = Resource::CreateResource<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_albedo.jpg");
     SharedRef<StandardMaterial> mat = MakeShared<StandardMaterial>(app.GetDevice(), ENGINE_RESOURCE_DIR"/standard_material.wgsl");
     mat->TargetTextureFormat = window->GetSurfaceFormat();
-    mat->NormalTextureView = normal;
+    mat->NormalTextureView = norm;
     mat->BaseColorTextureView = albedo;
     mat->Initialize();
     
@@ -45,6 +56,7 @@ int main (int, char**) {
     meshInst->SetMaterial(mat);
     meshInst2->SetMesh(m);
     meshInst2->SetMaterial(mat);
+    */
     
     while (!app.ShouldClose())
     {
