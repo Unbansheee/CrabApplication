@@ -2,18 +2,22 @@
 
 #include "Application.h"
 #include "GLTFSceneParser.h"
+#include "NodeEditorSceneRoot.h"
 #include "Resource/ResourceManager.h"
 #include "Nodes/NodeImGUIContextWindow.h"
 #include "Nodes/NodeWindow.h"
 #include "NodeEditorUI.h"
 #include "Core/ClassDB.h"
 #include "Gfx/Materials/StandardMaterial.h"
+#include "Nodes/NodeCamera3D.h"
 
 int main (int, char**) {
     auto& app = Application::Get();
     auto window = app.GetSceneTree().SetRoot(Node::NewNode<NodeImGUIContextWindow>("Crab Editor"));
     window->SetSurfaceDrawEnabled(false);
     window->AddChild<NodeEditorUI>("EditorUI");
+    window->AddChild<NodeCamera3D>("Editor Camera");
+    
     app.Begin();
     
     auto meshInst = window->AddChild<NodeMeshInstance3D>("Mesh");
@@ -29,27 +33,13 @@ int main (int, char**) {
     std::vector<MeshVertex> v;
     ResourceManager::loadGeometryFromObj(ENGINE_RESOURCE_DIR "/fourareen.obj", v);
     SharedRef<Mesh> m = MakeShared<Mesh>(app.GetDevice(), v, std::nullopt);
-    SharedRef<TextureResource> normal = MakeShared<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_normals.png");
-    SharedRef<TextureResource> albedo = MakeShared<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_albedo.jpg");
+    SharedRef<TextureResource> normal = Resource::CreateResource<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_normals.png");
+    SharedRef<TextureResource> albedo = Resource::CreateResource<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_albedo.jpg");
     SharedRef<StandardMaterial> mat = MakeShared<StandardMaterial>(app.GetDevice(), ENGINE_RESOURCE_DIR"/standard_material.wgsl");
     mat->TargetTextureFormat = window->GetSurfaceFormat();
     mat->NormalTextureView = normal;
     mat->BaseColorTextureView = albedo;
     mat->Initialize();
-    
-    for (const Property& prop : meshInst->GetClassProperties())
-    {
-        std::cout << "Property: " << prop.name << " -> ";
-        if (prop.is<bool>())
-        {
-            std::cout << prop.get<bool>(meshInst);
-        }
-        if (prop.is<std::string>())
-        {
-            std::cout << prop.get<std::string>(meshInst);
-        }
-        std::cout << "\n";
-    }
     
     meshInst->SetMesh(m);
     meshInst->SetMaterial(mat);

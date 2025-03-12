@@ -40,7 +40,7 @@ public:
     void CreateDepthTexture(uint32_t width, uint32_t height);
     void CreateRenderViewTexture(uint32_t width, uint32_t height);
 
-    Camera cam;
+    WeakRef<NodeCamera3D> ActiveCamera;
 
-    void EditTransform(const Camera& camera, Matrix4& matrix);
+    void EditTransform(const View& view, Matrix4& matrix);
 };

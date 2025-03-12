@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include "imgui/misc/cpp/imgui_stdlib.h"
 #include "Nodes/Node.h"
+#include "Resource/Resource.h"
 
 
 void PropertyDrawUtility::operator()(PropertyView& prop, int& value)
@@ -94,5 +95,25 @@ void PropertyDrawUtility::operator()(PropertyView& prop, Transform& value)
         {
             node->UpdateTransform();
         }
+    }
+}
+
+void PropertyDrawUtility::operator()(PropertyView& prop, ResourceHandle& val)
+{
+    auto str = val.ResourceID.to_string();
+    ImGui::Text(prop.name().c_str());
+    ImGui::SameLine();
+    ImGui::Text(val.ResourceID.to_string().c_str());
+    if (ImGui::BeginDragDropTarget())
+    {
+        const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("RESOURCE_REF");
+        if (payload)
+        {
+            SharedRef<Resource> resource = *(SharedRef<Resource>*)payload->Data;
+            val = resource->Handle();
+            prop.set(val);
+        }
+
+        ImGui::EndDragDropTarget();
     }
 }

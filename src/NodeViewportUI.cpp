@@ -17,9 +17,9 @@ void NodeViewportUI::Ready()
         ViewTarget = window;
     }
 
-    cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
-    cam.ViewMatrix = glm::lookAt(glm::vec3(4.0f, 0.f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
-    cam.Position = glm::vec3(4.0f, 0.f, 0.0f);
+    //cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
+   // cam.ViewMatrix = glm::lookAt(glm::vec3(4.0f, 0.f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
+    //cam.Position = glm::vec3(4.0f, 0.f, 0.0f);
     
     CreateDepthTexture(windowSize.x, windowSize.y);
     CreateRenderTexture(windowSize.x, windowSize.y);
@@ -41,10 +41,28 @@ void NodeViewportUI::DrawGUI()
         CreateDepthTexture(windowSize.x, windowSize.y);
         CreateRenderTexture(windowSize.x, windowSize.y);
         CreateRenderViewTexture(windowSize.x, windowSize.y);
-        cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
+        //cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
 
     }
 
+    View viewData;
+    if (ActiveCamera)
+    {
+        viewData.Position = ActiveCamera->GetGlobalPosition();
+        viewData.ViewMatrix = ActiveCamera->GetViewMatrix();
+        viewData.ProjectionMatrix = glm::perspective(ActiveCamera->FOV * PI / 180, GetAspectRatio(), ActiveCamera->NearClippingPlane, ActiveCamera->FarClippingPlane);
+    }
+    else
+    {
+        if (ViewTarget)
+        {
+            ActiveCamera = ViewTarget->ActiveCamera.Get();
+        }
+        else
+        {
+            viewData.ProjectionMatrix = glm::perspective(45.0f * PI / 180.f, GetAspectRatio(), 0.01f, 1000.f);
+        }
+    }
 
     
     if (ViewTarget)
@@ -52,7 +70,30 @@ void NodeViewportUI::DrawGUI()
         //auto view = ViewTarget->GetCurrentTextureView();
         //WGPUTextureView v = view;
 
-        ViewTarget->GetRenderer().RenderNodeTree(ViewTarget.Get(), cam, RenderTextureView, DepthTextureView);
+        if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
+        {
+            auto move = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
+            if (ActiveCamera)
+            {
+                auto orientation = ActiveCamera->GetGlobalOrientation();
+                auto up = ActiveCamera->GetUpVector();
+                auto right = ActiveCamera->GetRightVector();
+
+                float yawAngle = -move.x * 0.01f;
+                float pitchAngle = -move.y * 0.01f;
+
+                orientation = glm::rotate(orientation, pitchAngle, right);
+                //orientation = glm::rotate(orientation, yawAngle, up);
+                //orientation = glm::normalize(rotation * orientation);
+                
+                ActiveCamera->SetGlobalOrientation(orientation);
+                
+                ImGui::ResetMouseDragDelta(ImGuiMouseButton_Right);
+            }
+        }
+        
+        
+        ViewTarget->GetRenderer().RenderNodeTree(ViewTarget.Get(), viewData, RenderTextureView, DepthTextureView);
         
         CopySurface();
         ImGui::Image((uint64_t)(WGPUTextureView)ViewTextureView, ImGui::GetContentRegionAvail());
@@ -86,8 +127,11 @@ void NodeViewportUI::DrawGUI()
             ImGuizmo::SetOrthographic(false);
             ImGuizmo::SetRect(pos.x, pos.y, size.x, size.y);
 
+
             
-            if (ImGuizmo::Manipulate(glm::value_ptr(cam.ViewMatrix), glm::value_ptr(cam.ProjectionMatrix), mCurrentGizmoOperation, mCurrentGizmoMode, glm::value_ptr(mat), NULL, NULL))
+            //auto projMat = glm::perspective(45.0f * PI / 180.f, GetAspectRatio(), 0.01f, 1000.0f);
+            
+            if (ImGuizmo::Manipulate(glm::value_ptr(viewData.ViewMatrix), glm::value_ptr(viewData.ProjectionMatrix), mCurrentGizmoOperation, mCurrentGizmoMode, glm::value_ptr(mat), NULL, NULL))
             {
                 glm::vec3 scale;
                 glm::quat rotation;
