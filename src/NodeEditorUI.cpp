@@ -1,11 +1,12 @@
-﻿#include "NodeEditorUI.h"
+﻿#include "imgui.h"
 
-#include "Application.h"
-#include "imgui.h"
-#include "NodeInspectorUI.h"
-#include "NodeSceneTreeUI.h"
-#include "NodeViewportUI.h"
-#include "SceneSerializer.h"
+module node_editor_ui;
+import application;
+import node_inspector_ui;
+import node_scene_tree_ui;
+import node_viewport_ui;
+import scene_serializer;
+import node;
 
 void NodeEditorUI::Init()
 {
@@ -14,6 +15,7 @@ void NodeEditorUI::Init()
     auto inspector = AddChild<NodeInspectorUI>("Editor Inspector");
     auto viewport = AddChild<NodeViewportUI>("Viewport");
 
+    ContentBrowser = AddChild<NodeContentBrowserPanel>("Content Browser");
     EditorSceneTree = AddChild<NodeSceneTreeUI>("Scene Tree");
     EditorRoot = AddChild<NodeEditorSceneRoot>("Scene Root");
     EditorCamera = AddChild<NodeEditorCamera3D>("Editor Camera");

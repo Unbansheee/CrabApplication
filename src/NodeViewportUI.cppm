@@ -1,16 +1,23 @@
-﻿#pragma once
-#include "NodeEditorCamera3D.h"
-#include "Nodes/Node.h"
-#include "Renderer/Renderer.h"
-#include "Utility/WeakRef.h"
-#include "Nodes/NodeWindow.h"
+﻿module;
+#pragma once
+#include "Renderer/MaterialHelpers.h"
+
+export module node_viewport_ui;
+import node_editor_camera_3d;
+import node;
+import renderer;
+import object_ref;
+import node_window;
+import wgpu;
+import view;
+import crab_types;
 
 namespace ImGuizmo
 {
     struct matrix_t;
 }
 
-class NodeViewportUI : public Node
+export class NodeViewportUI : public Node
 {
 public:
     NodeViewportUI() = default;

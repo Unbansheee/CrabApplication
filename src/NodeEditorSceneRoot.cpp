@@ -1,4 +1,4 @@
-﻿#include "NodeEditorSceneRoot.h"
+﻿module node_editor_scene_root;
 
 void NodeEditorSceneRoot::Init()
 {

@@ -1,11 +1,9 @@
-﻿#include "NodeInspectorUI.h"
+﻿#include "imgui.h"
 
-#include "imgui.h"
-#include "PropertyDrawUtility.h"
-#include "SceneSerializer.h"
-#include "Nodes/Node3D.h"
-#include "Nodes/NodeMeshInstance3D.h"
-#include "Core/ClassDB.h"
+module node_inspector_ui;
+import property_draw;
+import scene_serializer;
+
 
 class Node3D;
 
@@ -23,10 +21,7 @@ void NodeInspectorUI::DrawGUI()
         {
             p.visit(visitor, ViewedNode.Get());
         }
-        
     }
-
-
     
     ImGui::End();
 }

@@ -1,9 +1,11 @@
 ﻿#pragma once
-#include "PropertyDrawUtility.h"
-#include "Nodes/Node.h"
-#include "Utility/WeakRef.h"
 
-class NodeInspectorUI : public Node
+export module node_inspector_ui;
+import node;
+import object_ref;
+import property_draw;
+
+export class NodeInspectorUI : public Node
 {
 public:
     NodeInspectorUI() = default;

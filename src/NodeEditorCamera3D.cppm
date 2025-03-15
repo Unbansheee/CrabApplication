@@ -1,7 +1,14 @@
-﻿#pragma once
-#include "Nodes/NodeCamera3D.h"
+﻿module;
+#pragma once
 
-class NodeEditorCamera3D : public NodeCamera3D
+#include "ReflectionMacros.h"
+
+export module node_editor_camera_3d;
+import node_camera_3d;
+import crab_types;
+import node;
+
+export class NodeEditorCamera3D : public NodeCamera3D
 {
 public:
     CRAB_CLASS(NodeEditorCamera3D, NodeCamera3D)

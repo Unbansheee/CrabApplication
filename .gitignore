@@ -84,3 +84,8 @@ test/test_runner
 *.log
 *.vcxproj.*
 *.exp
+*.ifc
+*.ifc.*
+*.module.json
+*.d.json
+*.user

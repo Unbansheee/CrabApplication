@@ -1,14 +1,17 @@
-﻿#pragma once
+﻿module;
+
+#pragma once
 #include <rocket/rocket.hpp>
-
 #include "imgui.h"
-#include "NodeEditorSceneRoot.h"
-#include "Nodes/Node.h"
-#include "Utility/WeakRef.h"
 
-class NodeEditorUI;
+export module node_scene_tree_ui;
+import node_editor_scene_root;
+import object_ref;
+import node;
 
-class NodeSceneTreeUI : public Node
+export class NodeEditorUI;
+
+export class NodeSceneTreeUI : public Node
 {
 public:
     NodeSceneTreeUI() = default;

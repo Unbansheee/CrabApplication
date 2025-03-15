@@ -1,12 +1,21 @@
-﻿#pragma once
-#include <iostream>
-#include <string>
+﻿module;
 
-#include "CrabTypes.h"
-#include "Reflection.h"
-#include "Transform.h"
+#pragma once
 
-struct PropertyDrawUtility
+//#include "CrabTypes.cppm"
+//#include "Reflection.cppm"
+//#include "Transform.cppm"
+
+export module property_draw;
+import <iostream>;
+import string;
+import reflection;
+import crab_types;
+import class_db;
+import resource_ref;
+import transform;
+
+export struct PropertyDrawUtility
 {
     // Handle all supported types
     void operator()(PropertyView& prop, int& val);

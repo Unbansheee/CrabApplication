@@ -1,4 +1,6 @@
-﻿#include <NodeEditorCamera3D.h>
+﻿module node_editor_camera_3d;
+import crab_types;
+
 
 void NodeEditorCamera3D::HandleMouseMovement(Vector2 movement)
 {

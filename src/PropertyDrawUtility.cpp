@@ -1,15 +1,13 @@
-﻿#include "PropertyDrawUtility.h"
-
-#include "imgui.h"
-#include "Core/ClassDB.h"
+﻿#include "imgui.h"
 #include "imgui/misc/cpp/imgui_stdlib.h"
-#include "Nodes/Node.h"
-#include "Resource/ImageTextureResource.h"
-#include "Resource/Mesh.h"
-#include "Resource/Resource.h"
-#include "Resource/ResourceManager.h"
-#include "Resource/TextureResource.h"
 
+
+module property_draw;
+import node_content_browser_panel;
+import resource_manager;
+import node;
+import resource;
+import mesh_resource;
 
 void PropertyDrawUtility::operator()(PropertyView& prop, int& value)
 {
@@ -127,6 +125,16 @@ void PropertyDrawUtility::operator()(PropertyView& prop, ResourceRef& val)
     if (auto res = val.Get<Resource>()) {
         ImGui::Text("%s", res->GetResourcePath().c_str());
         if (ImGui::BeginDragDropTarget()) {
+            auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");
+            if (payload)
+            {
+                ResourcePathDragDropData* data = (ResourcePathDragDropData*)payload->Data;
+                auto res_ref = ResourceManager::Load(data->GetPath());
+                val = res_ref;
+                prop.set(val);
+            }
+            
+            ImGui::EndDragDropTarget();
             // Handle drag-drop from resource browser
         }
     } else {
@@ -142,12 +150,29 @@ void PropertyDrawUtility::operator()(PropertyView& prop, ResourceRef& val)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
 {
-    if (auto res = val.Get<Resource>()) {
-        ImGui::Text("%s", res->GetResourcePath().c_str());
+
+    if (auto res = val.Get<Resource>())
+    {
+        ImGui::Text("%s", res->GetName().c_str());
         if (ImGui::BeginDragDropTarget()) {
-            // Handle drag-drop from resource browser
+            auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");
+            if (payload)
+            {
+                ResourcePathDragDropData* data = static_cast<ResourcePathDragDropData*>(payload->Data);
+                auto res_ref = ResourceManager::Load(data->GetPath());
+
+                if (ClassDB::Get().IsSubclassOf<MeshResource>(*res_ref.get()))
+                {
+                    val = res_ref;
+                    prop.set(val);
+                }
+            }
+            
+            ImGui::EndDragDropTarget();
         }
-    } else {
+    }
+        else
+        {
         ImGui::Text("None");
         if (ImGui::Button("Load")) {
             ImGui::OpenPopup("ResourceSelector");
@@ -160,7 +185,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
             {
                 if (ClassDB::Get().IsSubclassOf<MeshResource>(*r.get()))
                 {
-                    if (ImGui::Button((r->GetResourcePath() + "##" + std::to_string(i)).c_str()))
+                    if (ImGui::Button((r->GetName() + "##" + std::to_string(i)).c_str()))
                     {
                         val = r;
                         prop.set<StrongResourceRef>(val);

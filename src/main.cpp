@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "ReflectionMacros.h"
+/*
 #include "Application.h"
 #include "GLTFSceneParser.h"
 #include "NodeEditorSceneRoot.h"
@@ -8,8 +10,22 @@
 #include "Nodes/NodeWindow.h"
 #include "NodeEditorUI.h"
 #include "Resource/OBJMeshResource.h"
+#include "Resource/Importers/TextureImporter.h"
+#include "Resource/Importers/OBJMeshImporter.h"
+*/
+import application;
+import node;
+import node_imgui_context_window;
+import node_editor_ui;
+import resource_manager;
+import obj_mesh_resource;
+import resource_ref;
+import obj_mesh_importer;
 
+StrongResourceRef r;
+REGISTER_RESOURCE_IMPORTER(OBJMeshImporter)
 int main (int, char**) {
+    auto n = Node::NewNode<Node>();
     auto& app = Application::Get();
     auto window = app.GetSceneTree().SetRoot(Node::NewNode<NodeImGUIContextWindow>("Crab Editor"));
     window->SetSurfaceDrawEnabled(false);
@@ -17,11 +33,9 @@ int main (int, char**) {
     
     app.Begin();
 
-    /*
-    auto e = ResourceManager::Load<OBJMeshResource>(ENGINE_RESOURCE_DIR"/fourareen.obj");
-    e->meshAssetPath = ENGINE_RESOURCE_DIR"/fourareen.obj";
-    e->LoadData();
-    */
+    
+    //r = ResourceManager::Load<OBJMeshResource>(ENGINE_RESOURCE_DIR"/fourareen.obj");
+    
     
     /*
     auto meshInst = window->AddChild<NodeMeshInstance3D>("Mesh");
@@ -57,6 +71,7 @@ int main (int, char**) {
     meshInst2->SetMesh(m);
     meshInst2->SetMaterial(mat);
     */
+
     
     while (!app.ShouldClose())
     {

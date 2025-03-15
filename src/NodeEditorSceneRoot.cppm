@@ -1,8 +1,11 @@
-﻿#pragma once
-#include "Core/SceneTree.h"
-#include "Nodes/Node.h"
+﻿module;
+#pragma once
 
-class NodeEditorSceneRoot : public Node
+export module node_editor_scene_root;
+import node;
+import scene_tree;
+
+export class NodeEditorSceneRoot : public Node
 {
 public:
     virtual void Init() override;

@@ -1,14 +1,22 @@
-﻿#include "NodeViewportUI.h"
-
-#include "Nodes/NodeWindow.h"
-#include "Resource/TextureResource.h"
-//#include "ImGuizmo/ImGuizmo.h"
-#include "imgui/imgui.h"
+﻿#include "imgui/imgui.h"
 #include "ImGuizmo/ImGuizmo.h"
-#include <glm/gtx/matrix_decompose.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
-#include "Application.h"
+module node_viewport_ui;
+import glm;
+import node;
+import application;
+import texture_resource;
+import node_window;
+import math_utils;
+
+//#include "Nodes/NodeWindow.cppm"
+//#include "Resource/TextureResource.cppm"
+//#include "ImGuizmo/ImGuizmo.h"
+
+//#include <glm/gtx/matrix_decompose.hpp>
+//#include <glm/gtc/type_ptr.hpp>
+
+//#include "Application.cppm"
 
 void NodeViewportUI::Ready()
 {

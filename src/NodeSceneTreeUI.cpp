@@ -1,9 +1,8 @@
-﻿#include "NodeSceneTreeUI.h"
+﻿#include "imgui.h"
 
-#include "Application.h"
-#include "imgui.h"
-#include "Core/ClassDB.h"
-#include "Resource/Resource.h"
+module node_scene_tree_ui;
+import application;
+import scene_tree;
 
 void NodeSceneTreeUI::DrawGUI()
 {
