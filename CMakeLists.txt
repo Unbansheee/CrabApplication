@@ -25,7 +25,7 @@ add_executable(CrabApplication
 )
 
 set_target_properties(CrabApplication PROPERTIES
-    CXX_STANDARD 20
+    CXX_STANDARD 23
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
     COMPILE_WARNING_AS_ERROR OFF
@@ -33,7 +33,6 @@ set_target_properties(CrabApplication PROPERTIES
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 
 if (MSVC)
     target_compile_options(CrabApplication PRIVATE /W4)
@@ -44,7 +43,13 @@ else()
     target_compile_options(CrabApplication PRIVATE -Wall -Wextra -pedantic)
 endif()
 
-add_subdirectory(./vendor/CrabEngine)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(CrabApplication PRIVATE -fmodules-ts)
+    target_compile_options(CrabApplication PRIVATE -fmodule-header)
+endif()
+
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine)
 target_link_libraries(CrabApplication PUBLIC CrabEngine)
 
 # We add an option to enable different settings when developing the CrabApplication than
@@ -63,7 +68,7 @@ else()
     # In release mode, we just load resources relatively to wherever the
     # executable is launched from, so that the binary is portable
     target_compile_definitions(CrabApplication PRIVATE
-            RESOURCE_DIR="./resources"
+            RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources"
             ENGINE_RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/resources"
     )
 endif()
@@ -74,6 +79,11 @@ target_compile_definitions(CrabApplication PUBLIC GLM_FORCE_LEFT_HANDED)
 target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
 target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(CrabApplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/CrabEngine/vendor)
+target_include_directories(CrabApplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/CrabEngine/vendor/imgui)
+target_include_directories(CrabApplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/CrabEngine/src)
+
+target_copy_webgpu_binaries(CrabApplication)
 
 target_sources(CrabApplication
   PUBLIC

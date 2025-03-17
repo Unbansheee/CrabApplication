@@ -89,3 +89,5 @@ test/test_runner
 *.module.json
 *.d.json
 *.user
+*/.cmake
+cmake-build*/

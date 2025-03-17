@@ -4,8 +4,8 @@
 
 export module node_content_browser_panel;
 import node;
-import string;
-import filesystem;
+import std;
+
 
 export struct ResourcePathDragDropData
 {

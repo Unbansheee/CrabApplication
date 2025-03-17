@@ -5,7 +5,7 @@
 #include "imgui.h"
 
 export module editor_theme;
-import string;
+import std;
 
 export struct Theme
 {
