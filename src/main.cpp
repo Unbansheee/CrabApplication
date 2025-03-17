@@ -35,6 +35,7 @@ int main (int, char**) {
     app.Begin();
 
     
+    
     //r = ResourceManager::Load<OBJMeshResource>(ENGINE_RESOURCE_DIR"/fourareen.obj");
     
     

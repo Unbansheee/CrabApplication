@@ -19,6 +19,7 @@ void NodeInspectorUI::DrawGUI()
 
         for (auto p : ViewedNode->GetPropertiesFromThis())
         {
+            if ((uint32_t)p.flags & (uint32_t)Property::Flags::HideFromInspector) continue;
             p.visit(visitor, ViewedNode.Get());
         }
     }

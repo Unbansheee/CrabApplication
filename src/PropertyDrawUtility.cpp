@@ -154,8 +154,9 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
     auto res = val.Get<Resource>();
     std::string title = "Invalid Resource";
     if (res) title = res->GetName();
-    
-    ImGui::Text("%s", title.c_str());
+
+    ImGui::PushID(prop.name().c_str());
+    bool nodeOpen = ImGui::TreeNode("%s", title.c_str());
     if (ImGui::BeginDragDropTarget()) {
         auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");
         if (payload)
@@ -163,7 +164,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
             ResourcePathDragDropData* data = static_cast<ResourcePathDragDropData*>(payload->Data);
             auto res_ref = ResourceManager::Load(data->GetPath());
 
-            if (res_ref->GetStaticClassFromThis().IsSubclassOf(MeshResource::GetStaticClass()))
+            if (val.IsResourceCompatible(res_ref))
             {
                 val = res_ref;
                 prop.set(val);
@@ -172,6 +173,20 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
         
         ImGui::EndDragDropTarget();
     }
+
+    if (nodeOpen)
+    {
+        if (res)
+        {
+            for (auto p : res->GetPropertiesFromThis())
+            {
+                if ((uint32_t)p.flags & (uint32_t)Property::Flags::HideFromInspector) continue;
+                p.visit(*this, res.get());
+            }
+        }
+        ImGui::TreePop();
+    }
+
     
     if (ImGui::Button("Load")) {
         ImGui::OpenPopup("ResourceSelector");
@@ -182,7 +197,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
         int i = 0;
         for (auto& r : ResourceManager::GetAllResources())
         {
-            if (r->GetStaticClassFromThis().IsSubclassOf(MeshResource::GetStaticClass()))
+            if (val.IsResourceCompatible(r))
             {
                 if (ImGui::Button((r->GetName() + "##" + std::to_string(i)).c_str()))
                 {
@@ -195,6 +210,6 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
         }
         ImGui::EndPopup();
     }
-    
+    ImGui::PopID();
     
 }

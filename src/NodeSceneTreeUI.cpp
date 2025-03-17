@@ -16,7 +16,7 @@ void NodeSceneTreeUI::DrawGUI()
         auto classes = ClassDB::Get().GetSubclassesOf<Node>();
         for (auto& t : classes)
         {
-            //if (!(t->Flags & (uint32_t)ClassFlags::EditorVisible)) continue;
+            if (!(t->HasFlag((uint32_t)ClassType::ClassFlags::EditorVisible))) continue;
             if (ImGui::Button(t->Name.string()))
             {
                 Object* n = t->Initializer();
