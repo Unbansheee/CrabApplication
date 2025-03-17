@@ -1,4 +1,5 @@
-﻿#include "imgui/imgui.h"
+﻿module;
+#include "imgui.h"
 #include "ImGuizmo/ImGuizmo.h"
 
 module node_viewport_ui;
@@ -25,6 +26,7 @@ void NodeViewportUI::Ready()
     if (auto window = GetAncestorOfType<NodeWindow>())
     {
         ViewTarget = window;
+        
     }
 
     //cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
@@ -168,7 +170,6 @@ void NodeViewportUI::DrawGUI()
                 mCurrentGizmoOperation = ImGuizmo::UNIVERSAL;
 
             ImGuizmo::SetDrawlist();
-            ImGuiIO& io = ImGui::GetIO();
             auto pos = ImGui::GetWindowPos();
             auto size = ImGui::GetWindowContentRegionMax();
             ImGuizmo::SetOrthographic(false);
@@ -178,7 +179,7 @@ void NodeViewportUI::DrawGUI()
             
             //auto projMat = glm::perspective(45.0f * PI / 180.f, GetAspectRatio(), 0.01f, 1000.0f);
             
-            if (ImGuizmo::Manipulate(glm::value_ptr(viewData.ViewMatrix), glm::value_ptr(viewData.ProjectionMatrix), mCurrentGizmoOperation, mCurrentGizmoMode, glm::value_ptr(mat), NULL, NULL))
+            if (ImGuizmo::Manipulate(glm::value_ptr(viewData.ViewMatrix), glm::value_ptr(viewData.ProjectionMatrix), mCurrentGizmoOperation, mCurrentGizmoMode, glm::value_ptr(mat), nullptr, nullptr))
             {
                 glm::vec3 scale;
                 glm::quat rotation;

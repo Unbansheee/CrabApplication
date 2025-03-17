@@ -7,7 +7,7 @@ void NodeEditorCamera3D::HandleMouseMovement(Vector2 movement)
     movement *= LookSensitivity;
     Pitch = glm::clamp(Pitch - movement.y, -89.9f, 89.9f);
     auto startYaw = Yaw;
-    startYaw -= movement.x;
+    startYaw += movement.x;
     if (startYaw > 360.f)
     {
         startYaw -= 360.f;
@@ -23,7 +23,7 @@ void NodeEditorCamera3D::HandleKeyboardMovement(Vector3 movement)
 {
     Vector3 offset{0,0,0};
     offset += Forward * movement.x;
-    offset += glm::cross(Forward, Vector3{0, 0, 1}) * movement.y;
+    offset += glm::cross(Forward, Vector3{0, 0, 1}) * -movement.y;
     offset += Vector3{0,0,1} * movement.z;
 
     SetGlobalPosition(GetGlobalPosition() + offset * MoveSpeed);

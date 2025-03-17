@@ -1,5 +1,6 @@
-﻿
+﻿module;
 #include <filesystem>
+#include <set>
 #include "imgui.h"
 
 module node_content_browser_panel;
@@ -78,47 +79,66 @@ void NodeContentBrowserPanel::DrawGUI()
     int columnCount = (int)(panelWidth / cellSize);
     columnCount = std::max(columnCount, 1);
 
-    ImGui::Columns(columnCount, 0, false);
     
-    std::vector<std::filesystem::directory_entry> files_in_directory;
-    std::copy(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::back_inserter(files_in_directory));
-    sort_directory_entries(files_in_directory);
+    std::set<std::filesystem::directory_entry> files_in_directory;
+    std::set<std::filesystem::directory_entry> directories_in_directory;
+
+    std::copy_if(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::inserter(directories_in_directory, directories_in_directory.begin()), [](const std::filesystem::directory_entry& entry)
+    {
+        return entry.is_directory();
+    });
+
+    std::copy_if(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::inserter(files_in_directory, files_in_directory.begin()), [](const std::filesystem::directory_entry& entry)
+    {
+        return !entry.is_directory() && (entry.path().extension() != ".importSettings");
+    });
+
+    ImGui::Columns(columnCount, 0, false);
+
+    for (auto& i : directories_in_directory)
+    {
+        DrawAssetWidget(i);
+        ImGui::NextColumn();
+    }
     
     for (auto& i : files_in_directory)
     {
-        std::string path = i.path().filename().string();
-        if (i.path().extension() == ".importSettings") continue;
-
-        if (i.is_directory())
-        {
-            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.5f, 0.7f, 1.0f));
-        }
-        
-        ImGui::Button(("##" + path).c_str(), {itemSize, itemSize});
-        if (ImGui::BeginDragDropSource())
-        {
-            ResourcePathDragDropData data(i.path().string());
-            ImGui::SetDragDropPayload("RESOURCE_PATH", &data, sizeof(ResourcePathDragDropData));
-            ImGui::EndDragDropSource();
-        }
-        if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-        {
-            if (i.is_directory())
-            {
-                currentDirectory /= i.path().filename();
-            }
-        }
-        ImGui::TextWrapped(path.c_str());
-        if (i.is_directory())
-        {
-            ImGui::PopStyleColor();
-        }
-
+        DrawAssetWidget(i);
         ImGui::NextColumn();
     }
+    
     ImGui::Columns(1);
     ImGui::EndChild();
     ImGui::Columns(1);
 
     ImGui::End();
+}
+
+void NodeContentBrowserPanel::DrawAssetWidget(const std::filesystem::directory_entry& entry)
+{
+    std::string path = entry.path().filename().string();
+    if (entry.is_directory())
+    {
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.5f, 0.7f, 1.0f));
+    }
+        
+    ImGui::Button(("##" + path).c_str(), {itemSize, itemSize});
+    if (ImGui::BeginDragDropSource())
+    {
+        ResourcePathDragDropData data(entry.path().string());
+        ImGui::SetDragDropPayload("RESOURCE_PATH", &data, sizeof(ResourcePathDragDropData));
+        ImGui::EndDragDropSource();
+    }
+    if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+    {
+        if (entry.is_directory())
+        {
+            currentDirectory /= entry.path().filename();
+        }
+    }
+    ImGui::TextWrapped(path.c_str());
+    if (entry.is_directory())
+    {
+        ImGui::PopStyleColor();
+    }
 }

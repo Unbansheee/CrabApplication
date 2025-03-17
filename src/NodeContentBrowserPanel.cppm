@@ -1,5 +1,6 @@
 ﻿module;
 #pragma once
+#include "ReflectionMacros.h"
 
 export module node_content_browser_panel;
 import node;
@@ -26,10 +27,13 @@ export struct ResourcePathDragDropData
 export class NodeContentBrowserPanel : public Node
 {
 public:
+    CRAB_CLASS(NodeContentBrowserPanel, Node)
     virtual void Init() override;
     virtual void Ready() override;
     virtual void Update(float dt) override;
     void DrawGUI() override;
+
+    void DrawAssetWidget(const std::filesystem::directory_entry& entry);
 
     float padding = 16.f;
     float itemSize = 64.f;

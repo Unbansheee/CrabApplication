@@ -1,5 +1,7 @@
-﻿#include "imgui.h"
-
+﻿module;
+#include "imgui.h"
+#include "nativefiledialog-extended/src/include/nfd.h"
+#include "nativefiledialog-extended/src/include/nfd.hpp"
 module node_editor_ui;
 import application;
 import node_inspector_ui;
@@ -7,11 +9,12 @@ import node_scene_tree_ui;
 import node_viewport_ui;
 import scene_serializer;
 import node;
+import editor_theme;
 
 void NodeEditorUI::Init()
 {
     Node::Init();
-    auto tree = AddChild<NodeSceneTreeUI>("Editor Tree");
+    auto editorTree = AddChild<NodeSceneTreeUI>("Editor Tree");
     auto inspector = AddChild<NodeInspectorUI>("Editor Inspector");
     auto viewport = AddChild<NodeViewportUI>("Viewport");
 
@@ -23,16 +26,18 @@ void NodeEditorUI::Init()
 
     EditorSceneTree->OnNodeSelected.connect(inspector, &NodeInspectorUI::SetViewedNode);
     EditorSceneTree->OnNodeSelected.connect(viewport, &NodeViewportUI::SetViewedNode);
-    tree->OnNodeSelected.connect(inspector, &NodeInspectorUI::SetViewedNode);
+    editorTree->OnNodeSelected.connect(inspector, &NodeInspectorUI::SetViewedNode);
     EditorSceneTree->OnNodeSelected.connect([this](Node* newNode)
     {
         SelectedNode = newNode;
     });
-    tree->OnNodeSelected.connect([this](Node* newNode)
+    editorTree->OnNodeSelected.connect([this](Node* newNode)
     {
         SelectedNode = newNode;
     });
     //tree->OnNodeSelected.connect(viewport, &NodeViewportUI::SetViewedNode);
+
+
 }
 
 void NodeEditorUI::Update(float dt)
@@ -56,12 +61,27 @@ void NodeEditorUI::DrawGUI()
 
             if (ImGui::MenuItem("Open Scene"))
             {
-                OpenScene(ENGINE_RESOURCE_DIR"/TestScene.json");
+                nfdu8char_t *outPath;
+                nfdu8filteritem_t filters[1] = { { "Scene", "scene" }};
+                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, RESOURCE_DIR);
+                if (result == NFD_OKAY)
+                {
+                    OpenScene(outPath);
+                    NFD_FreePathU8(outPath);
+                }
             }
 
             if (ImGui::MenuItem("Save Scene"))
             {
-                SaveScene(ENGINE_RESOURCE_DIR"/TestScene.json");
+                
+                nfdu8char_t *outPath;
+                nfdu8filteritem_t filters[1] = { { "Scene", "scene" }};
+                nfdresult_t result = NFD::SaveDialog(outPath, filters, 1, RESOURCE_DIR);
+                if (result == NFD_OKAY)
+                {
+                    SaveScene(outPath);
+                    NFD_FreePathU8(outPath);
+                }
             }
 
             ImGui::Separator();
@@ -86,54 +106,16 @@ void NodeEditorUI::DrawGUI()
     ImGui::Text("Frametime: %f", frametime * 1000.f);
     ImGui::End();
 
-    ImGui::Begin("Add Nodes");
 
-    auto classes = ClassDB::Get().GetSubclassesOf<Node>();
-    for (auto& t : classes)
-    {
-        if (!(t.Flags & (uint32_t)ClassFlags::EditorVisible)) continue;
-        if (ImGui::Button(t.Name.c_str()))
-        {
-            Object* n = t.Initializer();
-            Node* node = dynamic_cast<Node*>(n);
-            auto instance = Node::InitializeNode(node, t.Name);
-            if (SelectedNode)
-            {
-                SelectedNode->AddChild(std::move(instance));
-            }
-            else
-            {
-                Application::Get().GetSceneTree().GetRoot<Node>()->AddChild(std::move(instance));
-            }
-        }
-    }
-    
-    ImGui::End();
 
-    ImGui::Begin("Add Resources");
-    /*
-    auto resources = ClassDB::Get().GetSubclassesOf<Resource>();
-    for (auto& t : resources)
-    {
-        if (!(t.Flags & (uint32_t)ClassFlags::EditorVisible)) continue;
-        if (ImGui::Button(t.Name.c_str()))
-        {
-            Object* n = t.Initializer();
-            Node* node = dynamic_cast<Node*>(n);
-            auto instance = Node::InitializeNode(node, t.Name);
-            if (SelectedNode)
-            {
-                SelectedNode->AddChild(std::move(instance));
-            }
-            else
-            {
-                Application::Get().GetSceneTree().GetRoot<Node>()->AddChild(std::move(instance));
-            }
-        }
-    }
-    */
     
-    ImGui::End();
+}
+
+void NodeEditorUI::Ready()
+{
+    Node::Ready();
+    ThemeManager::LoadTheme("Dark");
+    ThemeManager::SetDefaultFont(ENGINE_RESOURCE_DIR"/Fonts/Roboto-Light.ttf");
 }
 
 void NodeEditorUI::OpenScene(const std::string& path)
@@ -155,7 +137,7 @@ void NodeEditorUI::NewScene()
 void NodeEditorUI::SaveScene(const std::string& path)
 {
     SceneSerializer ser;
-    ser.SerializeScene(EditorRoot->GetSubtree().GetRoot<Node>(), ENGINE_RESOURCE_DIR"/TestScene.json");
+    ser.SerializeScene(EditorRoot->GetSubtree().GetRoot<Node>(), path);
 }
 
 

@@ -1,5 +1,6 @@
 ﻿module;
 #pragma once
+#include "ReflectionMacros.h"
 #include "Renderer/MaterialHelpers.h"
 
 export module node_viewport_ui;
@@ -20,6 +21,9 @@ namespace ImGuizmo
 export class NodeViewportUI : public Node
 {
 public:
+    public:
+
+
     NodeViewportUI() = default;
 
     void Ready() override;

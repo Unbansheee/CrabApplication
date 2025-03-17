@@ -1,9 +1,9 @@
-﻿#include "imgui.h"
+﻿module;
+#include "imgui.h"
 
 module node_inspector_ui;
 import property_draw;
 import scene_serializer;
-
 
 class Node3D;
 

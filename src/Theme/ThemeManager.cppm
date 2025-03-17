@@ -1,16 +1,18 @@
-﻿#pragma once
+﻿module;
+#pragma once
 
 #include <map>
-#include <string>
-
 #include "imgui.h"
 
-struct Theme
+export module editor_theme;
+import string;
+
+export struct Theme
 {
     std::string name = "Theme";
 };
 
-class ThemeManager
+export class ThemeManager
 {
     friend class ThemeUI;
     typedef void (*ThemeFunction)(void);

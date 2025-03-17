@@ -1,5 +1,6 @@
-﻿#include "ThemeManager.h"
-
+﻿module;
+#include "imgui.h"
+module editor_theme;
 
 
 void ThemeManager::DarkTheme()

@@ -1,4 +1,5 @@
-﻿#include "imgui.h"
+﻿module;
+#include "imgui.h"
 #include "imgui/misc/cpp/imgui_stdlib.h"
 
 
@@ -150,51 +151,50 @@ void PropertyDrawUtility::operator()(PropertyView& prop, ResourceRef& val)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
 {
-
-    if (auto res = val.Get<Resource>())
-    {
-        ImGui::Text("%s", res->GetName().c_str());
-        if (ImGui::BeginDragDropTarget()) {
-            auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");
-            if (payload)
-            {
-                ResourcePathDragDropData* data = static_cast<ResourcePathDragDropData*>(payload->Data);
-                auto res_ref = ResourceManager::Load(data->GetPath());
-
-                if (ClassDB::Get().IsSubclassOf<MeshResource>(*res_ref.get()))
-                {
-                    val = res_ref;
-                    prop.set(val);
-                }
-            }
-            
-            ImGui::EndDragDropTarget();
-        }
-    }
-        else
+    auto res = val.Get<Resource>();
+    std::string title = "Invalid Resource";
+    if (res) title = res->GetName();
+    
+    ImGui::Text("%s", title.c_str());
+    if (ImGui::BeginDragDropTarget()) {
+        auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");
+        if (payload)
         {
-        ImGui::Text("None");
-        if (ImGui::Button("Load")) {
-            ImGui::OpenPopup("ResourceSelector");
+            ResourcePathDragDropData* data = static_cast<ResourcePathDragDropData*>(payload->Data);
+            auto res_ref = ResourceManager::Load(data->GetPath());
+
+            if (res_ref->GetStaticClassFromThis().IsSubclassOf(MeshResource::GetStaticClass()))
+            {
+                val = res_ref;
+                prop.set(val);
+            }
         }
         
-        if (ImGui::BeginPopup("ResourceSelector"))
-        {
-            int i = 0;
-            for (auto& r : ResourceManager::GetAllResources())
-            {
-                if (ClassDB::Get().IsSubclassOf<MeshResource>(*r.get()))
-                {
-                    if (ImGui::Button((r->GetName() + "##" + std::to_string(i)).c_str()))
-                    {
-                        val = r;
-                        prop.set<StrongResourceRef>(val);
-                    }
-                    
-                    i++;
-                }
-            }
-            ImGui::EndPopup();
-        }
+        ImGui::EndDragDropTarget();
     }
+    
+    if (ImGui::Button("Load")) {
+        ImGui::OpenPopup("ResourceSelector");
+    }
+    
+    if (ImGui::BeginPopup("ResourceSelector"))
+    {
+        int i = 0;
+        for (auto& r : ResourceManager::GetAllResources())
+        {
+            if (r->GetStaticClassFromThis().IsSubclassOf(MeshResource::GetStaticClass()))
+            {
+                if (ImGui::Button((r->GetName() + "##" + std::to_string(i)).c_str()))
+                {
+                    val = r;
+                    prop.set<StrongResourceRef>(val);
+                }
+                
+                i++;
+            }
+        }
+        ImGui::EndPopup();
+    }
+    
+    
 }

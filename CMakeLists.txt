@@ -20,8 +20,6 @@ file(GLOB_RECURSE MODULE_FILES
     src/*.cppm
 )
 
-
-
 add_executable(CrabApplication
         ${SOURCES}
 )
@@ -79,10 +77,12 @@ else()
     )
 endif()
 
+target_compile_definitions(CrabApplication PUBLIC GLM_FORCE_DEPTH_ZERO_TO_ONE)
+target_compile_definitions(CrabApplication PUBLIC GLM_FORCE_LEFT_HANDED)
 
-target_include_directories(CrabApplication PRIVATE .)
-target_include_directories(CrabApplication PRIVATE ./vendor)
-target_include_directories(CrabApplication PRIVATE ./src)
+target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
+target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_sources(CrabApplication
   PUBLIC
