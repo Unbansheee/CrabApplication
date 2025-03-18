@@ -91,3 +91,4 @@ test/test_runner
 *.user
 */.cmake
 cmake-build*/
+.vs

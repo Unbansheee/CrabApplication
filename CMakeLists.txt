@@ -99,3 +99,5 @@ if (MSVC)
 elseif (GCC OR CLANG)
   target_link_options(CrabApplication PRIVATE "-Wl,--whole-archive" "CrabEngine" "-Wl,--no-whole-archive")
 endif()
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CrabApplication)
