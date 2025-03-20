@@ -10,7 +10,7 @@ import node_viewport_ui;
 import scene_serializer;
 import node;
 import editor_theme;
-
+import gltf_scene_parser;
 void NodeEditorUI::Init()
 {
     Node::Init();
@@ -86,6 +86,20 @@ void NodeEditorUI::DrawGUI()
 
             ImGui::Separator();
 
+            if (ImGui::MenuItem("Import GLB"))
+            {
+                nfdu8char_t *outPath;
+                nfdu8filteritem_t filters[1] = { { "GLB", "glb" }};
+                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, RESOURCE_DIR);
+                if (result == NFD_OKAY)
+                {
+                    ImportGLB(outPath);
+                    NFD_FreePathU8(outPath);
+                }
+            }
+
+            ImGui::Separator();
+
             if (ImGui::MenuItem("Quit"))
             {
                 Application::Get().Close();
@@ -107,7 +121,19 @@ void NodeEditorUI::DrawGUI()
     ImGui::End();
 
 
+    ImGui::Begin("Toolbar");
+    if (!EditorRoot->bIsActive) {
+        if (ImGui::Button("Play")) {
+            EditorRoot->Run();
+        }
+    }
+    else {
+        if (ImGui::Button("Stop")) {
+            EditorRoot->Stop();
+        }
+    }
 
+    ImGui::End();
     
 }
 
@@ -138,6 +164,17 @@ void NodeEditorUI::SaveScene(const std::string& path)
 {
     SceneSerializer ser;
     ser.SerializeScene(EditorRoot->GetSubtree().GetRoot<Node>(), path);
+}
+
+void NodeEditorUI::ImportGLB(const std::string &path) {
+    GLTFSceneParser parser;
+    auto gltf = parser.ParseGLTF(Application::Get().GetDevice(), path);
+    if (SelectedNode) {
+        SelectedNode->AddChild(std::move(gltf));
+    }
+    else {
+        EditorSceneTree->GetRootNode()->AddChild(std::move(gltf));
+    }
 }
 
 

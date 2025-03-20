@@ -27,6 +27,7 @@ protected:
     void OpenScene(const std::string& path);
     void NewScene();
     void SaveScene(const std::string& path);
+    void ImportGLB(const std::string& path);
 public:
     float frametime = 0.0f;
     ~NodeEditorUI() override;

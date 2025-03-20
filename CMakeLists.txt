@@ -33,6 +33,7 @@ set_target_properties(CrabApplication PROPERTIES
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(INTERPROCEDURAL_OPTIMIZATION ON)
 
 if (MSVC)
     target_compile_options(CrabApplication PRIVATE /W4)

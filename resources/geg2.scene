@@ -1,1 +1,9 @@
-{"children":[{"children":[],"class":"NodeMeshInstance3D","properties":{"Hidden":false,"Material":{"inline_resource":{"class":"StandardMaterial","properties":{"Base Colour":{"is_inline":false,"is_source_imported":true,"resource_file_path":"","source_file_path":"S:/Projects/CrabApplication/vendor/CrabEngine/resources\\fourareen2K_albedo.jpg"},"IsSourceImported":false,"Name":"","Normal":{"is_inline":false,"is_source_imported":true,"resource_file_path":"","source_file_path":"S:/Projects/CrabApplication/vendor/CrabEngine/resources\\fourareen2K_normals.png"},"ResourceFilePath":"","ShaderFile":{"is_inline":false,"is_source_imported":true,"resource_file_path":"","source_file_path":"S:/Projects/CrabApplication/vendor/CrabEngine/resources/standard_material.wgsl"},"SourcePath":""},"uid":"a5badca5-257f-4415-8a98-00e78988fd37"},"is_inline":true,"is_source_imported":false,"resource_file_path":"","source_file_path":""},"Mesh":{"is_inline":false,"is_source_imported":true,"resource_file_path":"","source_file_path":"S:/Projects/CrabApplication/vendor/CrabEngine/resources\\cube.obj"},"Name":"NodeMeshInstance3D","Transform":[[0.0,0.0,0.0],[1.0,0.0,0.0,0.0],[1.0,1.0,1.0]]},"uid":"415bd8f3-4d31-47fe-ad11-bed86a2636c6"}],"class":"Node","properties":{"Hidden":false,"Name":"Root"},"uid":"bd43f361-3aab-448c-8817-b815444ec97e"}
+{
+    "children": [],
+    "class": "Node",
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "d5be5718-5260-48c0-8f95-27288941c8e4"
+}

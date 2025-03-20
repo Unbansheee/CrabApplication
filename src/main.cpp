@@ -28,9 +28,11 @@ REGISTER_RESOURCE_IMPORTER(OBJMeshImporter)
 int main (int, char**) {
     auto n = Node::NewNode<Node>();
     auto& app = Application::Get();
+
     auto window = app.GetSceneTree().SetRoot(Node::NewNode<NodeImGUIContextWindow>("Crab Editor"));
     window->SetSurfaceDrawEnabled(false);
     window->AddChild<NodeEditorUI>("EditorUI");
+    app.GetSceneTree().SetUsePhysics(false);
     
     app.Begin();
 

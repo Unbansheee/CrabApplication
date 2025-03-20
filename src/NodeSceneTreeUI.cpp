@@ -124,7 +124,12 @@ void NodeSceneTreeUI::DrawNodeTree(Node* node, int& idx_count)
         {
             ImGui::Text("Options");
             ImGui::Separator();
-                
+
+            if (ImGui::MenuItem("Duplicate")) {
+                auto n = node->Duplicate();
+                node->GetParent()->AddChild(std::move(n));
+            }
+
             if (bCanDelete && ImGui::MenuItem("Delete"))
             {
                 node->RemoveFromParent();

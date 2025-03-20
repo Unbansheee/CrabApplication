@@ -12,7 +12,7 @@ import mesh_resource;
 
 void PropertyDrawUtility::operator()(PropertyView& prop, int& value)
 {
-    if (ImGui::DragInt(prop.name().c_str(), &value))
+    if (ImGui::DragInt(prop.displayName().c_str(), &value))
     {
         prop.set(value);
     }
@@ -20,7 +20,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, int& value)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, float& value)
 {
-    if (ImGui::DragFloat(prop.name().c_str(), &value))
+    if (ImGui::DragFloat(prop.displayName().c_str(), &value))
     {
         prop.set(value);
     }
@@ -28,7 +28,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, float& value)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, bool& value)
 {
-    if (ImGui::Checkbox(prop.name().c_str(), &value))
+    if (ImGui::Checkbox(prop.displayName().c_str(), &value))
     {
         prop.set(value);
     }
@@ -36,7 +36,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, bool& value)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, std::string& value)
 {
-    if (ImGui::InputText(prop.name().c_str(), &value))
+    if (ImGui::InputText(prop.displayName().c_str(), &value))
     {
         prop.set(value);
     }
@@ -44,7 +44,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, std::string& value)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, Vector2& value)
 {
-    if (ImGui::DragFloat2(prop.name().c_str(), &value.x))
+    if (ImGui::DragFloat2(prop.displayName().c_str(), &value.x))
     {
         prop.set(value);
     }
@@ -52,7 +52,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, Vector2& value)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, Vector3& value)
 {
-    if (ImGui::DragFloat3(prop.name().c_str(), &value.x))
+    if (ImGui::DragFloat3(prop.displayName().c_str(), &value.x))
     {
         prop.set(value);
     }
@@ -60,7 +60,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, Vector3& value)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, Vector4& value)
 {
-    if (ImGui::DragFloat4(prop.name().c_str(), &value.x))
+    if (ImGui::DragFloat4(prop.displayName().c_str(), &value.x))
     {
         prop.set(value);
     }
@@ -104,7 +104,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, Transform& value)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, ResourceRef& val)
 {
-    ImGui::Text(prop.name().c_str());
+    ImGui::Text(prop.displayName().c_str());
     ImGui::SameLine();
 
     /*
@@ -155,7 +155,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
     std::string title = "Invalid Resource";
     if (res) title = res->GetName();
 
-    ImGui::PushID(prop.name().c_str());
+    ImGui::PushID(prop.displayName().c_str());
     bool nodeOpen = ImGui::TreeNode("%s", title.c_str());
     if (ImGui::BeginDragDropTarget()) {
         auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");

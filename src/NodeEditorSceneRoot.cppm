@@ -15,12 +15,19 @@ public:
     virtual void Ready() override;
     virtual void Update(float dt) override;
 
+    void Run();
+    void Stop();
+
+    rocket::signal<void()> Started;
+    rocket::signal<void()> Stopped;
+    rocket::signal<void()> RootChanged;
+
     void Render(RenderVisitor& Visitor) override;
     
     SceneTree& GetSubtree() { return EditorTree; }
 
     bool bIsActive{false};
-    
+    std::unique_ptr<Node> snapshot;
 private:
     SceneTree EditorTree;
 };

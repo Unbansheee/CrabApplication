@@ -1,0 +1,890 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "properties": {
+                                "Mesh": {
+                                    "is_inline": false,
+                                    "is_source_imported": true,
+                                    "resource_file_path": "",
+                                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\cube.obj"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "inline_resource": {
+                                        "class": "StandardMaterial",
+                                        "properties": {
+                                            "BaseColorTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\null_texture_white.png"
+                                            },
+                                            "NormalTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "bIsSourceImported": false,
+                                            "name": "",
+                                            "resourceFilePath": "",
+                                            "shader_file": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/standard_material.wgsl"
+                                            },
+                                            "sourcePath": ""
+                                        },
+                                        "uid": "da2b1ddf-49d3-4831-96bc-1efe9cbd6060"
+                                    },
+                                    "is_inline": true,
+                                    "is_source_imported": false,
+                                    "resource_file_path": "",
+                                    "source_file_path": ""
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "422d6823-bad3-40eb-881d-ed943f4439b7"
+                        }
+                    ],
+                    "class": "NodeBoxShape3D",
+                    "properties": {
+                        "Dimensions": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "Name": "NodeBoxShape3D",
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                10.0,
+                                10.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "b243593b-8c40-4978-8723-e5569420839a"
+                }
+            ],
+            "class": "NodeStaticBody3D",
+            "properties": {
+                "Name": "NodeStaticBody3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.9981608390808105,
+                        0.06062178313732147,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.9999997615814209,
+                        0.9999997615814209
+                    ]
+                ]
+            },
+            "uid": "42a87bdd-f764-4967-b38a-340ba2234120"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "properties": {
+                                "Mesh": {
+                                    "is_inline": false,
+                                    "is_source_imported": true,
+                                    "resource_file_path": "",
+                                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\sphere.obj"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "inline_resource": {
+                                        "class": "StandardMaterial",
+                                        "properties": {
+                                            "BaseColorTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "NormalTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "bIsSourceImported": false,
+                                            "name": "",
+                                            "resourceFilePath": "",
+                                            "shader_file": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/standard_material.wgsl"
+                                            },
+                                            "sourcePath": ""
+                                        },
+                                        "uid": "35457ca6-c248-4508-bf20-9a907c40be93"
+                                    },
+                                    "is_inline": true,
+                                    "is_source_imported": false,
+                                    "resource_file_path": "",
+                                    "source_file_path": ""
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "80ce381b-4ad6-4cc2-b3a8-7482c152c312"
+                        }
+                    ],
+                    "class": "NodeSphereShape3D",
+                    "properties": {
+                        "Name": "NodeSphereShape3D",
+                        "Radius": 1.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "4a6e076a-9388-48b6-9384-e0d6e9e148a9"
+                }
+            ],
+            "class": "NodeRigidBody3D",
+            "properties": {
+                "Name": "NodeRigidBody3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        3.2860755920410156,
+                        -4.806936740875244,
+                        12.960062026977539
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        2.5299999713897705,
+                        2.5299999713897705,
+                        2.5299999713897705
+                    ]
+                ]
+            },
+            "uid": "2145ee1c-08a0-40e0-9286-e5e8ab61b951"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "properties": {
+                                "Mesh": {
+                                    "is_inline": false,
+                                    "is_source_imported": true,
+                                    "resource_file_path": "",
+                                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\cube.obj"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "inline_resource": {
+                                        "class": "StandardMaterial",
+                                        "properties": {
+                                            "BaseColorTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\Textures\\cobblestone_floor_08_diff_2k.jpg"
+                                            },
+                                            "NormalTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "bIsSourceImported": false,
+                                            "name": "",
+                                            "resourceFilePath": "",
+                                            "shader_file": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/standard_material.wgsl"
+                                            },
+                                            "sourcePath": ""
+                                        },
+                                        "uid": "da2b1ddf-49d3-4831-96bc-1efe9cbd6060"
+                                    },
+                                    "is_inline": true,
+                                    "is_source_imported": false,
+                                    "resource_file_path": "",
+                                    "source_file_path": ""
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "2597ff41-1e3b-4fe5-885e-d325524275a7"
+                        }
+                    ],
+                    "class": "NodeBoxShape3D",
+                    "properties": {
+                        "Dimensions": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "Name": "NodeBoxShape3D",
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                10.0,
+                                10.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "4632b0e4-d777-4e98-a9e1-b593b9468da4"
+                }
+            ],
+            "class": "NodeStaticBody3D",
+            "properties": {
+                "Name": "NodeStaticBody3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.558835506439209,
+                        -21.93680191040039
+                    ],
+                    [
+                        0.9688513875007629,
+                        0.2476428896188736,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "17e8dcca-0c0a-4e5d-ab33-9083ff89fa52"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "properties": {
+                                "Mesh": {
+                                    "is_inline": false,
+                                    "is_source_imported": true,
+                                    "resource_file_path": "",
+                                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\cube.obj"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "inline_resource": {
+                                        "class": "StandardMaterial",
+                                        "properties": {
+                                            "BaseColorTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\Textures\\cobblestone_floor_08_diff_2k.jpg"
+                                            },
+                                            "NormalTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "bIsSourceImported": false,
+                                            "name": "",
+                                            "resourceFilePath": "",
+                                            "shader_file": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/standard_material.wgsl"
+                                            },
+                                            "sourcePath": ""
+                                        },
+                                        "uid": "da2b1ddf-49d3-4831-96bc-1efe9cbd6060"
+                                    },
+                                    "is_inline": true,
+                                    "is_source_imported": false,
+                                    "resource_file_path": "",
+                                    "source_file_path": ""
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "e58c2863-782f-4db6-8f7c-ecb249c47feb"
+                        }
+                    ],
+                    "class": "NodeBoxShape3D",
+                    "properties": {
+                        "Dimensions": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "Name": "NodeBoxShape3D",
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                10.0,
+                                10.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "4adef9f1-4b63-4754-8d99-04701819b061"
+                }
+            ],
+            "class": "NodeStaticBody3D",
+            "properties": {
+                "Name": "NodeStaticBody3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        -20.091508865356445,
+                        -4.322958946228027
+                    ],
+                    [
+                        0.9722139239311218,
+                        -0.23409414291381836,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.999997615814209,
+                        0.999997615814209
+                    ]
+                ]
+            },
+            "uid": "d17d1e6d-3a2b-4ee4-93fb-030b3d03256d"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "properties": {
+                                "Mesh": {
+                                    "is_inline": false,
+                                    "is_source_imported": true,
+                                    "resource_file_path": "",
+                                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\sphere.obj"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "inline_resource": {
+                                        "class": "StandardMaterial",
+                                        "properties": {
+                                            "BaseColorTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "NormalTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "bIsSourceImported": false,
+                                            "name": "",
+                                            "resourceFilePath": "",
+                                            "shader_file": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/standard_material.wgsl"
+                                            },
+                                            "sourcePath": ""
+                                        },
+                                        "uid": "35457ca6-c248-4508-bf20-9a907c40be93"
+                                    },
+                                    "is_inline": true,
+                                    "is_source_imported": false,
+                                    "resource_file_path": "",
+                                    "source_file_path": ""
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "80e4cec1-9c39-4493-a34b-35bb90acfa18"
+                        }
+                    ],
+                    "class": "NodeSphereShape3D",
+                    "properties": {
+                        "Name": "NodeSphereShape3D",
+                        "Radius": 1.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "dff800c1-e39d-49d5-8dfb-59757d0f9857"
+                }
+            ],
+            "class": "NodeRigidBody3D",
+            "properties": {
+                "Name": "NodeRigidBody3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        -7.452885150909424,
+                        0.0,
+                        14.58010196685791
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.5374999046325684,
+                        1.5374999046325684,
+                        1.5374999046325684
+                    ]
+                ]
+            },
+            "uid": "820e3d27-9060-4c94-9963-fcc59406c540"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "properties": {
+                                "Mesh": {
+                                    "is_inline": false,
+                                    "is_source_imported": true,
+                                    "resource_file_path": "",
+                                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\sphere.obj"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "inline_resource": {
+                                        "class": "StandardMaterial",
+                                        "properties": {
+                                            "BaseColorTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "NormalTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "bIsSourceImported": false,
+                                            "name": "",
+                                            "resourceFilePath": "",
+                                            "shader_file": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/standard_material.wgsl"
+                                            },
+                                            "sourcePath": ""
+                                        },
+                                        "uid": "35457ca6-c248-4508-bf20-9a907c40be93"
+                                    },
+                                    "is_inline": true,
+                                    "is_source_imported": false,
+                                    "resource_file_path": "",
+                                    "source_file_path": ""
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "d3d680f0-b6f6-484a-a174-b47e6b3b7eb1"
+                        }
+                    ],
+                    "class": "NodeSphereShape3D",
+                    "properties": {
+                        "Name": "NodeSphereShape3D",
+                        "Radius": 1.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "c89425c8-014f-4f69-8123-b414ae039a5e"
+                }
+            ],
+            "class": "NodeRigidBody3D",
+            "properties": {
+                "Name": "NodeRigidBody3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        -7.35947322845459,
+                        -5.843655586242676,
+                        14.58010196685791
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "4b8fd99d-9329-4970-a3fa-4608a5bb4217"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "properties": {
+                                "Mesh": {
+                                    "is_inline": false,
+                                    "is_source_imported": true,
+                                    "resource_file_path": "",
+                                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\sphere.obj"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "inline_resource": {
+                                        "class": "StandardMaterial",
+                                        "properties": {
+                                            "BaseColorTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "NormalTextureView": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/null_texture_black.png"
+                                            },
+                                            "bIsSourceImported": false,
+                                            "name": "",
+                                            "resourceFilePath": "",
+                                            "shader_file": {
+                                                "is_inline": false,
+                                                "is_source_imported": true,
+                                                "resource_file_path": "",
+                                                "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources/standard_material.wgsl"
+                                            },
+                                            "sourcePath": ""
+                                        },
+                                        "uid": "35457ca6-c248-4508-bf20-9a907c40be93"
+                                    },
+                                    "is_inline": true,
+                                    "is_source_imported": false,
+                                    "resource_file_path": "",
+                                    "source_file_path": ""
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "e5c6662f-e785-4def-b012-2000648df039"
+                        }
+                    ],
+                    "class": "NodeSphereShape3D",
+                    "properties": {
+                        "Name": "NodeSphereShape3D",
+                        "Radius": 1.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "c10541cf-a302-4e4e-b8bd-4516a4f6d1a2"
+                }
+            ],
+            "class": "NodeRigidBody3D",
+            "properties": {
+                "Name": "NodeRigidBody3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        14.58010196685791
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "2aa6af5d-82ac-4d97-a857-58f34441bcd8"
+        }
+    ],
+    "class": "Node",
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "5a42c6be-7a1c-4bf7-847f-a87f44a6af31"
+}

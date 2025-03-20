@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <set>
 #include "imgui.h"
+#include "imgui_internal.h"
 
 module node_content_browser_panel;
 
@@ -58,8 +59,8 @@ void NodeContentBrowserPanel::DrawGUI()
     ImGui::Text(currentDirectory.string().c_str());
     ImGui::Separator();
     
-    ImGui::Columns(2);
-    ImGui::BeginChild("SourcesPanel");
+    //ImGui::Columns(2);
+    ImGui::BeginChild("SourcesPanel", {}, ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AlwaysAutoResize);
     int _rootSelectIndex = 0;
     for (auto& root : rootDirectories)
     {
@@ -72,7 +73,11 @@ void NodeContentBrowserPanel::DrawGUI()
     }
     ImGui::EndChild();
 
-    ImGui::NextColumn();
+    ImGui::SameLine();
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+
+    ImGui::SameLine();
+    //ImGui::NextColumn();
     ImGui::BeginChild("BrowserPanel");
     float panelWidth = ImGui::GetContentRegionAvail().x;
     float cellSize = padding + itemSize;

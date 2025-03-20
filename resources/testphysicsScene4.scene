@@ -1,0 +1,70 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [],
+                    "class": "NodeBoxShape3D",
+                    "properties": {
+                        "Dimensions": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "Name": "NodeBoxShape3D",
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                100.0,
+                                100.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "d1dec461-34a1-435d-bd4d-4f7f80d51e53"
+                }
+            ],
+            "class": "NodeStaticBody3D",
+            "properties": {
+                "Name": "NodeStaticBody3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "97b60f6d-1051-407c-b692-5ebdbc95bbc1"
+        }
+    ],
+    "class": "Node",
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "c8a46aef-2d8a-438b-8dad-7e4965802da0"
+}
