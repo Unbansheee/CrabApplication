@@ -14,14 +14,14 @@
 #include "Resource/Importers/OBJMeshImporter.h"
 */
 
-import application;
-import node;
-import node_imgui_context_window;
+import Engine.Application;
+import Engine.Node;
+import Engine.Node.ImGuiContextWindow;
 import node_editor_ui;
-import resource_manager;
-import obj_mesh_resource;
-import resource_ref;
-import obj_mesh_importer;
+import Engine.Resource.ResourceManager;
+import Engine.Resource.OBJMesh;
+import Engine.Resource.Ref;
+import Engine.Resource.Importer.OBJMesh;
 
 StrongResourceRef r;
 REGISTER_RESOURCE_IMPORTER(OBJMeshImporter)

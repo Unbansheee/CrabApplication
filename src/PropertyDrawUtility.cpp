@@ -5,10 +5,10 @@
 
 module property_draw;
 import node_content_browser_panel;
-import resource_manager;
-import node;
-import resource;
-import mesh_resource;
+import Engine.Resource.ResourceManager;
+import Engine.Node;
+import Engine.Resource;
+import Engine.Resource.Mesh;
 
 void PropertyDrawUtility::operator()(PropertyView& prop, int& value)
 {
@@ -52,17 +52,32 @@ void PropertyDrawUtility::operator()(PropertyView& prop, Vector2& value)
 
 void PropertyDrawUtility::operator()(PropertyView& prop, Vector3& value)
 {
-    if (ImGui::DragFloat3(prop.displayName().c_str(), &value.x))
-    {
-        prop.set(value);
+    if (prop.flags() | PropertyFlags::ColorHint) {
+        if (ImGui::ColorEdit3(prop.displayName().c_str(), &value.x, ImGuiColorEditFlags_Float)) {
+            prop.set(value);
+        }
     }
+    else {
+        if (ImGui::DragFloat3(prop.displayName().c_str(), &value.x))
+        {
+            prop.set(value);
+        }
+    }
+
 }
 
 void PropertyDrawUtility::operator()(PropertyView& prop, Vector4& value)
 {
-    if (ImGui::DragFloat4(prop.displayName().c_str(), &value.x))
-    {
-        prop.set(value);
+    if (prop.flags() | PropertyFlags::ColorHint) {
+        if (ImGui::ColorEdit4(prop.displayName().c_str(), &value.x, ImGuiColorEditFlags_Float)) {
+            prop.set(value);
+        }
+    }
+    else {
+        if (ImGui::DragFloat4(prop.displayName().c_str(), &value.x))
+        {
+            prop.set(value);
+        }
     }
 }
 
@@ -95,10 +110,11 @@ void PropertyDrawUtility::operator()(PropertyView& prop, Transform& value)
     if (dirty)
     {
         prop.set(value);
-        if (auto node = dynamic_cast<Node*>(prop.object))
-        {
+        if (prop.objectClass && prop.objectClass->IsSubclassOf(Node::GetStaticClass())) {
+            auto node = static_cast<Node*>(prop.object);
             node->UpdateTransform();
         }
+
     }
 }
 
@@ -156,6 +172,12 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
     if (res) title = res->GetName();
 
     ImGui::PushID(prop.displayName().c_str());
+    ImGui::Text(prop.displayName().c_str());
+    ImGui::SameLine();
+    if (ImGui::Button("Load")) {
+        ImGui::OpenPopup("ResourceSelector");
+    }
+    ImGui::SameLine();
     bool nodeOpen = ImGui::TreeNode("%s", title.c_str());
     if (ImGui::BeginDragDropTarget()) {
         auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");
@@ -180,7 +202,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
         {
             for (auto p : res->GetPropertiesFromThis())
             {
-                if ((uint32_t)p.flags & (uint32_t)Property::Flags::HideFromInspector) continue;
+                if ((uint32_t)p.flags & (uint32_t)PropertyFlags::HideFromInspector) continue;
                 p.visit(*this, res.get());
             }
         }
@@ -188,9 +210,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
     }
 
     
-    if (ImGui::Button("Load")) {
-        ImGui::OpenPopup("ResourceSelector");
-    }
+
     
     if (ImGui::BeginPopup("ResourceSelector"))
     {
@@ -212,4 +232,10 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
     }
     ImGui::PopID();
     
+}
+
+void PropertyDrawUtility::operator()(PropertyView &prop, ObjectRef<Object> &val) {
+    ImGui::Text(prop.displayName().c_str());
+    std::string name = val.IsValid() ? val->GetID().to_string() : "NULL";
+    ImGui::Text(name.c_str());
 }

@@ -7,9 +7,9 @@ import node_content_browser_panel;
 import node_editor_camera_3d;
 import node_editor_scene_root;
 import node_scene_tree_ui;
-import object_ref;
-import node;
-import auto_registration;
+import Engine.Object.Ref;
+import Engine.Node;
+import Engine.Reflection.AutoRegistration;
 
 //export class NodeSceneTreeUI;
 
@@ -17,6 +17,9 @@ export class NodeEditorUI : public Node
 {
 public:
     CRAB_CLASS(NodeEditorUI, Node)
+    BEGIN_PROPERTIES
+    END_PROPERTIES
+
     void Init() override;
 
 protected:
@@ -32,9 +35,9 @@ public:
     float frametime = 0.0f;
     ~NodeEditorUI() override;
 
-    WeakRef<Node> SelectedNode;
-    WeakRef<NodeEditorSceneRoot> EditorRoot;
-    WeakRef<NodeEditorCamera3D> EditorCamera;
-    WeakRef<NodeSceneTreeUI> EditorSceneTree;
-    WeakRef<NodeContentBrowserPanel> ContentBrowser;
+    ObjectRef<Node> SelectedNode;
+    ObjectRef<NodeEditorSceneRoot> EditorRoot;
+    ObjectRef<NodeEditorCamera3D> EditorCamera;
+    ObjectRef<NodeSceneTreeUI> EditorSceneTree;
+    ObjectRef<NodeContentBrowserPanel> ContentBrowser;
 };

@@ -4,9 +4,9 @@
 #include "ReflectionMacros.h"
 
 export module node_editor_camera_3d;
-import node_camera_3d;
-import crab_types;
-import node;
+import Engine.Node.Camera3D;
+import Engine.Types;
+import Engine.Node;
 
 export class NodeEditorCamera3D : public NodeCamera3D
 {

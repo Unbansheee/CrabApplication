@@ -31,7 +31,7 @@ set_target_properties(CrabApplication PROPERTIES
     COMPILE_WARNING_AS_ERROR OFF
 )
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(INTERPROCEDURAL_OPTIMIZATION ON)
 
@@ -85,6 +85,8 @@ target_include_directories(CrabApplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Cr
 target_include_directories(CrabApplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/CrabEngine/src)
 
 target_copy_webgpu_binaries(CrabApplication)
+
+target_compile_definitions(CrabApplication PUBLIC "$<$<CONFIG:Debug>:_DEBUG>")
 
 target_sources(CrabApplication
   PUBLIC

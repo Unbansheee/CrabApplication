@@ -3,6 +3,7 @@
 void NodeEditorSceneRoot::Init()
 {
     Node::Init();
+    EditorTree.bIsInEditor = true;
     EditorTree.SetRoot(NewNode("Root"));
     RootChanged.invoke();
 }
@@ -15,6 +16,7 @@ void NodeEditorSceneRoot::Ready()
 
 void NodeEditorSceneRoot::Stop() {
     bIsActive = false;
+    EditorTree.bIsInEditor = true;
     if (snapshot) {
         EditorTree.SetRoot(std::move(snapshot));
     }
@@ -27,11 +29,13 @@ void NodeEditorSceneRoot::Stop() {
 
 void NodeEditorSceneRoot::Run() {
     // Create a duplicate of the current scene and swap it in
+    EditorTree.bIsInEditor = false;
+
     auto newRoot = EditorTree.GetRoot<Node>()->Duplicate();
     snapshot = EditorTree.SwapRoot(std::move(newRoot));
 
-    EditorTree.Begin();
     bIsActive = true;
+    EditorTree.Begin();
     Started.invoke();
 }
 

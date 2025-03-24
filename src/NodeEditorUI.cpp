@@ -3,14 +3,17 @@
 #include "nativefiledialog-extended/src/include/nfd.h"
 #include "nativefiledialog-extended/src/include/nfd.hpp"
 module node_editor_ui;
-import application;
+import Engine.Application;
 import node_inspector_ui;
 import node_scene_tree_ui;
 import node_viewport_ui;
-import scene_serializer;
-import node;
+import Engine.SceneSerializer;
+import Engine.Node;
 import editor_theme;
-import gltf_scene_parser;
+import Engine.GLTFSceneParser;
+import Engine.Resource.RuntimeTexture;
+import Engine.Resource.OBJMesh;
+
 void NodeEditorUI::Init()
 {
     Node::Init();

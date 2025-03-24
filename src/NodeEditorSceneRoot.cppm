@@ -3,8 +3,8 @@
 #include "ReflectionMacros.h"
 
 export module node_editor_scene_root;
-import node;
-import scene_tree;
+import Engine.Node;
+import Engine.SceneTree;
 
 export class NodeEditorSceneRoot : public Node
 {

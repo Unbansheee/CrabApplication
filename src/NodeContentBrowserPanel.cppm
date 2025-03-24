@@ -3,7 +3,7 @@
 #include "ReflectionMacros.h"
 
 export module node_content_browser_panel;
-import node;
+import Engine.Node;
 import std;
 
 

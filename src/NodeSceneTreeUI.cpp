@@ -2,8 +2,8 @@
 #include "imgui.h"
 
 module node_scene_tree_ui;
-import application;
-import scene_tree;
+import Engine.Application;
+import Engine.SceneTree;
 
 void NodeSceneTreeUI::DrawGUI()
 {
@@ -45,13 +45,14 @@ void NodeSceneTreeUI::DrawGUI()
     }
     
     int idx = 0;
-    if (SceneRootOverride)
+    if (SceneRootOverride.IsValid())
     {
-        DrawNodeTree(SceneRootOverride.Get(), idx);
+        DrawNodeTree(SceneRootOverride, idx);
     }
     else
     {
-        DrawNodeTree(GetTree()->GetRoot<Node>(), idx);
+        auto r = ObjectRef<Node>(GetTree()->GetRoot<Node>());
+        DrawNodeTree(r, idx);
     }
     
     ImGui::End();
@@ -66,9 +67,10 @@ void NodeSceneTreeUI::SelectNode(Node* node)
     }
 }
 
-void NodeSceneTreeUI::DrawNodeTree(Node* node, int& idx_count)
+void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
 {
-
+    if (!node.IsValid()) return;
+    if (!node->GetTree()) return;
     ImGuiTreeNodeFlags showArrow = node->GetChildren().empty() ? ImGuiTreeNodeFlags_Leaf : 0;
     ImGuiTreeNodeFlags selected = node == SelectedNode ? ImGuiTreeNodeFlags_Selected : 0;
     ImGuiTreeNodeFlags flags = showArrow | selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
@@ -82,26 +84,30 @@ void NodeSceneTreeUI::DrawNodeTree(Node* node, int& idx_count)
         
     if (ImGui::IsItemClicked())
     {
-        SelectNode(node);
+        SelectNode(node.Get());
     }
     if (ImGui::IsItemClicked(1))
     {
-        SelectNode(node);
+        SelectNode(node.Get());
         ImGui::OpenPopup("SceneNodeContextMenu");
     }
 
     if (bCanDrag && ImGui::BeginDragDropSource())
     {
-        ImGui::SetDragDropPayload("SCENE_NODE", &node, sizeof(Node*));
+        Node* n = node.Get();
+        auto id = node->GetID();
+        ImGui::SetDragDropPayload("SCENE_NODE", &id, sizeof(UID));
         ImGui::EndDragDropSource();
     }
     if (bCanDrop && ImGui::BeginDragDropTarget())
     {
         const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_NODE");
-        if (payload)
+        if (payload && node.IsValid())
         {
-            Node* draggedNode = *(Node**)payload->Data;
-            if (draggedNode != node && !node->IsDescendantOf(draggedNode))
+            UID nodeID = *(UID*)payload->Data;
+            //Node* draggedNode = *(Node**)payload->Data;
+            Node* draggedNode = node->GetTree()->GetNodeByID(nodeID);
+            if (draggedNode && draggedNode != node && !node->IsDescendantOf(draggedNode))
             {
                 if (draggedNode->GetParent() == node && node->GetParent() != nullptr)
                 {
@@ -109,7 +115,7 @@ void NodeSceneTreeUI::DrawNodeTree(Node* node, int& idx_count)
                 }
                 else
                 {
-                    draggedNode->Reparent(node);
+                    draggedNode->Reparent(node.Get());
                 }
 
             }
@@ -144,14 +150,26 @@ void NodeSceneTreeUI::DrawNodeTree(Node* node, int& idx_count)
     // recursive call for children
     if (open)
     {
-        node->ForEachChild([this, &idx_count](Node* child)
-        {
-            DrawNodeTree(child, idx_count);
-        });
-        if (auto treenode = Cast<NodeEditorSceneRoot>(node))
-        {
-            DrawNodeTree(treenode->GetSubtree().GetRoot<Node>(), idx_count);
+        if (node.IsValid()) {
+            node->ForEachChildSafe<Node>([this, &idx_count](ObjectRef<Node>& child)
+            {
+                if (child.IsValid()) {
+                    DrawNodeTree(child, idx_count);
+                }
+            });
+
+            if (node.IsValid()) {
+                auto a = Cast<NodeEditorSceneRoot>(node.Get());
+                if (a) {
+                    if (Node* rootPtr = a->GetSubtree().GetRoot<Node>()) {
+                        auto root = ObjectRef<Node>(rootPtr);
+                        DrawNodeTree(root, idx_count);
+                    }
+                }
+            }
+
         }
+
         ImGui::TreePop();
     }
 }

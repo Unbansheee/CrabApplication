@@ -3,8 +3,8 @@
 #include "ReflectionMacros.h"
 
 export module node_inspector_ui;
-import node;
-import object_ref;
+import Engine.Node;
+import Engine.Object.Ref;
 import property_draw;
 
 export class NodeInspectorUI : public Node
@@ -20,7 +20,7 @@ public:
     {
         ViewedNode = node;
     }
-    WeakRef<Node> ViewedNode;
+    ObjectRef<Node> ViewedNode;
 
     PropertyDrawUtility visitor;
 };

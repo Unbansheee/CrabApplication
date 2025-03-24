@@ -3,12 +3,12 @@
 #include "ImGuizmo/ImGuizmo.h"
 
 module node_viewport_ui;
-import glm;
-import node;
-import application;
-import texture_resource;
-import node_window;
-import math_utils;
+import Engine.GLM;
+import Engine.Node;
+import Engine.Application;
+import Engine.Resource.Texture;
+import Engine.Node.Window;
+import Engine.Math;
 
 //#include "Nodes/NodeWindow.cppm"
 //#include "Resource/TextureResource.cppm"
@@ -35,7 +35,7 @@ void NodeViewportUI::Ready()
     
     CreateDepthTexture(windowSize.x, windowSize.y);
     CreateRenderTexture(windowSize.x, windowSize.y);
-    CreateRenderViewTexture(windowSize.x, windowSize.y);
+    CreateViewTexture(windowSize.x, windowSize.y);
 }
 
 void NodeViewportUI::DrawGUI()
@@ -46,19 +46,20 @@ void NodeViewportUI::DrawGUI()
     ViewTarget->SetSurfaceDrawEnabled(!ImGui::IsWindowDocked());
     
     ImVec2 currentWindowSize = ImGui::GetContentRegionAvail();
-    if ((currentWindowSize.x != windowSize.x || currentWindowSize.y != windowSize.y) && currentWindowSize.x >= 1 && currentWindowSize.y >= 1)
+    if ((currentWindowSize.x != windowSize.x || currentWindowSize.y != windowSize.y) && currentWindowSize.x >= 1 && currentWindowSize.y >= 1 && resizeCooldown <= 0.f)
     {
         windowSize.x = currentWindowSize.x;
         windowSize.y = currentWindowSize.y;
         CreateDepthTexture(windowSize.x, windowSize.y);
         CreateRenderTexture(windowSize.x, windowSize.y);
-        CreateRenderViewTexture(windowSize.x, windowSize.y);
+        CreateViewTexture(windowSize.x, windowSize.y);
+        resizeCooldown = 0.25f;
         //cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
 
     }
 
     View viewData;
-    if (ActiveCamera)
+    if (ActiveCamera.IsValid())
     {
         viewData.Position = ActiveCamera->GetGlobalPosition();
         viewData.ViewMatrix = ActiveCamera->GetViewMatrix();
@@ -66,7 +67,7 @@ void NodeViewportUI::DrawGUI()
     }
     else
     {
-        if (ViewTarget)
+        if (ViewTarget.IsValid())
         {
             if (auto editorCam = dynamic_cast<NodeEditorCamera3D*>(ViewTarget->ActiveCamera.Get()))
             {
@@ -80,7 +81,7 @@ void NodeViewportUI::DrawGUI()
     }
 
     
-    if (ViewTarget)
+    if (ViewTarget.IsValid())
     {
         //auto view = ViewTarget->GetCurrentTextureView();
         //WGPUTextureView v = view;
@@ -202,25 +203,59 @@ void NodeViewportUI::DrawGUI()
 
 }
 
-void NodeViewportUI::CopySurface()
-{
+void NodeViewportUI::CopySurface() {
     wgpu::CommandEncoderDescriptor encoderDesc = {};
     encoderDesc.label = "Window Initial Copy";
     wgpu::CommandEncoder encoder = Application::Get().GetDevice().createCommandEncoder(encoderDesc);
-    
+
     wgpu::ImageCopyTexture src;
     src.texture = WindowRenderTexture;
 
     wgpu::ImageCopyTexture dest;
     dest.texture = WindowViewTexture;
-    
+
     encoder.copyTextureToTexture(src, dest, wgpu::Extent3D(WindowRenderTexture.getWidth(), WindowRenderTexture.getHeight(), 1));
-    
+
     auto c = encoder.finish();
     ViewTarget->GetRenderer().AddCommand(c);
-    
+
     encoder.release();
-    
+}
+
+void NodeViewportUI::CreateViewTexture(uint32_t width, uint32_t height)
+{
+    if (WindowViewTexture) WindowViewTexture.release();
+    WindowViewTexture = nullptr;
+    if (ViewTextureView) ViewTextureView.release();
+    ViewTextureView = nullptr;
+
+    wgpu::TextureDescriptor desc;
+    desc.size = {width, height, 1};
+    desc.mipLevelCount = 1;
+    desc.sampleCount = 1;
+    desc.dimension = wgpu::TextureDimension::_2D;
+    desc.format = wgpu::TextureFormat::BGRA8Unorm;
+    desc.usage = wgpu::TextureUsage::TextureBinding | wgpu::TextureUsage::CopyDst;
+
+    WindowViewTexture = Application::Get().GetDevice().createTexture(desc);
+
+    WGPUTextureViewDescriptor vd;
+    vd.label = "Viewport View";
+    vd.format = wgpu::TextureFormat::BGRA8Unorm;
+    vd.dimension = wgpu::TextureViewDimension::_2D;
+    vd.baseMipLevel = 0;
+    vd.mipLevelCount = 1;
+    vd.baseArrayLayer = 0;
+    vd.arrayLayerCount = 1;
+    vd.aspect = wgpu::TextureAspect::All;
+    ViewTextureView = WindowViewTexture.createView(vd);
+}
+
+
+void NodeViewportUI::Update(float dt) {
+    Node::Update(dt);
+    resizeCooldown -= dt;
+    resizeCooldown = std::max(0.f, resizeCooldown);
 }
 
 float NodeViewportUI::GetAspectRatio() const
@@ -260,35 +295,6 @@ void NodeViewportUI::CreateRenderTexture(uint32_t width, uint32_t height)
     vd.arrayLayerCount = 1;
     vd.aspect = wgpu::TextureAspect::All;
     RenderTextureView = WindowRenderTexture.createView(vd);
-}
-
-void NodeViewportUI::CreateRenderViewTexture(uint32_t width, uint32_t height)
-{
-    if (WindowViewTexture) WindowViewTexture.release();
-    WindowViewTexture = nullptr;
-    if (ViewTextureView) ViewTextureView.release();
-    ViewTextureView = nullptr;
-    
-    wgpu::TextureDescriptor desc;
-    desc.size = {width, height, 1};
-    desc.mipLevelCount = 1;
-    desc.sampleCount = 1;
-    desc.dimension = wgpu::TextureDimension::_2D;
-    desc.format = wgpu::TextureFormat::BGRA8Unorm;
-    desc.usage = wgpu::TextureUsage::TextureBinding | wgpu::TextureUsage::CopyDst;
-    
-    WindowViewTexture = Application::Get().GetDevice().createTexture(desc);
-    
-    WGPUTextureViewDescriptor vd;
-    vd.label = "Viewport View";
-    vd.format = wgpu::TextureFormat::BGRA8Unorm;
-    vd.dimension = wgpu::TextureViewDimension::_2D;
-    vd.baseMipLevel = 0;
-    vd.mipLevelCount = 1;
-    vd.baseArrayLayer = 0;
-    vd.arrayLayerCount = 1;
-    vd.aspect = wgpu::TextureAspect::All;
-    ViewTextureView = WindowViewTexture.createView(vd);
 }
 
 void NodeViewportUI::CreateDepthTexture(uint32_t width, uint32_t height)

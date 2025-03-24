@@ -3,7 +3,7 @@
 
 module node_inspector_ui;
 import property_draw;
-import scene_serializer;
+import Engine.SceneSerializer;
 
 class Node3D;
 
@@ -19,7 +19,7 @@ void NodeInspectorUI::DrawGUI()
 
         for (auto p : ViewedNode->GetPropertiesFromThis())
         {
-            if ((uint32_t)p.flags & (uint32_t)Property::Flags::HideFromInspector) continue;
+            if (p.flags & PropertyFlags::HideFromInspector) continue;
             p.visit(visitor, ViewedNode.Get());
         }
     }

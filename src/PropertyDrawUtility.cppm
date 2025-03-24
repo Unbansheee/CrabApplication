@@ -9,11 +9,12 @@
 export module property_draw;
 import <iostream>;
 import std;
-import reflection;
-import crab_types;
-import class_db;
-import resource_ref;
-import transform;
+import Engine.Reflection;
+import Engine.Types;
+import Engine.Reflection.ClassDB;
+import Engine.Resource.Ref;
+import Engine.Transform;
+import Engine.Object.Ref;
 
 export struct PropertyDrawUtility
 {
@@ -29,6 +30,7 @@ export struct PropertyDrawUtility
     void operator()(PropertyView& prop, Transform& val);
     void operator()(PropertyView& prop, ResourceRef& val);
     void operator()(PropertyView& prop, StrongResourceRef& val);
+    void operator()(PropertyView& prop, ObjectRef<Object>& val);
     void operator()(PropertyView& prop, auto val) { std::cout << "Invalid variant for drawing: " << prop.name() << "\n"; }
     
 
