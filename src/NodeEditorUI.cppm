@@ -40,4 +40,8 @@ public:
     ObjectRef<NodeEditorCamera3D> EditorCamera;
     ObjectRef<NodeSceneTreeUI> EditorSceneTree;
     ObjectRef<NodeContentBrowserPanel> ContentBrowser;
+
+    std::shared_ptr<TextureResource> PlayButtonTexture;
+    std::shared_ptr<TextureResource> StopButtonTexture;
+
 };

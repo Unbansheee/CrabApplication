@@ -5,7 +5,7 @@
 export module node_inspector_ui;
 import Engine.Node;
 import Engine.Object.Ref;
-import property_draw;
+import Engine.PropertyDraw;
 
 export class NodeInspectorUI : public Node
 {

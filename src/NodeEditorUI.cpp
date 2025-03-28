@@ -13,6 +13,7 @@ import editor_theme;
 import Engine.GLTFSceneParser;
 import Engine.Resource.RuntimeTexture;
 import Engine.Resource.OBJMesh;
+import Engine.Resource.ResourceManager;
 
 void NodeEditorUI::Init()
 {
@@ -40,6 +41,8 @@ void NodeEditorUI::Init()
     });
     //tree->OnNodeSelected.connect(viewport, &NodeViewportUI::SetViewedNode);
 
+    PlayButtonTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_PlayButton.png");
+    StopButtonTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_StopButton.png");
 
 }
 
@@ -126,12 +129,13 @@ void NodeEditorUI::DrawGUI()
 
     ImGui::Begin("Toolbar");
     if (!EditorRoot->bIsActive) {
-        if (ImGui::Button("Play")) {
+
+        if (ImGui::ImageButton("PlayButton", (ImTextureID)(WGPUTextureView)PlayButtonTexture->GetInternalTextureView(), ImVec2(32, 32))) {
             EditorRoot->Run();
         }
     }
     else {
-        if (ImGui::Button("Stop")) {
+        if (ImGui::ImageButton("StopButton", (ImTextureID)(WGPUTextureView)StopButtonTexture->GetInternalTextureView(), ImVec2(32, 32))) {
             EditorRoot->Stop();
         }
     }

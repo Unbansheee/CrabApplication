@@ -2,7 +2,7 @@
 #include "imgui.h"
 
 module node_inspector_ui;
-import property_draw;
+import Engine.PropertyDraw;
 import Engine.SceneSerializer;
 
 class Node3D;

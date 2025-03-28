@@ -1,0 +1,45 @@
+{
+    "children": [
+        {
+            "children": [],
+            "class": "NodeMeshInstance3D",
+            "properties": {
+                "Mesh": {
+                    "import_type": "file",
+                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\cube.obj"
+                },
+                "Name": "NodeMeshInstance3D",
+                "isHidden": false,
+                "material": {
+                    "import_type": "file",
+                    "source_file_path": "S:/Libraries/Desktop/EngineTest/CrabApplication/vendor/CrabEngine/resources\\NewStandardMaterial.res"
+                },
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        4.329999923706055,
+                        4.329999923706055,
+                        4.329999923706055
+                    ]
+                ]
+            },
+            "uid": "97fcf8f8-41aa-407a-a0e5-77fe004a6ffd"
+        }
+    ],
+    "class": "Node",
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "1db62558-56c0-4e3b-9376-8f0ccd6078a2"
+}

@@ -10,13 +10,12 @@ void NodeSceneTreeUI::DrawGUI()
     Node::DrawGUI();
 
     ImGui::Begin(Name.c_str());
-
     if (ImGui::BeginPopup("Add Node Menu"))
     {
         auto classes = ClassDB::Get().GetSubclassesOf<Node>();
         for (auto& t : classes)
         {
-            if (!(t->HasFlag((uint32_t)ClassType::ClassFlags::EditorVisible))) continue;
+            if (!(t->HasFlag(ClassFlags::EditorVisible))) continue;
             if (ImGui::Button(t->Name.string()))
             {
                 Object* n = t->Initializer();
@@ -71,10 +70,20 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
 {
     if (!node.IsValid()) return;
     if (!node->GetTree()) return;
+    ImGui::PushID(node->GetID().to_string().c_str());
     ImGuiTreeNodeFlags showArrow = node->GetChildren().empty() ? ImGuiTreeNodeFlags_Leaf : 0;
     ImGuiTreeNodeFlags selected = node == SelectedNode ? ImGuiTreeNodeFlags_Selected : 0;
-    ImGuiTreeNodeFlags flags = showArrow | selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
+    ImGuiTreeNodeFlags flags = showArrow | selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding;
+
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.2, 0.2, 0.2, 1));
+    ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.2, 0.2, 0.2, 1));
+
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 5));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+
     bool open = ImGui::TreeNodeEx((node->GetName() + "##" + std::to_string(idx_count-1)).c_str(), flags);
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(2);
     idx_count++;
     //bool bIsEditorUI = node->GetAncestorOfType<NodeEditorUI>() != nullptr || node->IsA<NodeEditorUI>();
     bool bIsEditorUI = false;
@@ -172,4 +181,5 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
 
         ImGui::TreePop();
     }
+    ImGui::PopID();
 }

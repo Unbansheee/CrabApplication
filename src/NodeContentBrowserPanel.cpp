@@ -1,10 +1,13 @@
 ﻿module;
-#include <filesystem>
-#include <set>
 #include "imgui.h"
 #include "imgui_internal.h"
 
 module node_content_browser_panel;
+import Engine.Resource.ResourceManager;
+import Engine.WGPU;
+import Engine.Resource.ImageTexture;
+import Editor.AssetEditorRegistry;
+import Editor.AssetEditor;
 
 namespace fs = std::filesystem;
 void sort_directory_entries(std::vector<fs::directory_entry>& entries) {
@@ -27,6 +30,7 @@ void NodeContentBrowserPanel::Init()
 {
     Node::Init();
     currentDirectory = ENGINE_RESOURCE_DIR;
+    FolderTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_FolderThumbnail.png");
 }
 
 void NodeContentBrowserPanel::Ready()
@@ -66,6 +70,7 @@ void NodeContentBrowserPanel::DrawGUI()
     {
         if (ImGui::Button((root.parent_path().filename().string() + "/" + root.filename().string()).c_str()))
         {
+
             currentDirectory = root;
             currentRootIndex = _rootSelectIndex;
         }
@@ -111,6 +116,11 @@ void NodeContentBrowserPanel::DrawGUI()
         DrawAssetWidget(i);
         ImGui::NextColumn();
     }
+
+    DrawResourceCreationMenu();
+    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered()) {
+        ImGui::OpenPopup("ResourceCreationPopup");
+    }
     
     ImGui::Columns(1);
     ImGui::EndChild();
@@ -121,13 +131,32 @@ void NodeContentBrowserPanel::DrawGUI()
 
 void NodeContentBrowserPanel::DrawAssetWidget(const std::filesystem::directory_entry& entry)
 {
+    wgpu::TextureView tex = nullptr;
+
     std::string path = entry.path().filename().string();
     if (entry.is_directory())
     {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.5f, 0.5f, 0.7f, 1.0f));
+        tex = FolderTexture->GetInternalTextureView();
     }
-        
-    ImGui::Button(("##" + path).c_str(), {itemSize, itemSize});
+    else {
+        if (ResourceManager::IsSourceFile(entry.path())) {
+            if (auto res = ResourceManager::Load(entry.path())) {
+                tex = res->GetThumbnail();
+            }
+        }
+    }
+
+
+
+    if (tex) {
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+        ImGui::ImageButton(("##" + path).c_str(), (uint64_t)(WGPUTextureView)tex, {itemSize, itemSize});
+        ImGui::PopStyleVar();
+    }
+    else {
+        ImGui::Button(("##" + path).c_str(), {itemSize, itemSize});
+    }
+
     if (ImGui::BeginDragDropSource())
     {
         ResourcePathDragDropData data(entry.path().string());
@@ -140,10 +169,39 @@ void NodeContentBrowserPanel::DrawAssetWidget(const std::filesystem::directory_e
         {
             currentDirectory /= entry.path().filename();
         }
+        else {
+            if (ResourceManager::IsSourceFile(entry.path())) {
+                if (auto res = ResourceManager::Load(entry.path())) {
+                    auto editor = GetParent()->AddChild(std::move(AssetEditorRegistry::CreateEditorFor(res)));
+                    static_cast<AssetEditor*>(editor)->SetContext(res);
+                }
+            }
+        }
     }
     ImGui::TextWrapped(path.c_str());
-    if (entry.is_directory())
-    {
-        ImGui::PopStyleColor();
+}
+
+void NodeContentBrowserPanel::DrawResourceCreationMenu() {
+    if (ImGui::BeginPopup("ResourceCreationPopup")) {
+        for (auto& res : GetAvailableResourceTypes()) {
+            if (ImGui::Button(res->Name.string())) {
+                auto instance = static_cast<Resource*>(res->Initializer());
+                std::shared_ptr<Resource> ptr;
+                ptr.reset(instance);
+                ResourceManager::SaveResource(ptr, currentDirectory.string() + "/New" + res->Name.string() + ".res");
+            }
+        }
+        ImGui::EndPopup();
     }
+}
+
+std::vector<const ClassType*> NodeContentBrowserPanel::GetAvailableResourceTypes() {
+    const auto& types = ClassDB::Get().GetClasses();
+    std::vector<const ClassType*> out;
+    for (auto type : types) {
+        if (type->IsSubclassOf(Resource::GetStaticClass()) && !type->HasFlag(ClassFlags::Abstract) && type->HasFlag(ClassFlags::EditorVisible)) {
+            out.push_back(type);
+        }
+    }
+    return out;
 }

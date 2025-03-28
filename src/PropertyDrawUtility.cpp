@@ -3,7 +3,7 @@
 #include "imgui/misc/cpp/imgui_stdlib.h"
 
 
-module property_draw;
+module Engine.PropertyDraw;
 import node_content_browser_panel;
 import Engine.Resource.ResourceManager;
 import Engine.Node;
@@ -140,7 +140,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, ResourceRef& val)
     */
 
     if (auto res = val.Get<Resource>()) {
-        ImGui::Text("%s", res->GetResourcePath().c_str());
+        ImGui::Text("%s", res->GetSourcePath().c_str());
         if (ImGui::BeginDragDropTarget()) {
             auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");
             if (payload)

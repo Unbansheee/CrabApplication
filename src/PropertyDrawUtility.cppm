@@ -6,8 +6,7 @@
 //#include "Reflection.cppm"
 //#include "Transform.cppm"
 
-export module property_draw;
-import <iostream>;
+export module Engine.PropertyDraw;
 import std;
 import Engine.Reflection;
 import Engine.Types;

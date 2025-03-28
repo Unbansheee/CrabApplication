@@ -6,6 +6,8 @@ export module node_content_browser_panel;
 import Engine.Node;
 import std;
 
+export class TextureResource;
+
 
 export struct ResourcePathDragDropData
 {
@@ -34,6 +36,9 @@ public:
     void DrawGUI() override;
 
     void DrawAssetWidget(const std::filesystem::directory_entry& entry);
+    void DrawResourceCreationMenu();
+
+    std::vector<const ClassType*> GetAvailableResourceTypes();
 
     float padding = 16.f;
     float itemSize = 64.f;
@@ -41,4 +46,7 @@ public:
     std::filesystem::path currentDirectory;
     std::vector<std::filesystem::path> rootDirectories = {RESOURCE_DIR, ENGINE_RESOURCE_DIR};
     int currentRootIndex = 0;
+
+    std::shared_ptr<TextureResource> FolderTexture;
+
 };

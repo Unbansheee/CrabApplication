@@ -86,7 +86,7 @@ void NodeViewportUI::DrawGUI()
         //auto view = ViewTarget->GetCurrentTextureView();
         //WGPUTextureView v = view;
         
-        if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
+        if (ImGui::IsMouseDown(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
         {
             ImGui::SetMouseCursor(ImGuiMouseCursor_None);
 
