@@ -1,4 +1,5 @@
 ﻿module node_editor_scene_root;
+import Engine.GFX.Renderer;
 
 void NodeEditorSceneRoot::Init()
 {
@@ -49,8 +50,8 @@ void NodeEditorSceneRoot::Update(float dt)
     }
 }
 
-void NodeEditorSceneRoot::Render(RenderVisitor& Visitor)
+void NodeEditorSceneRoot::Render(Renderer& Visitor)
 {
     Node::Render(Visitor);
-    EditorTree.GetRoot<Node>()->Render(Visitor);
+    Visitor.GatherDrawCommands(EditorTree.GetRoot<Node>());
 }

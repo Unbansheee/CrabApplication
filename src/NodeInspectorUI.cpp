@@ -17,10 +17,28 @@ void NodeInspectorUI::DrawGUI()
     {
         ViewedNode->DrawInspectorWidget();
 
+        std::string currentCategory;
+        bool drawCurrentCategory = true;
         for (auto p : ViewedNode->GetPropertiesFromThis())
         {
+
             if (p.flags & PropertyFlags::HideFromInspector) continue;
-            p.visit(visitor, ViewedNode.Get());
+            if (currentCategory != p.ownerClass)
+            {
+                currentCategory = p.ownerClass;
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 7));
+                ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.15, 0.15, 0.15, 1));
+                ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.15, 0.15, 0.15, 1));
+                drawCurrentCategory = ImGui::CollapsingHeader(currentCategory.c_str());
+                ImGui::PopStyleColor(2);
+                ImGui::PopStyleVar(1);
+            }
+
+            
+            if (drawCurrentCategory){
+                p.visit(visitor, ViewedNode.Get());
+            }
+
         }
     }
     

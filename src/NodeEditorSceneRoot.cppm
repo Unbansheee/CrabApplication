@@ -22,7 +22,7 @@ public:
     rocket::signal<void()> Stopped;
     rocket::signal<void()> RootChanged;
 
-    void Render(RenderVisitor& Visitor) override;
+    void Render(Renderer& Visitor) override;
     
     SceneTree& GetSubtree() { return EditorTree; }
 

@@ -6,7 +6,7 @@
 export module node_viewport_ui;
 import node_editor_camera_3d;
 import Engine.Node;
-import renderer;
+import Engine.GFX.Renderer;
 import Engine.Object.Ref;
 import Engine.Node.Window;
 import Engine.WGPU;
