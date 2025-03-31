@@ -35,7 +35,12 @@ public:
     float frametime = 0.0f;
     ~NodeEditorUI() override;
 
+    
+    rocket::signal<void(Node*)> SelectedNodeChanged;
     ObjectRef<Node> SelectedNode;
+    void SelectNode(Node* node) { SelectedNode = node; SelectedNodeChanged.invoke(node); };
+
+    
     ObjectRef<NodeEditorSceneRoot> EditorRoot;
     ObjectRef<NodeEditorCamera3D> EditorCamera;
     ObjectRef<NodeSceneTreeUI> EditorSceneTree;

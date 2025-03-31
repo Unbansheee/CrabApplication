@@ -23,7 +23,8 @@ public:
     rocket::signal<void()> RootChanged;
 
     void Render(Renderer& Visitor) override;
-    
+    void Render(IDPassRenderer& Visitor) override;
+
     SceneTree& GetSubtree() { return EditorTree; }
 
     bool bIsActive{false};

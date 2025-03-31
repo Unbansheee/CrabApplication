@@ -32,10 +32,15 @@ void NodeViewportUI::Ready()
     //cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
    // cam.ViewMatrix = glm::lookAt(glm::vec3(4.0f, 0.f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
     //cam.Position = glm::vec3(4.0f, 0.f, 0.0f);
+
+    PickingPassDepth = std::make_shared<RuntimeTextureResource>();
+    PickingPathTexture = std::make_shared<RuntimeTextureResource>();
+    idPassRenderer.Initialize(Application::Get().GetDevice());
     
     CreateDepthTexture(windowSize.x, windowSize.y);
     CreateRenderTexture(windowSize.x, windowSize.y);
     CreateViewTexture(windowSize.x, windowSize.y);
+    CreateIDPassTextures(windowSize.x, windowSize.y);
 }
 
 void NodeViewportUI::DrawGUI()
@@ -53,8 +58,8 @@ void NodeViewportUI::DrawGUI()
         CreateDepthTexture(windowSize.x, windowSize.y);
         CreateRenderTexture(windowSize.x, windowSize.y);
         CreateViewTexture(windowSize.x, windowSize.y);
+        CreateIDPassTextures(windowSize.x, windowSize.y);
         resizeCooldown = 0.25f;
-        //cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
 
     }
 
@@ -79,13 +84,19 @@ void NodeViewportUI::DrawGUI()
             viewData.ProjectionMatrix = glm::perspective(45.0f * PI / 180.f, GetAspectRatio(), 0.01f, 1000.f);
         }
     }
+    
+    if (ImGui::IsKeyPressed(ImGuiKey_Escape))
+    {
+        selectedNode = nullptr;
+        OnNodeSelectedInViewport.invoke(nullptr);
+    }
 
+    ImVec2 imageSize = ImGui::GetContentRegionAvail();
+    ImVec2 uv;
+    bool bIsMouseOverViewport = false;
     
     if (ViewTarget.IsValid())
     {
-        //auto view = ViewTarget->GetCurrentTextureView();
-        //WGPUTextureView v = view;
-        
         if (ImGui::IsMouseDown(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
         {
             ImGui::SetMouseCursor(ImGuiMouseCursor_None);
@@ -93,6 +104,7 @@ void NodeViewportUI::DrawGUI()
             auto move = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right, 0.f);
             if (ActiveCamera)
             {
+                bIsControllingCamera = true;
                 auto orientation = ActiveCamera->GetGlobalOrientation();
                 auto up = ActiveCamera->GetUpVector();
                 auto right = ActiveCamera->GetRightVector();
@@ -125,32 +137,39 @@ void NodeViewportUI::DrawGUI()
                     movement -= Vector3{0, 0, 1};
                 }
                 ActiveCamera->HandleKeyboardMovement(movement);
-                ///float yawAngle = -move.x * 0.01f;
-                //float pitchAngle = -move.y * 0.01f;
-
-                //orientation = glm::rotate(orientation, pitchAngle, right);
-                //orientation = glm::rotate(orientation, yawAngle, up);
-                //orientation = glm::normalize(rotation * orientation);
-                
-                //ActiveCamera->SetGlobalOrientation(orientation);
-                
                 ImGui::ResetMouseDragDelta(ImGuiMouseButton_Right);
-            }
+            } else bIsControllingCamera = false;
         }
         if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
         {
             ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
+            bIsControllingCamera = false;
         }
         
-        
+        // Normal render pass
         ViewTarget->GetRenderer().RenderNodeTree(ViewTarget.Get(), viewData, RenderTextureView, DepthTextureView);
+        idPassRenderer.RenderNodeTree(ViewTarget.Get(), viewData, PickingPathTexture->GetInternalTextureView(), PickingPassDepth->GetInternalTextureView());
         
         CopySurface();
-        ImGui::Image((uint64_t)(WGPUTextureView)ViewTextureView, ImGui::GetContentRegionAvail());
+
+        ImGui::Image((uint64_t)(WGPUTextureView)ViewTextureView, imageSize);
+        if (ImGui::IsItemHovered())
+        {
+            bIsMouseOverViewport = true;
+
+            ImVec2 mouse_pos = ImGui::GetMousePos();
+            ImVec2 image_min = ImGui::GetItemRectMin();
+            ImVec2 image_max = ImGui::GetItemRectMax();
+        
+            // 3. Calculate UV coordinates with proper scaling
+            uv = ImVec2(
+                (mouse_pos.x - image_min.x) / (image_max.x - image_min.x),
+                (mouse_pos.y - image_min.y) / (image_max.y - image_min.y)
+            );
+        }
+        
     }
-
-
-
+    
     
     if (selectedNode.IsValid())
     {
@@ -161,15 +180,23 @@ void NodeViewportUI::DrawGUI()
     
             static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::OPERATION::TRANSLATE);
             static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::LOCAL);
-            if (ImGui::IsKeyPressed(ImGuiKey_W))
-                mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
-            if (ImGui::IsKeyPressed(ImGuiKey_E))
-                mCurrentGizmoOperation = ImGuizmo::ROTATE;
-            if (ImGui::IsKeyPressed(ImGuiKey_R)) // r Key
-                mCurrentGizmoOperation = ImGuizmo::SCALE;
-            if (ImGui::IsKeyPressed(ImGuiKey_Q)) // r Key
-                mCurrentGizmoOperation = ImGuizmo::UNIVERSAL;
-
+            if (ImGui::IsKeyChordPressed(ImGuiMod_Shift | ImGuiKey_Tab))
+            {
+                mCurrentGizmoMode = mCurrentGizmoMode == ImGuizmo::LOCAL ? ImGuizmo::WORLD : ImGuizmo::LOCAL;
+            }
+            
+            if (!bIsControllingCamera && ImGui::IsWindowFocused())
+            {
+                if (ImGui::IsKeyPressed(ImGuiKey_W, false))
+                    mCurrentGizmoOperation = ImGuizmo::TRANSLATE;
+                if (ImGui::IsKeyPressed(ImGuiKey_E, false))
+                    mCurrentGizmoOperation = ImGuizmo::ROTATE;
+                if (ImGui::IsKeyPressed(ImGuiKey_R, false)) // r Key
+                    mCurrentGizmoOperation = ImGuizmo::SCALE;
+                if (ImGui::IsKeyPressed(ImGuiKey_Q, false)) // r Key
+                    mCurrentGizmoOperation = ImGuizmo::UNIVERSAL;
+            }
+            
             ImGuizmo::SetDrawlist();
             auto pos = ImGui::GetWindowPos();
             auto size = ImGui::GetWindowContentRegionMax();
@@ -182,6 +209,12 @@ void NodeViewportUI::DrawGUI()
             
             if (ImGuizmo::Manipulate(glm::value_ptr(viewData.ViewMatrix), glm::value_ptr(viewData.ProjectionMatrix), mCurrentGizmoOperation, mCurrentGizmoMode, glm::value_ptr(mat), nullptr, nullptr))
             {
+                if (!bDragActive && ImGui::IsKeyDown(ImGuiKey_LeftAlt))
+                {
+                    selectedNode->GetParent()->AddChild(node3d->Duplicate());
+                }
+                bDragActive = true;
+                
                 glm::vec3 scale;
                 glm::quat rotation;
                 glm::vec3 translation;
@@ -195,9 +228,95 @@ void NodeViewportUI::DrawGUI()
                 node3d->SetGlobalOrientation(node3d->GetGlobalOrientation() + deltaRotation);
                 node3d->SetGlobalScale(node3d->GetGlobalScale() + deltaScale);
             }
+            else
+            {
+                if (bDragActive && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+                    bDragActive = false;
+            }
             
         }
     }
+
+
+        if (bIsMouseOverViewport && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !bIsControllingCamera && !ImGuizmo::IsViewManipulateHovered() && !ImGuizmo::IsUsingAny() && !bDragActive)
+        {
+            // 4. Convert to pixel coordinates (account for texture aspect ratio)
+            int click_x = static_cast<int>(uv.x * imageSize.x);
+            int click_y = static_cast<int>(uv.y * imageSize.y);
+        
+            // Handle mouse clicks
+            wgpu::BufferDescriptor desc;
+            desc.size = sizeof(uint32_t);
+            desc.usage = wgpu::BufferUsage::CopyDst | wgpu::BufferUsage::MapRead;
+
+            if (currentReadbackBuffer) currentReadbackBuffer.release();
+            currentReadbackBuffer = Application::Get().GetDevice().createBuffer(desc);
+
+            // Copy pixel data
+            wgpu::ImageCopyTexture source;
+                source.texture = PickingPathTexture->GetInternalTexture();
+                source.mipLevel = 0;
+                source.origin = WGPUOrigin3D(click_x, click_y, 0);
+
+            wgpu::ImageCopyBuffer destination;
+                destination.buffer = currentReadbackBuffer;
+                WGPUTextureDataLayout l;
+                l.rowsPerImage = PickingPathTexture->GetInternalTexture().getHeight();
+                l.bytesPerRow = 256;
+                l.offset = 0;
+                destination.layout = l;
+            
+
+            wgpu::Extent3D copy_size = {1, 1, 1};
+            wgpu::CommandEncoderDescriptor cmdDesc;
+            auto commandEncoder = Application::Get().GetDevice().createCommandEncoder(cmdDesc);
+            commandEncoder.copyTextureToBuffer(source, destination, copy_size);
+            Application::Get().GetQueue().submit(commandEncoder.finish());
+
+            // 3. Map asynchronously with proper callback
+            auto on_map = [this](wgpu::BufferMapAsyncStatus status) {
+                if (status == wgpu::BufferMapAsyncStatus::Success) {
+                    const uint32_t* data = static_cast<const uint32_t*>(
+                        currentReadbackBuffer.getMappedRange(0, sizeof(uint32_t))
+                    );
+            
+                    // Copy data immediately before unmapping
+                    uint32_t result = *data;
+                    currentReadbackBuffer.unmap();
+
+                    if (result > 0)
+                    {
+                        ObjectRef<Node> n = idPassRenderer.GetNode(result);
+                        if (n.IsValid())
+                        {
+                            selectedNode = n;
+                            OnNodeSelectedInViewport.invoke(n.Get());
+                        }
+                        else
+                        {
+                            selectedNode = nullptr;
+                            OnNodeSelectedInViewport.invoke(nullptr);
+                        }
+                    }
+                    else
+                    {
+                        selectedNode = nullptr;
+                        OnNodeSelectedInViewport.invoke(nullptr);
+                    }
+                } else {
+                    // Handle error
+                    std::cerr << "Buffer mapping failed: " << status << "\n";
+                }
+            };
+
+            
+            bufferCallbackFunc = currentReadbackBuffer.mapAsync(wgpu::MapMode::Read, 0, sizeof(uint32_t), on_map);
+        
+        }
+
+
+
+    
     
     ImGui::End();
 
@@ -249,6 +368,33 @@ void NodeViewportUI::CreateViewTexture(uint32_t width, uint32_t height)
     vd.arrayLayerCount = 1;
     vd.aspect = wgpu::TextureAspect::All;
     ViewTextureView = WindowViewTexture.createView(vd);
+}
+
+void NodeViewportUI::CreateIDPassTextures(uint32_t width, uint32_t height)
+{
+    wgpu::TextureDescriptor IDPassDesc = wgpu::Default;
+    IDPassDesc.size.width = width;
+    IDPassDesc.size.height = height;
+    IDPassDesc.size.depthOrArrayLayers = 1;
+    IDPassDesc.usage = wgpu::TextureUsage::RenderAttachment | wgpu::TextureUsage::CopySrc;
+    IDPassDesc.format = wgpu::TextureFormat::R32Uint;
+    IDPassDesc.mipLevelCount = 1;
+    IDPassDesc.sampleCount = 1;
+    IDPassDesc.dimension = wgpu::TextureDimension::_2D;
+
+    PickingPathTexture->CreateBlankTexture(IDPassDesc);
+
+    wgpu::TextureDescriptor IDDepthDesc = wgpu::Default;
+    IDDepthDesc.size.width = width;
+    IDDepthDesc.size.height = height;
+    IDDepthDesc.size.depthOrArrayLayers = 1;
+    IDDepthDesc.usage = wgpu::TextureUsage::RenderAttachment;
+    IDDepthDesc.format = wgpu::TextureFormat::Depth24Plus;
+    IDDepthDesc.mipLevelCount = 1;
+    IDDepthDesc.sampleCount = 1;
+    IDDepthDesc.dimension = wgpu::TextureDimension::_2D;
+
+    PickingPassDepth->CreateBlankTexture(IDDepthDesc);
 }
 
 

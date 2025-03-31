@@ -28,16 +28,16 @@ void NodeEditorUI::Init()
     EditorCamera = AddChild<NodeEditorCamera3D>("Editor Camera");
     EditorSceneTree->SceneRootOverride = EditorRoot->GetSubtree().GetRoot<Node>();
 
-    EditorSceneTree->OnNodeSelected.connect(inspector, &NodeInspectorUI::SetViewedNode);
-    EditorSceneTree->OnNodeSelected.connect(viewport, &NodeViewportUI::SetViewedNode);
-    editorTree->OnNodeSelected.connect(inspector, &NodeInspectorUI::SetViewedNode);
-    EditorSceneTree->OnNodeSelected.connect([this](Node* newNode)
+    viewport->OnNodeSelectedInViewport.connect(inspector, &NodeInspectorUI::SetViewedNode);
+    viewport->OnNodeSelectedInViewport.connect([this](Node* newNode)
     {
-        SelectedNode = newNode;
+        SelectNode(newNode);
     });
-    editorTree->OnNodeSelected.connect([this](Node* newNode)
+
+    SelectedNodeChanged.connect([viewport, inspector](Node* node)
     {
-        SelectedNode = newNode;
+        viewport->selectedNode = node;
+        inspector->SetViewedNode(node);
     });
     //tree->OnNodeSelected.connect(viewport, &NodeViewportUI::SetViewedNode);
 

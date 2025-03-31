@@ -20,10 +20,8 @@ public:
 
     void DrawGUI() override;
 
-    rocket::signal<void(Node*)> OnNodeSelected;
-
-    void SelectNode(Node* node);
-    ObjectRef<Node> SelectedNode;
+    Node* GetSelectedNode();
+    void SetSelectedNode(Node* node);
     ObjectRef<Node> SceneRootOverride;
 private:
     void DrawNodeTree(ObjectRef<Node>& node, int& idx_count);

@@ -4,6 +4,7 @@
 module node_scene_tree_ui;
 import Engine.Application;
 import Engine.SceneTree;
+import node_editor_ui;
 
 void NodeSceneTreeUI::DrawGUI()
 {
@@ -21,9 +22,13 @@ void NodeSceneTreeUI::DrawGUI()
                 Object* n = t->Initializer();
                 Node* node = dynamic_cast<Node*>(n);
                 auto instance = Node::InitializeNode(node, t->Name.string());
-                if (SelectedNode)
+                if (auto editor = GetAncestorOfType<NodeEditorUI>())
                 {
-                    SelectedNode->AddChild(std::move(instance));
+                    if (editor->SelectedNode)
+                    {
+                        auto child = editor->SelectedNode->AddChild(std::move(instance));
+                        editor->SelectNode(child);
+                    }
                 }
                 else if (SceneRootOverride)
                 {
@@ -57,14 +62,23 @@ void NodeSceneTreeUI::DrawGUI()
     ImGui::End();
 }
 
-void NodeSceneTreeUI::SelectNode(Node* node)
+Node* NodeSceneTreeUI::GetSelectedNode()
 {
-    if (node != SelectedNode)
+    if (auto editor = GetAncestorOfType<NodeEditorUI>())
     {
-        SelectedNode = node;
-        OnNodeSelected.invoke(node);
+        return editor->SelectedNode.Get();
+    }
+    return nullptr;
+}
+
+void NodeSceneTreeUI::SetSelectedNode(Node* node)
+{
+    if (auto editor = GetAncestorOfType<NodeEditorUI>())
+    {
+        return editor->SelectNode(node);
     }
 }
+
 
 void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
 {
@@ -72,7 +86,7 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
     if (!node->GetTree()) return;
     ImGui::PushID(node->GetID().to_string().c_str());
     ImGuiTreeNodeFlags showArrow = node->GetChildren().empty() ? ImGuiTreeNodeFlags_Leaf : 0;
-    ImGuiTreeNodeFlags selected = node == SelectedNode ? ImGuiTreeNodeFlags_Selected : 0;
+    ImGuiTreeNodeFlags selected = node == GetSelectedNode() ? ImGuiTreeNodeFlags_Selected : 0;
     ImGuiTreeNodeFlags flags = showArrow | selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding;
 
     ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.2, 0.2, 0.2, 1));
@@ -93,11 +107,11 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
         
     if (ImGui::IsItemClicked())
     {
-        SelectNode(node.Get());
+        SetSelectedNode(node.Get());
     }
     if (ImGui::IsItemClicked(1))
     {
-        SelectNode(node.Get());
+        SetSelectedNode(node.Get());
         ImGui::OpenPopup("SceneNodeContextMenu");
     }
 
@@ -133,7 +147,7 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
     }
         
     // context menu
-    if (SelectedNode == node)
+    if (GetSelectedNode() == node)
     {
         if (ImGui::BeginPopup("SceneNodeContextMenu"))
         {
@@ -148,7 +162,7 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
             if (bCanDelete && ImGui::MenuItem("Delete"))
             {
                 node->RemoveFromParent();
-                SelectNode(nullptr);
+                SetSelectedNode(nullptr);
             }
             ImGui::EndPopup();
         }
