@@ -9,6 +9,7 @@ import Engine.Application;
 import Engine.Resource.Texture;
 import Engine.Node.Window;
 import Engine.Math;
+import Engine.Compute.ClearTexture;
 
 //#include "Nodes/NodeWindow.cppm"
 //#include "Resource/TextureResource.cppm"
@@ -32,10 +33,6 @@ void NodeViewportUI::Ready()
     //cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
    // cam.ViewMatrix = glm::lookAt(glm::vec3(4.0f, 0.f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
     //cam.Position = glm::vec3(4.0f, 0.f, 0.0f);
-
-    PickingPassDepth = std::make_shared<RuntimeTextureResource>();
-    PickingPathTexture = std::make_shared<RuntimeTextureResource>();
-    idPassRenderer.Initialize(Application::Get().GetDevice());
     
     CreateDepthTexture(windowSize.x, windowSize.y);
     CreateRenderTexture(windowSize.x, windowSize.y);
@@ -46,7 +43,7 @@ void NodeViewportUI::Ready()
 void NodeViewportUI::DrawGUI()
 {
     Node::DrawGUI();
-
+    //CreateIDPassTextures(windowSize.x, windowSize.y);
     ImGui::Begin("Viewport", 0);
     ViewTarget->SetSurfaceDrawEnabled(!ImGui::IsWindowDocked());
     
@@ -60,8 +57,9 @@ void NodeViewportUI::DrawGUI()
         CreateViewTexture(windowSize.x, windowSize.y);
         CreateIDPassTextures(windowSize.x, windowSize.y);
         resizeCooldown = 0.25f;
-
     }
+
+    clearTexturePass.Execute(PickingPassTexture);
 
     View viewData;
     if (ActiveCamera.IsValid())
@@ -94,6 +92,8 @@ void NodeViewportUI::DrawGUI()
     ImVec2 imageSize = ImGui::GetContentRegionAvail();
     ImVec2 uv;
     bool bIsMouseOverViewport = false;
+
+    std::vector<Node*> RenderedNodes;
     
     if (ViewTarget.IsValid())
     {
@@ -147,8 +147,7 @@ void NodeViewportUI::DrawGUI()
         }
         
         // Normal render pass
-        ViewTarget->GetRenderer().RenderNodeTree(ViewTarget.Get(), viewData, RenderTextureView, DepthTextureView);
-        idPassRenderer.RenderNodeTree(ViewTarget.Get(), viewData, PickingPathTexture->GetInternalTextureView(), PickingPassDepth->GetInternalTextureView());
+        RenderedNodes = ViewTarget->GetRenderer().RenderNodeTree(ViewTarget.Get(), viewData, RenderTextureView, DepthTextureView, PickingPassTexture->GetInternalTextureView());
         
         CopySurface();
 
@@ -254,14 +253,14 @@ void NodeViewportUI::DrawGUI()
 
             // Copy pixel data
             wgpu::ImageCopyTexture source;
-                source.texture = PickingPathTexture->GetInternalTexture();
+                source.texture = PickingPassTexture->GetInternalTexture();
                 source.mipLevel = 0;
                 source.origin = WGPUOrigin3D(click_x, click_y, 0);
 
             wgpu::ImageCopyBuffer destination;
                 destination.buffer = currentReadbackBuffer;
                 WGPUTextureDataLayout l;
-                l.rowsPerImage = PickingPathTexture->GetInternalTexture().getHeight();
+                l.rowsPerImage = PickingPassTexture->GetInternalTexture().getHeight();
                 l.bytesPerRow = 256;
                 l.offset = 0;
                 destination.layout = l;
@@ -274,7 +273,7 @@ void NodeViewportUI::DrawGUI()
             Application::Get().GetQueue().submit(commandEncoder.finish());
 
             // 3. Map asynchronously with proper callback
-            auto on_map = [this](wgpu::BufferMapAsyncStatus status) {
+            auto on_map = [this, RenderedNodes](wgpu::BufferMapAsyncStatus status) {
                 if (status == wgpu::BufferMapAsyncStatus::Success) {
                     const uint32_t* data = static_cast<const uint32_t*>(
                         currentReadbackBuffer.getMappedRange(0, sizeof(uint32_t))
@@ -286,11 +285,11 @@ void NodeViewportUI::DrawGUI()
 
                     if (result > 0)
                     {
-                        ObjectRef<Node> n = idPassRenderer.GetNode(result);
-                        if (n.IsValid())
+                        Node* n = RenderedNodes.at(result);
+                        if (n)
                         {
                             selectedNode = n;
-                            OnNodeSelectedInViewport.invoke(n.Get());
+                            OnNodeSelectedInViewport.invoke(n);
                         }
                         else
                         {
@@ -308,15 +307,9 @@ void NodeViewportUI::DrawGUI()
                     std::cerr << "Buffer mapping failed: " << status << "\n";
                 }
             };
-
             
             bufferCallbackFunc = currentReadbackBuffer.mapAsync(wgpu::MapMode::Read, 0, sizeof(uint32_t), on_map);
-        
         }
-
-
-
-    
     
     ImGui::End();
 
@@ -372,29 +365,22 @@ void NodeViewportUI::CreateViewTexture(uint32_t width, uint32_t height)
 
 void NodeViewportUI::CreateIDPassTextures(uint32_t width, uint32_t height)
 {
+    if (!PickingPassTexture)
+    {
+        PickingPassTexture = std::make_shared<RuntimeTextureResource>();
+    }
+    
     wgpu::TextureDescriptor IDPassDesc = wgpu::Default;
     IDPassDesc.size.width = width;
     IDPassDesc.size.height = height;
     IDPassDesc.size.depthOrArrayLayers = 1;
-    IDPassDesc.usage = wgpu::TextureUsage::RenderAttachment | wgpu::TextureUsage::CopySrc;
+    IDPassDesc.usage = wgpu::TextureUsage::CopySrc | wgpu::TextureUsage::StorageBinding;
     IDPassDesc.format = wgpu::TextureFormat::R32Uint;
     IDPassDesc.mipLevelCount = 1;
     IDPassDesc.sampleCount = 1;
     IDPassDesc.dimension = wgpu::TextureDimension::_2D;
 
-    PickingPathTexture->CreateBlankTexture(IDPassDesc);
-
-    wgpu::TextureDescriptor IDDepthDesc = wgpu::Default;
-    IDDepthDesc.size.width = width;
-    IDDepthDesc.size.height = height;
-    IDDepthDesc.size.depthOrArrayLayers = 1;
-    IDDepthDesc.usage = wgpu::TextureUsage::RenderAttachment;
-    IDDepthDesc.format = wgpu::TextureFormat::Depth24Plus;
-    IDDepthDesc.mipLevelCount = 1;
-    IDDepthDesc.sampleCount = 1;
-    IDDepthDesc.dimension = wgpu::TextureDimension::_2D;
-
-    PickingPassDepth->CreateBlankTexture(IDDepthDesc);
+    PickingPassTexture->CreateBlankTexture(IDPassDesc);
 }
 
 
@@ -473,6 +459,4 @@ void NodeViewportUI::CreateDepthTexture(uint32_t width, uint32_t height)
     vd.arrayLayerCount = 1;
     vd.aspect = wgpu::TextureAspect::All;
     DepthTextureView = WindowDepthTexture.createView(vd);
-
-
 }

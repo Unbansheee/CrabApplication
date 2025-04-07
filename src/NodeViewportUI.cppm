@@ -16,6 +16,7 @@ import Engine.Resource.RuntimeTexture;
 import Engine.GFX.IDPassMaterial;
 import Engine.GFX.IDPassRenderer;
 import Engine.WGPU;
+import Engine.Compute.ClearTexture;
 
 namespace ImGuizmo
 {
@@ -47,12 +48,10 @@ public:
 
     rocket::signal<void(Node*)> OnNodeSelectedInViewport;
     
-    std::shared_ptr<RuntimeTextureResource> PickingPathTexture;
-    std::shared_ptr<RuntimeTextureResource> PickingPassDepth;
+    std::shared_ptr<RuntimeTextureResource> PickingPassTexture;
+    ComputeClearTexture<WGPUTextureFormat_R32Uint, WGPUStorageTextureAccess_WriteOnly> clearTexturePass;
     
     wgpu::TextureFormat depthFormat = wgpu::TextureFormat::Depth24Plus;
-
-    IDPassRenderer idPassRenderer;
     
     ObjectRef<Node> selectedNode;
     void SetViewedNode(Node* node);
