@@ -1,10 +1,11 @@
 ﻿module node_editor_camera_3d;
 import Engine.Types;
+import Engine.Application;
 
 
 void NodeEditorCamera3D::HandleMouseMovement(Vector2 movement)
 {
-    movement *= LookSensitivity;
+    movement *= LookSensitivity * 60.f * Application::Get().DeltaTime();
     Pitch = glm::clamp(Pitch - movement.y, -89.9f, 89.9f);
     auto startYaw = Yaw;
     startYaw += movement.x;
@@ -26,7 +27,7 @@ void NodeEditorCamera3D::HandleKeyboardMovement(Vector3 movement)
     offset += glm::cross(Forward, Vector3{0, 0, 1}) * -movement.y;
     offset += Vector3{0,0,1} * movement.z;
 
-    SetGlobalPosition(GetGlobalPosition() + offset * MoveSpeed);
+    SetGlobalPosition(GetGlobalPosition() + offset * MoveSpeed * 6.f * Application::Get().DeltaTime());
 }
 
 Matrix4 NodeEditorCamera3D::GetViewMatrix() const

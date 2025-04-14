@@ -2,6 +2,8 @@
 #include "imgui.h"
 #include "nativefiledialog-extended/src/include/nfd.h"
 #include "nativefiledialog-extended/src/include/nfd.hpp"
+#include "webgpu/wgpu.h"
+
 module node_editor_ui;
 import Engine.Application;
 import node_inspector_ui;
@@ -14,6 +16,7 @@ import Engine.GLTFSceneParser;
 import Engine.Resource.RuntimeTexture;
 import Engine.Resource.OBJMesh;
 import Engine.Resource.ResourceManager;
+
 
 void NodeEditorUI::Init()
 {
@@ -43,7 +46,6 @@ void NodeEditorUI::Init()
 
     PlayButtonTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_PlayButton.png");
     StopButtonTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_StopButton.png");
-
 }
 
 void NodeEditorUI::Update(float dt)
@@ -130,12 +132,12 @@ void NodeEditorUI::DrawGUI()
     ImGui::Begin("Toolbar");
     if (!EditorRoot->bIsActive) {
 
-        if (ImGui::ImageButton("PlayButton", (ImTextureID)(WGPUTextureView)PlayButtonTexture->GetInternalTextureView(), ImVec2(32, 32))) {
+        if (ImGui::ImageButton("PlayButton", (ImTextureID)(WGPUTextureView)*PlayButtonTexture->GetInternalTextureView(), ImVec2(32, 32))) {
             EditorRoot->Run();
         }
     }
     else {
-        if (ImGui::ImageButton("StopButton", (ImTextureID)(WGPUTextureView)StopButtonTexture->GetInternalTextureView(), ImVec2(32, 32))) {
+        if (ImGui::ImageButton("StopButton", (ImTextureID)(WGPUTextureView)*StopButtonTexture->GetInternalTextureView(), ImVec2(32, 32))) {
             EditorRoot->Stop();
         }
     }

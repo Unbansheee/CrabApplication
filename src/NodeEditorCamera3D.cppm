@@ -22,8 +22,8 @@ public:
     void HandleMouseMovement(Vector2 movement);
     void HandleKeyboardMovement(Vector3 movement);
     
-    float LookSensitivity = 0.5f;
-    float MoveSpeed = 0.3f;
+    float LookSensitivity = 1.f;
+    float MoveSpeed = 1.f;
     float Yaw;
     float Pitch;
     mutable Vector3 Forward;

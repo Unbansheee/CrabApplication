@@ -13,8 +13,6 @@ import Engine.WGPU;
 import Engine.GFX.View;
 import Engine.Types;
 import Engine.Resource.RuntimeTexture;
-import Engine.GFX.IDPassMaterial;
-import Engine.GFX.IDPassRenderer;
 import Engine.WGPU;
 import Engine.Compute.ClearTexture;
 
@@ -39,12 +37,12 @@ public:
     
     Vector2 windowSize = {200, 200};
     ObjectRef<NodeWindow> ViewTarget;
-    wgpu::Texture WindowRenderTexture = nullptr;
-    wgpu::Texture WindowDepthTexture = nullptr;
-    wgpu::TextureView RenderTextureView = nullptr;
-    wgpu::TextureView DepthTextureView = nullptr;
-    wgpu::TextureView ViewTextureView = nullptr;
-    wgpu::Texture WindowViewTexture = nullptr;
+    wgpu::raii::Texture WindowRenderTexture{};
+    wgpu::raii::Texture WindowDepthTexture{};
+    wgpu::raii::TextureView RenderTextureView{};
+    wgpu::raii::TextureView DepthTextureView{};
+    wgpu::raii::TextureView ViewTextureView{};
+    wgpu::raii::Texture WindowViewTexture{};
 
     rocket::signal<void(Node*)> OnNodeSelectedInViewport;
     
@@ -56,7 +54,7 @@ public:
     ObjectRef<Node> selectedNode;
     void SetViewedNode(Node* node);
     std::unique_ptr<wgpu::BufferMapCallback> bufferCallbackFunc;
-    wgpu::Buffer currentReadbackBuffer = nullptr;
+    wgpu::raii::Buffer currentReadbackBuffer = nullptr;
 
     bool bDragActive = false;
     bool bIsControllingCamera = false;
@@ -68,7 +66,12 @@ public:
     void CreateViewTexture(uint32_t width, uint32_t height);
     void CreateIDPassTextures(uint32_t width, uint32_t height);
 
+    void OnPixelValueClicked(uint32_t value);
+
+    std::vector<Node*> RenderedNodes;
     ObjectRef<NodeEditorCamera3D> ActiveCamera;
 
+    Vector2 InitialClickPos;
+    std::queue<Vector2> mouseMoveBuffer;
     void EditTransform(const View& view, Matrix4& matrix);
 };

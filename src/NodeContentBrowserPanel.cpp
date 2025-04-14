@@ -136,12 +136,12 @@ void NodeContentBrowserPanel::DrawAssetWidget(const std::filesystem::directory_e
     std::string path = entry.path().filename().string();
     if (entry.is_directory())
     {
-        tex = FolderTexture->GetInternalTextureView();
+        tex = *FolderTexture->GetInternalTextureView();
     }
     else {
         if (ResourceManager::IsSourceFile(entry.path())) {
             if (auto res = ResourceManager::Load(entry.path())) {
-                tex = res->GetThumbnail();
+                tex = *res->GetThumbnail();
             }
         }
     }

@@ -22,6 +22,7 @@ import Engine.Resource.ResourceManager;
 import Engine.Resource.OBJMesh;
 import Engine.Resource.Ref;
 import Engine.Resource.Importer.OBJMesh;
+import Engine.ShaderCompiler;
 
 StrongResourceRef r;
 REGISTER_RESOURCE_IMPORTER(OBJMeshImporter)
@@ -33,50 +34,8 @@ int main (int, char**) {
     window->SetSurfaceDrawEnabled(false);
     window->AddChild<NodeEditorUI>("EditorUI");
     app.GetSceneTree().SetUsePhysics(false);
-    
+
     app.Begin();
-
-    
-    
-    //r = ResourceManager::Load<OBJMeshResource>(ENGINE_RESOURCE_DIR"/fourareen.obj");
-    
-    
-    /*
-    auto meshInst = window->AddChild<NodeMeshInstance3D>("Mesh");
-    meshInst->SetPosition({0, 0, 0});
-    meshInst->SetOrientation(Quat(glm::radians(glm::vec3{0.0, 0.0, 90.f})));
-    
-    auto meshInst2 = meshInst->AddChild<NodeMeshInstance3D>("Child Mesh");
-    meshInst2->SetPosition({0, 0, 1});
-
-    auto gltfParser = GLTFSceneParser();
-    window->AddChild(gltfParser.ParseGLTF(app.GetDevice(), ENGINE_RESOURCE_DIR"/Level1.glb"));
-    
-    std::vector<MeshVertex> v;
-    ResourceManager::loadGeometryFromObj(ENGINE_RESOURCE_DIR "/fourareen.obj", v);
-    SharedRef<Mesh> m = MakeShared<Mesh>(app.GetDevice(), v, std::nullopt);
-    auto norm = ResourceManager::Load<ImageTextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_normals.png");
-    auto albedo = ResourceManager::Load<ImageTextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_albedo.jpg");
-    norm->imageFilePath = norm->GetResourcePath();
-    albedo->imageFilePath = albedo->GetResourcePath();
-    norm->LoadData();
-    albedo->LoadData();
-
-    //SharedRef<TextureResource> normal = Resource::CreateResource<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_normals.png");
-    //SharedRef<TextureResource> albedo = Resource::CreateResource<TextureResource>(ENGINE_RESOURCE_DIR"/fourareen2K_albedo.jpg");
-    SharedRef<StandardMaterial> mat = MakeShared<StandardMaterial>(app.GetDevice(), ENGINE_RESOURCE_DIR"/standard_material.wgsl");
-    mat->TargetTextureFormat = window->GetSurfaceFormat();
-    mat->NormalTextureView = norm;
-    mat->BaseColorTextureView = albedo;
-    mat->Initialize();
-    
-    meshInst->SetMesh(m);
-    meshInst->SetMaterial(mat);
-    meshInst2->SetMesh(m);
-    meshInst2->SetMaterial(mat);
-    */
-
-    
     while (!app.ShouldClose())
     {
         if (window->WantsToClose())

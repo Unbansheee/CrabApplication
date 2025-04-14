@@ -1,6 +1,6 @@
 ﻿module node_editor_scene_root;
 import Engine.GFX.Renderer;
-import Engine.GFX.IDPassRenderer;
+
 void NodeEditorSceneRoot::Init()
 {
     Node::Init();
@@ -54,11 +54,4 @@ void NodeEditorSceneRoot::Render(Renderer& Visitor)
 {
     Node::Render(Visitor);
     Visitor.GatherDrawCommands(EditorTree.GetRoot<Node>());
-}
-
-void NodeEditorSceneRoot::Render(IDPassRenderer& Visitor)
-{
-    Node::Render(Visitor);
-    Visitor.GatherDrawCommands(EditorTree.GetRoot<Node>());
-
 }
