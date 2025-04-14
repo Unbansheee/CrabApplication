@@ -35,10 +35,8 @@ void NodeViewportUI::Ready()
 void NodeViewportUI::DrawGUI()
 {
     Node::DrawGUI();
-    //CreateIDPassTextures(windowSize.x, windowSize.y);
     ImGui::Begin("Viewport", 0);
-    ViewTarget->SetSurfaceDrawEnabled(!ImGui::IsWindowDocked());
-    
+
     ImVec2 currentWindowSize = ImGui::GetContentRegionAvail();
     if ((currentWindowSize.x != windowSize.x || currentWindowSize.y != windowSize.y) && currentWindowSize.x >= 1 && currentWindowSize.y >= 1 && resizeCooldown <= 0.f)
     {

@@ -29,8 +29,8 @@ void sort_directory_entries(std::vector<fs::directory_entry>& entries) {
 void NodeContentBrowserPanel::Init()
 {
     Node::Init();
-    currentDirectory = ENGINE_RESOURCE_DIR;
     FolderTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_FolderThumbnail.png");
+    SetCurrentDirectory(ENGINE_RESOURCE_DIR);
 }
 
 void NodeContentBrowserPanel::Ready()
@@ -43,19 +43,15 @@ void NodeContentBrowserPanel::Update(float dt)
     Node::Update(dt);
 }
 
-
-
 void NodeContentBrowserPanel::DrawGUI()
 {
     Node::DrawGUI();
-
     ImGui::Begin("Content Browser");
-
     if (ImGui::Button("<-"))
     {
         if (std::ranges::find(rootDirectories, currentDirectory) == rootDirectories.end() )
         {
-            currentDirectory = currentDirectory.parent_path();
+            SetCurrentDirectory(currentDirectory.parent_path());
         }
     }
     ImGui::SameLine();
@@ -70,8 +66,7 @@ void NodeContentBrowserPanel::DrawGUI()
     {
         if (ImGui::Button((root.parent_path().filename().string() + "/" + root.filename().string()).c_str()))
         {
-
-            currentDirectory = root;
+            SetCurrentDirectory(root);
             currentRootIndex = _rootSelectIndex;
         }
         _rootSelectIndex++;
@@ -89,32 +84,14 @@ void NodeContentBrowserPanel::DrawGUI()
     int columnCount = (int)(panelWidth / cellSize);
     columnCount = std::max(columnCount, 1);
 
-    
-    std::set<std::filesystem::directory_entry> files_in_directory;
-    std::set<std::filesystem::directory_entry> directories_in_directory;
-
-    std::copy_if(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::inserter(directories_in_directory, directories_in_directory.begin()), [](const std::filesystem::directory_entry& entry)
-    {
-        return entry.is_directory();
-    });
-
-    std::copy_if(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::inserter(files_in_directory, files_in_directory.begin()), [](const std::filesystem::directory_entry& entry)
-    {
-        return !entry.is_directory() && (entry.path().extension() != ".importSettings");
-    });
 
     ImGui::Columns(columnCount, 0, false);
 
-    for (auto& i : directories_in_directory)
+    for (auto& i : currentEntries)
     {
-        DrawAssetWidget(i);
+        auto reply = DrawAssetWidget(i);
         ImGui::NextColumn();
-    }
-    
-    for (auto& i : files_in_directory)
-    {
-        DrawAssetWidget(i);
-        ImGui::NextColumn();
+        if (reply == ReconstructingAssetPanel) break;
     }
 
     DrawResourceCreationMenu();
@@ -129,28 +106,17 @@ void NodeContentBrowserPanel::DrawGUI()
     ImGui::End();
 }
 
-void NodeContentBrowserPanel::DrawAssetWidget(const std::filesystem::directory_entry& entry)
+NodeContentBrowserPanel::EReply NodeContentBrowserPanel::DrawAssetWidget(const ContentBrowserEntry& entry)
 {
-    wgpu::TextureView tex = nullptr;
-
-    std::string path = entry.path().filename().string();
-    if (entry.is_directory())
-    {
-        tex = *FolderTexture->GetInternalTextureView();
+    wgpu::raii::TextureView tex{};
+    if (entry.Thumbnail.has_value()) {
+        tex = entry.Thumbnail.value();
     }
-    else {
-        if (ResourceManager::IsSourceFile(entry.path())) {
-            if (auto res = ResourceManager::Load(entry.path())) {
-                tex = *res->GetThumbnail();
-            }
-        }
-    }
-
-
+    std::string path = entry.DirectoryEntry.path().filename().string();
 
     if (tex) {
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
-        ImGui::ImageButton(("##" + path).c_str(), (uint64_t)(WGPUTextureView)tex, {itemSize, itemSize});
+        ImGui::ImageButton(("##" + path).c_str(), (uint64_t)(WGPUTextureView)*tex, {itemSize, itemSize});
         ImGui::PopStyleVar();
     }
     else {
@@ -159,19 +125,20 @@ void NodeContentBrowserPanel::DrawAssetWidget(const std::filesystem::directory_e
 
     if (ImGui::BeginDragDropSource())
     {
-        ResourcePathDragDropData data(entry.path().string());
+        ResourcePathDragDropData data(entry.DirectoryEntry.path().string());
         ImGui::SetDragDropPayload("RESOURCE_PATH", &data, sizeof(ResourcePathDragDropData));
         ImGui::EndDragDropSource();
     }
     if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
     {
-        if (entry.is_directory())
+        if (entry.DirectoryEntry.is_directory())
         {
-            currentDirectory /= entry.path().filename();
+            SetCurrentDirectory(currentDirectory / entry.DirectoryEntry.path().filename());
+            return ReconstructingAssetPanel;
         }
         else {
-            if (ResourceManager::IsSourceFile(entry.path())) {
-                if (auto res = ResourceManager::Load(entry.path())) {
+            if (ResourceManager::IsSourceFile(entry.DirectoryEntry.path())) {
+                if (auto res = ResourceManager::Load(entry.DirectoryEntry.path())) {
                     auto editor = GetParent()->AddChild(std::move(AssetEditorRegistry::CreateEditorFor(res)));
                     static_cast<AssetEditor*>(editor)->SetContext(res);
                 }
@@ -179,6 +146,7 @@ void NodeContentBrowserPanel::DrawAssetWidget(const std::filesystem::directory_e
         }
     }
     ImGui::TextWrapped(path.c_str());
+    return Success;
 }
 
 void NodeContentBrowserPanel::DrawResourceCreationMenu() {
@@ -204,4 +172,45 @@ std::vector<const ClassType*> NodeContentBrowserPanel::GetAvailableResourceTypes
         }
     }
     return out;
+}
+
+void NodeContentBrowserPanel::SetCurrentDirectory(const std::filesystem::path &dir) {
+    if (dir == currentDirectory) return;
+    currentDirectory = dir;
+    currentEntries.clear();
+
+    std::set<std::filesystem::directory_entry> files_in_directory;
+    std::set<std::filesystem::directory_entry> directories_in_directory;
+
+    std::copy_if(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::inserter(directories_in_directory, directories_in_directory.begin()), [](const std::filesystem::directory_entry& entry)
+    {
+        return entry.is_directory();
+    });
+
+    std::copy_if(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::inserter(files_in_directory, files_in_directory.begin()), [](const std::filesystem::directory_entry& entry)
+    {
+        return !entry.is_directory() && (entry.path().extension() != ".importSettings");
+    });
+
+    for (auto& directory : directories_in_directory) {
+        ContentBrowserEntry& e = currentEntries.emplace_back();
+        e.Filename = directory.path().filename().string();
+        e.Thumbnail = FolderTexture->GetInternalTextureView();
+        e.DirectoryEntry = directory;
+    }
+
+    for (auto& file: files_in_directory) {
+        ContentBrowserEntry& e = currentEntries.emplace_back();
+        e.Filename = file.path().filename().string();
+        e.DirectoryEntry = file;
+
+        if (ResourceManager::IsSourceFile(file.path())) {
+            if (auto res = ResourceManager::Load(file.path())) {
+                auto thumb = res->GetThumbnail();
+                if (thumb) {
+                    e.Thumbnail = thumb;
+                }
+            }
+        }
+    }
 }

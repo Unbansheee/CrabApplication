@@ -5,6 +5,7 @@
 export module node_content_browser_panel;
 import Engine.Node;
 import std;
+import Engine.WGPU;
 
 export class TextureResource;
 
@@ -35,18 +36,35 @@ public:
     virtual void Update(float dt) override;
     void DrawGUI() override;
 
-    void DrawAssetWidget(const std::filesystem::directory_entry& entry);
+    enum EReply {
+        Success,
+        ReconstructingAssetPanel
+    };
+
+    struct ContentBrowserEntry {
+        std::string Filename{};
+        std::filesystem::directory_entry DirectoryEntry{};
+        std::optional<wgpu::raii::TextureView> Thumbnail{};
+    };
+
+    EReply DrawAssetWidget(const ContentBrowserEntry& entry);
     void DrawResourceCreationMenu();
 
     std::vector<const ClassType*> GetAvailableResourceTypes();
 
     float padding = 16.f;
     float itemSize = 64.f;
-    
+
+    void SetCurrentDirectory(const std::filesystem::path& dir);
+    void RefreshBrowser();
     std::filesystem::path currentDirectory;
+    std::vector<ContentBrowserEntry> currentEntries;
     std::vector<std::filesystem::path> rootDirectories = {RESOURCE_DIR, ENGINE_RESOURCE_DIR};
     int currentRootIndex = 0;
 
     std::shared_ptr<TextureResource> FolderTexture;
-
 };
+
+void NodeContentBrowserPanel::RefreshBrowser() {
+    SetCurrentDirectory(currentDirectory);
+}
