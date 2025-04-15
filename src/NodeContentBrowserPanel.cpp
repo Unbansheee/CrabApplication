@@ -182,6 +182,8 @@ void NodeContentBrowserPanel::SetCurrentDirectory(const std::filesystem::path &d
     std::set<std::filesystem::directory_entry> files_in_directory;
     std::set<std::filesystem::directory_entry> directories_in_directory;
 
+    currentEntries.reserve(files_in_directory.size() + directories_in_directory.size());
+
     std::copy_if(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::inserter(directories_in_directory, directories_in_directory.begin()), [](const std::filesystem::directory_entry& entry)
     {
         return entry.is_directory();
@@ -189,7 +191,7 @@ void NodeContentBrowserPanel::SetCurrentDirectory(const std::filesystem::path &d
 
     std::copy_if(std::filesystem::directory_iterator(currentDirectory), std::filesystem::directory_iterator(), std::inserter(files_in_directory, files_in_directory.begin()), [](const std::filesystem::directory_entry& entry)
     {
-        return !entry.is_directory() && (entry.path().extension() != ".importSettings");
+        return !entry.is_directory() && (entry.path().extension() != ".meta");
     });
 
     for (auto& directory : directories_in_directory) {
