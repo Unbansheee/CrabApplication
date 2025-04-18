@@ -21,11 +21,8 @@ import node_editor_ui;
 import Engine.Resource.ResourceManager;
 import Engine.Resource.OBJMesh;
 import Engine.Resource.Ref;
-import Engine.Resource.Importer.OBJMesh;
 import Engine.ShaderCompiler;
 
-StrongResourceRef r;
-REGISTER_RESOURCE_IMPORTER(OBJMeshImporter)
 int main (int, char**) {
     auto n = Node::NewNode<Node>();
     auto& app = Application::Get();

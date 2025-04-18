@@ -118,56 +118,10 @@ void PropertyDrawUtility::operator()(PropertyView& prop, Transform& value)
     }
 }
 
-void PropertyDrawUtility::operator()(PropertyView& prop, ResourceRef& val)
+
+void PropertyDrawUtility::operator()(PropertyView& prop, std::shared_ptr<Resource>& val)
 {
-    ImGui::Text(prop.displayName().c_str());
-    ImGui::SameLine();
-
-    /*
-    ImGui::Text(val.ResourceID.to_string().c_str());
-    if (ImGui::BeginDragDropTarget())
-    {
-        const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("RESOURCE_REF");
-        if (payload)
-        {
-            SharedRef<Resource> resource = *(SharedRef<Resource>*)payload->Data;
-            val = resource->Handle();
-            prop.set(val);
-        }
-
-        ImGui::EndDragDropTarget();
-    }
-    */
-
-    if (auto res = val.Get<Resource>()) {
-        ImGui::Text("%s", res->GetSourcePath().c_str());
-        if (ImGui::BeginDragDropTarget()) {
-            auto payload = ImGui::AcceptDragDropPayload("RESOURCE_PATH");
-            if (payload)
-            {
-                ResourcePathDragDropData* data = (ResourcePathDragDropData*)payload->Data;
-                auto res_ref = ResourceManager::Load(data->GetPath());
-                val = res_ref;
-                prop.set(val);
-            }
-            
-            ImGui::EndDragDropTarget();
-            // Handle drag-drop from resource browser
-        }
-    } else {
-        ImGui::Text("None");
-        if (ImGui::Button("Load")) {
-            // Open resource browser
-            ImGui::BeginPopup("Gegg");
-
-            ImGui::EndPopup();
-        }
-    }
-}
-
-void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
-{
-    auto res = val.Get<Resource>();
+    auto res = val;
     std::string title = "Invalid Resource";
     if (res) title = res->GetName();
 
@@ -186,11 +140,7 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
             ResourcePathDragDropData* data = static_cast<ResourcePathDragDropData*>(payload->Data);
             auto res_ref = ResourceManager::Load(data->GetPath());
 
-            if (val.IsResourceCompatible(res_ref))
-            {
-                val = res_ref;
-                prop.set(val);
-            }
+            prop.set(val);
         }
         
         ImGui::EndDragDropTarget();
@@ -209,24 +159,22 @@ void PropertyDrawUtility::operator()(PropertyView& prop, StrongResourceRef& val)
         ImGui::TreePop();
     }
 
-    
 
-    
     if (ImGui::BeginPopup("ResourceSelector"))
     {
         int i = 0;
         for (auto& r : ResourceManager::GetAllResources())
         {
-            if (val.IsResourceCompatible(r))
+            if (!r->IsA(*prop.property.reflectedObjectType)) continue;
+            if (ImGui::Button((r->GetName() + "##" + std::to_string(i)).c_str()))
             {
-                if (ImGui::Button((r->GetName() + "##" + std::to_string(i)).c_str()))
-                {
-                    val = r;
-                    prop.set<StrongResourceRef>(val);
-                }
-                
-                i++;
+                val = r;
+                prop.set(val);
+                //prop.set<StrongResourceRef>(val);
             }
+
+            i++;
+
         }
         ImGui::EndPopup();
     }
