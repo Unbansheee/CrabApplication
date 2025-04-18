@@ -5,6 +5,7 @@ project(
     LANGUAGES CXX C # programming languages used by the project
 )
 
+
 file(GLOB_RECURSE SOURCES
         src/*.h
         src/*.c
@@ -49,9 +50,12 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(CrabApplication PRIVATE -fmodule-header)
 endif()
 
+set(ENGINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine)
+add_subdirectory(${ENGINE_SOURCE_DIR})
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine)
 target_link_libraries(CrabApplication PUBLIC CrabEngine)
+
+
 
 # We add an option to enable different settings when developing the CrabApplication than
 # when distributing it.
@@ -63,15 +67,30 @@ if(DEV_MODE)
     # versionned.
     target_compile_definitions(CrabApplication PRIVATE
             RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources"
-            ENGINE_RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/resources"
     )
 else()
     # In release mode, we just load resources relatively to wherever the
     # executable is launched from, so that the binary is portable
     target_compile_definitions(CrabApplication PRIVATE
-            RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources"
-            ENGINE_RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/resources"
+            RESOURCE_DIR="./resources"
     )
+
+    #target_copy_engine_resources(CrabApplication)
+
+    add_custom_command(TARGET CrabApplication POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E remove_directory "$<TARGET_FILE_DIR:CrabApplication>/resources"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/resources"
+            "$<TARGET_FILE_DIR:CrabApplication>/resources"
+    )
+
+    add_custom_command(TARGET CrabApplication POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E remove_directory "$<TARGET_FILE_DIR:CrabApplication>/Engine/resources"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${ENGINE_SOURCE_DIR}/resources"
+            "$<TARGET_FILE_DIR:CrabApplication>/Engine/resources"
+    )
+
 endif()
 
 target_compile_definitions(CrabApplication PUBLIC GLM_FORCE_DEPTH_ZERO_TO_ONE)

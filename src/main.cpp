@@ -23,10 +23,14 @@ import Engine.Resource.OBJMesh;
 import Engine.Resource.Ref;
 import Engine.ShaderCompiler;
 
+import std;
+import vfspp;
+
 int main (int, char**) {
     auto n = Node::NewNode<Node>();
     auto& app = Application::Get();
 
+    app.AddFileSystem("/res", RESOURCE_DIR);
     auto window = app.GetSceneTree().SetRoot(Node::NewNode<NodeImGUIContextWindow>("Crab Editor"));
     window->SetSurfaceDrawEnabled(false);
     window->AddChild<NodeEditorUI>("EditorUI");
