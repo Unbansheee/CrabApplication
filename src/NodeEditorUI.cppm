@@ -21,6 +21,7 @@ public:
     END_PROPERTIES
 
     void Init() override;
+    void NewScene();
 
 protected:
     void Update(float dt) override;
@@ -28,7 +29,6 @@ protected:
     void Ready() override;
 
     void OpenScene(const std::string& path);
-    void NewScene();
     void SaveScene(const std::string& path);
     void ImportGLB(const std::string& path);
 public:

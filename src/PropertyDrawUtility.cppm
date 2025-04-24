@@ -11,7 +11,6 @@ import std;
 import Engine.Reflection;
 import Engine.Types;
 import Engine.Reflection.ClassDB;
-import Engine.Resource.Ref;
 import Engine.Transform;
 import Engine.Object.Ref;
 

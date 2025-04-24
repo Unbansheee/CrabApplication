@@ -6,13 +6,13 @@
             "properties": {
                 "Mesh": {
                     "import_type": "file",
-                    "source_file_path": "/engine/cube.obj"
+                    "source_file_path": "/engine/fourareen.obj"
                 },
                 "Name": "NodeMeshInstance3D",
                 "isHidden": false,
                 "material": {
-                    "import_type": "",
-                    "source_file_path": ""
+                    "import_type": "file",
+                    "source_file_path": "/engine/NewStandardMaterial.res"
                 },
                 "transform": [
                     [
@@ -33,7 +33,7 @@
                     ]
                 ]
             },
-            "uid": "7affcd3c-0dbc-42f0-8564-24103a93f878"
+            "uid": "170218c5-b4ff-41fc-bf4f-0bd094036122"
         }
     ],
     "class": "Node",
@@ -41,5 +41,5 @@
         "Name": "Root",
         "isHidden": false
     },
-    "uid": "28a61136-443d-490c-bc43-3d1180ababf7"
+    "uid": "27e90215-12cf-45ff-93b7-8158ef97a86c"
 }

@@ -41,7 +41,9 @@ std::unique_ptr<Node> AssetEditorRegistry::CreateEditorFor(std::shared_ptr<Resou
         resClass = ClassDB::Get().GetClassByName(resClass->Parent);
     }
 
-    Assert::Check(out != nullptr, "No Editor Found", std::string("No editor registered for class: ") + resClass->Name.string());
+    if (!out) return {};
+
+    //Assert::Check(out != nullptr, "No Editor Found", std::string("No editor registered for class: ") + resClass->Name.string());
     auto instance = Node::NewNode(*out, "Asset Editor");
     return std::move(instance);
 }

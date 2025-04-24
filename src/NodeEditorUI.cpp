@@ -44,8 +44,8 @@ void NodeEditorUI::Init()
     });
     //tree->OnNodeSelected.connect(viewport, &NodeViewportUI::SetViewedNode);
 
-    PlayButtonTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_PlayButton.png");
-    StopButtonTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_StopButton.png");
+    PlayButtonTexture = ResourceManager::Load<TextureResource>("/engine/Textures/T_PlayButton.png");
+    StopButtonTexture = ResourceManager::Load<TextureResource>("/engine/Textures/T_StopButton.png");
 }
 
 void NodeEditorUI::Update(float dt)

@@ -57,9 +57,15 @@ public:
 
     void SetCurrentDirectory(const std::filesystem::path& dir);
     void RefreshBrowser();
+
+    struct RootDirectory {
+        std::string AbsolutePath;
+        std::string Alias;
+    };
+
     std::filesystem::path currentDirectory;
     std::vector<ContentBrowserEntry> currentEntries;
-    std::vector<std::filesystem::path> rootDirectories = {RESOURCE_DIR, ENGINE_RESOURCE_DIR};
+    std::vector<RootDirectory> rootDirectories = {{RESOURCE_DIR, "/res"}, {ENGINE_RESOURCE_DIR, "/engine"}};
     int currentRootIndex = 0;
 
     std::shared_ptr<TextureResource> FolderTexture;

@@ -9,6 +9,7 @@ module;
 export module Editor.AssetEditor;
 import Engine.Node;
 import Engine.Resource;
+import Editor.AssetEditorRegistry;
 
 export class AssetEditor : public Node {
     CRAB_CLASS(AssetEditor, Node)

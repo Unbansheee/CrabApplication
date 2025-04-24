@@ -8,6 +8,7 @@ import Engine.WGPU;
 import Engine.Resource.ImageTexture;
 import Editor.AssetEditorRegistry;
 import Editor.AssetEditor;
+import Engine.Application;
 
 namespace fs = std::filesystem;
 void sort_directory_entries(std::vector<fs::directory_entry>& entries) {
@@ -29,8 +30,8 @@ void sort_directory_entries(std::vector<fs::directory_entry>& entries) {
 void NodeContentBrowserPanel::Init()
 {
     Node::Init();
-    FolderTexture = ResourceManager::Load<TextureResource>(ENGINE_RESOURCE_DIR"/Textures/T_FolderThumbnail.png");
-    SetCurrentDirectory(ENGINE_RESOURCE_DIR);
+    FolderTexture = ResourceManager::Load<TextureResource>("/engine/Textures/T_FolderThumbnail.png");
+    SetCurrentDirectory(RESOURCE_DIR);
 }
 
 void NodeContentBrowserPanel::Ready()
@@ -49,8 +50,14 @@ void NodeContentBrowserPanel::DrawGUI()
     ImGui::Begin("Content Browser");
     if (ImGui::Button("<-"))
     {
-        if (std::ranges::find(rootDirectories, currentDirectory) == rootDirectories.end() )
-        {
+        bool found = false;
+        for (auto& root : rootDirectories) {
+            if (root.AbsolutePath == currentDirectory) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
             SetCurrentDirectory(currentDirectory.parent_path());
         }
     }
@@ -60,14 +67,14 @@ void NodeContentBrowserPanel::DrawGUI()
     ImGui::Separator();
     
     //ImGui::Columns(2);
-    ImGui::BeginChild("SourcesPanel", {}, ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AlwaysAutoResize);
+    ImGui::BeginChild("SourcesPanel", {100, 0}, ImGuiChildFlags_AutoResizeX | ImGuiChildFlags_AlwaysAutoResize);
     int _rootSelectIndex = 0;
     for (auto& root : rootDirectories)
     {
-        if (ImGui::Button((root.parent_path().filename().string() + "/" + root.filename().string()).c_str()))
+        if (ImGui::ButtonEx(root.Alias.c_str()))
         {
-            SetCurrentDirectory(root);
             currentRootIndex = _rootSelectIndex;
+            SetCurrentDirectory(root.AbsolutePath);
         }
         _rootSelectIndex++;
     }
@@ -137,10 +144,14 @@ NodeContentBrowserPanel::EReply NodeContentBrowserPanel::DrawAssetWidget(const C
             return ReconstructingAssetPanel;
         }
         else {
-            if (ResourceManager::IsSourceFile(entry.DirectoryEntry.path())) {
-                if (auto res = ResourceManager::Load(entry.DirectoryEntry.path())) {
-                    auto editor = GetParent()->AddChild(std::move(AssetEditorRegistry::CreateEditorFor(res)));
-                    static_cast<AssetEditor*>(editor)->SetContext(res);
+            auto relPath = rootDirectories[currentRootIndex].Alias + "/" + std::filesystem::relative(entry.DirectoryEntry.path(), rootDirectories[currentRootIndex].AbsolutePath).string();
+
+            if (ResourceManager::IsSourceFile(relPath)) {
+                if (auto res = ResourceManager::Load(relPath)) {
+                    if (auto editor = AssetEditorRegistry::CreateEditorFor(res)) {
+                        static_cast<AssetEditor*>(editor.get())->SetContext(res);
+                        GetParent()->AddChild(std::move(editor));
+                    }
                 }
             }
         }
@@ -179,6 +190,8 @@ void NodeContentBrowserPanel::SetCurrentDirectory(const std::filesystem::path &d
     currentDirectory = dir;
     currentEntries.clear();
 
+
+
     std::set<std::filesystem::directory_entry> files_in_directory;
     std::set<std::filesystem::directory_entry> directories_in_directory;
 
@@ -205,9 +218,11 @@ void NodeContentBrowserPanel::SetCurrentDirectory(const std::filesystem::path &d
         ContentBrowserEntry& e = currentEntries.emplace_back();
         e.Filename = file.path().filename().string();
         e.DirectoryEntry = file;
+        auto relPath = rootDirectories[currentRootIndex].Alias + "/" + std::filesystem::relative(file.path(), rootDirectories[currentRootIndex].AbsolutePath).string();
+
 
         if (ResourceManager::IsSourceFile(file.path())) {
-            if (auto res = ResourceManager::Load(file.path())) {
+            if (auto res = ResourceManager::Load(relPath)) {
                 auto thumb = res->GetThumbnail();
                 if (thumb) {
                     e.Thumbnail = thumb;
