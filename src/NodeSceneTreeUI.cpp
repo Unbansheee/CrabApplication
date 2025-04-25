@@ -4,7 +4,7 @@
 module node_scene_tree_ui;
 import Engine.Application;
 import Engine.SceneTree;
-import node_editor_ui;
+import Editor.Node.EditorUI;
 
 void NodeSceneTreeUI::DrawGUI()
 {

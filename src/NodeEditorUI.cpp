@@ -4,7 +4,7 @@
 #include "nativefiledialog-extended/src/include/nfd.hpp"
 #include "webgpu/wgpu.h"
 
-module node_editor_ui;
+module Editor.Node.EditorUI;
 import Engine.Application;
 import node_inspector_ui;
 import node_scene_tree_ui;

@@ -12,7 +12,7 @@ import Engine.Node;
 import Engine.Resource;
 import Editor.AssetEditor;
 import Engine.Resource.Scene;
-import node_editor_ui;
+import Editor.Node.EditorUI;
 import Engine.Assert;
 
 export class SceneFileEditor : public AssetEditor{
@@ -30,13 +30,8 @@ void SceneFileEditor::Ready() {
 
     auto rootNode = GetAncestorOfType<NodeEditorUI>();
     rootNode->NewScene();
-    try {
-        rootNode->EditorRoot->GetSubtree().SetRoot(std::static_pointer_cast<SceneResource>(Context)->Instantiate());
-        rootNode->EditorSceneTree->SceneRootOverride = rootNode->EditorRoot->GetSubtree().GetRoot<Node>();
-    } catch (std::exception e) {
-        Assert::Fail("Error opening Scene, " + std::string(e.what()));
-    }
-
+    rootNode->EditorRoot->GetSubtree().SetRoot(std::static_pointer_cast<SceneResource>(Context)->Instantiate());
+    rootNode->EditorSceneTree->SceneRootOverride = rootNode->EditorRoot->GetSubtree().GetRoot<Node>();
 
     RemoveFromParent();
 }

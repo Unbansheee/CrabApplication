@@ -2,7 +2,7 @@
 #pragma once
 #include "ReflectionMacros.h"
 
-export module node_editor_ui;
+export module Editor.Node.EditorUI;
 import node_content_browser_panel;
 import node_editor_camera_3d;
 import node_editor_scene_root;
