@@ -10,7 +10,7 @@ import Engine.Resource.Texture;
 import Engine.Node.Window;
 import Engine.Math;
 import Engine.Compute.ClearTexture;
-
+import Engine.Resource.ResourceManager;
 
 void NodeViewportUI::Ready()
 {
@@ -149,11 +149,10 @@ void NodeViewportUI::DrawGUI()
         // Normal render pass
         // Normal render pass
         RenderedNodes = ViewTarget->GetRenderer().RenderNodeTree(ViewTarget.Get(), viewData, *RenderTextureView, *DepthTextureView, PickingPassTexture);
-        
+
         CopySurface();
 
-
-        ImGui::Image((uint64_t)(WGPUTextureView)*ViewTextureView, imageSize);
+        ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<WGPUTextureView>(*ViewTextureView)), imageSize);
         if (ImGui::IsItemHovered())
         {
             bIsMouseOverViewport = true;
@@ -306,21 +305,28 @@ void NodeViewportUI::CopySurface() {
     encoderDesc.label = {"Window Initial Copy", wgpu::STRLEN};
     wgpu::raii::CommandEncoder encoder = Application::Get().GetDevice().createCommandEncoder(encoderDesc);
 
-    wgpu::TexelCopyTextureInfo src;
+    wgpu::TexelCopyTextureInfo src = wgpu::Default;
     src.texture = *WindowRenderTexture;
+    src.aspect = WGPUTextureAspect_All;
+    src.mipLevel = 0;
 
-    wgpu::TexelCopyTextureInfo dest;
+    wgpu::TexelCopyTextureInfo dest = wgpu::Default;
     dest.texture = *WindowViewTexture;
+    dest.aspect = WGPUTextureAspect_All;
+    dest.mipLevel = 0;
 
     encoder->copyTextureToTexture(src, dest, wgpu::Extent3D(WindowRenderTexture->getWidth(), WindowRenderTexture->getHeight(), 1));
 
     wgpu::raii::CommandBuffer c = encoder->finish();
-    ViewTarget->GetRenderer().AddCommand(c);
+    auto i = Application::Get().GetQueue().submitForIndex(*c);
+
+    //ViewTarget->GetRenderer().AddCommand(c);
+
 }
 
 void NodeViewportUI::CreateViewTexture(uint32_t width, uint32_t height)
 {
-    wgpu::TextureDescriptor desc;
+    wgpu::TextureDescriptor desc = wgpu::Default;
     desc.size = {width, height, 1};
     desc.mipLevelCount = 1;
     desc.sampleCount = 1;
@@ -330,7 +336,7 @@ void NodeViewportUI::CreateViewTexture(uint32_t width, uint32_t height)
     WindowViewTexture = Application::Get().GetDevice().createTexture(desc);
 
 
-    WGPUTextureViewDescriptor vd;
+    wgpu::TextureViewDescriptor vd = wgpu::Default;
     vd.label = {"Viewport View", wgpu::STRLEN};
     vd.format = wgpu::TextureFormat::BGRA8Unorm;
     vd.dimension = wgpu::TextureViewDimension::_2D;
@@ -409,7 +415,7 @@ void NodeViewportUI::CreateRenderTexture(uint32_t width, uint32_t height)
     desc.sampleCount = 1;
     desc.dimension = wgpu::TextureDimension::_2D;
     desc.format = wgpu::TextureFormat::BGRA8UnormSrgb;
-    desc.usage = wgpu::TextureUsage::RenderAttachment | wgpu::TextureUsage::CopySrc;
+    desc.usage = wgpu::TextureUsage::RenderAttachment | wgpu::TextureUsage::CopySrc | wgpu::TextureUsage::TextureBinding;
     
     WindowRenderTexture = Application::Get().GetDevice().createTexture(desc);
     
