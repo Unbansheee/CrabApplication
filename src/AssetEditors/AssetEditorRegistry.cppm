@@ -10,7 +10,11 @@ import Engine.Reflection.ClassDB;
 import Engine.StringID;
 
 export class AssetEditorRegistry {
-    static inline std::vector<std::pair<const ClassType*, const ClassType*>> resourceToEditorMap;
+    static std::vector<std::pair<const ClassType*, const ClassType*>>& GetMappings() {
+        static std::vector<std::pair<const ClassType*, const ClassType*>> s_mappings;
+        return s_mappings;
+    };
+
 
 public:
     static void RegisterEditorType(const ClassType* resourceClass, const ClassType* editorType);
@@ -18,7 +22,7 @@ public:
 };
 
 void AssetEditorRegistry::RegisterEditorType(const ClassType* resourceClass, const ClassType* editorType) {
-    resourceToEditorMap.emplace_back(resourceClass, editorType);
+    GetMappings().emplace_back(resourceClass, editorType);
 }
 
 std::pair<const ClassType*, const ClassType*> GetPairFor(const ClassType* c, const std::vector<std::pair<const ClassType*, const ClassType*>>& from) {
@@ -33,7 +37,7 @@ std::unique_ptr<Node> AssetEditorRegistry::CreateEditorFor(std::shared_ptr<Resou
 
     const ClassType* out = nullptr;
     while (out == nullptr && resClass != nullptr) {
-        auto e = GetPairFor(resClass, resourceToEditorMap);
+        auto e = GetPairFor(resClass, GetMappings());
 
         out = e.second;
         if (out) break;

@@ -11,6 +11,7 @@ import Engine.ShaderCompiler.Types;
 import Engine.Resource.Texture;
 import node_content_browser_panel;
 import Engine.Resource.ResourceManager;
+import Engine.Application;
 
 void MaterialEditor::Update(float dt) {
     Node::Update(dt);
@@ -22,6 +23,16 @@ void MaterialEditor::DrawGUI() {
     bool open = true;
     ImGui::Begin("Material Editor", &open);
     if (Context) {
+        if (ImGui::Button("Save")) {
+            ResourceManager::SaveResource(Context);
+        }
+
+
+        if (ImGui::Button("Recompile Shader")) {
+            std::static_pointer_cast<MaterialResource>(Context)->LoadFromShaderPath(Application::Get().GetDevice(), "ghghg");
+        }
+
+
         PropertyDrawUtility p;
         for (auto prop : Context->GetPropertiesFromThis()) {
             prop.visit(p, Context.get());

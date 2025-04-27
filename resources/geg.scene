@@ -1,9 +1,0 @@
-{
-    "children": [],
-    "class": "Node",
-    "properties": {
-        "Name": "Root",
-        "isHidden": false
-    },
-    "uid": "d5be5718-5260-48c0-8f95-27288941c8e4"
-}
