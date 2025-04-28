@@ -1,6 +1,7 @@
 ﻿module;
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "imgui/misc/cpp/imgui_stdlib.h"
 
 module node_content_browser_panel;
 import Engine.Resource.ResourceManager;
@@ -9,6 +10,7 @@ import Engine.Resource.ImageTexture;
 import Editor.AssetEditorRegistry;
 import Editor.AssetEditor;
 import Engine.Application;
+import Engine.Filesystem;
 
 namespace fs = std::filesystem;
 void sort_directory_entries(std::vector<fs::directory_entry>& entries) {
@@ -64,6 +66,13 @@ void NodeContentBrowserPanel::DrawGUI()
     ImGui::SameLine();
     
     ImGui::Text(currentDirectory.string().c_str());
+
+    ImGui::SameLine(ImGui::GetWindowSize().x - ImGui::CalcTextSize("Create Resource").x - 30);
+    if (ImGui::Button("Create Resource")) {
+        ImGui::OpenPopup("ResourceCreationPopup");
+    }
+    DrawResourceCreationMenu();
+
     ImGui::Separator();
     
     //ImGui::Columns(2);
@@ -101,10 +110,7 @@ void NodeContentBrowserPanel::DrawGUI()
         if (reply == ReconstructingAssetPanel) break;
     }
 
-    DrawResourceCreationMenu();
-    if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered()) {
-        ImGui::OpenPopup("ResourceCreationPopup");
-    }
+
     
     ImGui::Columns(1);
     ImGui::EndChild();
@@ -160,14 +166,34 @@ NodeContentBrowserPanel::EReply NodeContentBrowserPanel::DrawAssetWidget(const C
     return Success;
 }
 
+std::string resName = std::string("NewResource");
 void NodeContentBrowserPanel::DrawResourceCreationMenu() {
     if (ImGui::BeginPopup("ResourceCreationPopup")) {
         for (auto& res : GetAvailableResourceTypes()) {
+
+            if (ImGui::BeginPopupModal("Resource Configurator")) {
+
+                ImGui::InputText("Resource Name", &resName);
+
+                if (ImGui::Button("Create")) {
+                    auto instance = static_cast<Resource*>(res->Initializer());
+                    std::shared_ptr<Resource> ptr;
+                    ptr.reset(instance);
+                    std::string outPath = currentDirectory.string() + "/" + resName + ".res";
+                    ResourceManager::SaveResource(ptr, outPath);
+                    ResourceManager::Load(outPath);
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Cancel")) {
+                    ImGui::CloseCurrentPopup();
+                }
+                ImGui::EndPopup();
+            }
+
             if (ImGui::Button(res->Name.string())) {
-                auto instance = static_cast<Resource*>(res->Initializer());
-                std::shared_ptr<Resource> ptr;
-                ptr.reset(instance);
-                ResourceManager::SaveResource(ptr, currentDirectory.string() + "/New" + res->Name.string() + ".res");
+                resName = std::string("New") + res->Name.string();
+                ImGui::OpenPopup("Resource Configurator");
             }
         }
         ImGui::EndPopup();
@@ -218,7 +244,7 @@ void NodeContentBrowserPanel::SetCurrentDirectory(const std::filesystem::path &d
         ContentBrowserEntry& e = currentEntries.emplace_back();
         e.Filename = file.path().filename().string();
         e.DirectoryEntry = file;
-        auto relPath = rootDirectories[currentRootIndex].Alias + "/" + std::filesystem::relative(file.path(), rootDirectories[currentRootIndex].AbsolutePath).string();
+        auto relPath = Filesystem::VirtualPath(file.path().string());
 
 
         if (ResourceManager::IsSourceFile(file.path())) {

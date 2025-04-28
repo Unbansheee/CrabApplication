@@ -47,6 +47,9 @@ void NodeSceneTreeUI::DrawGUI()
     {
         ImGui::OpenPopup("Add Node Menu");
     }
+
+    ImGui::SameLine();
+    ImGui::Checkbox("Show Types", &bShowTypes);
     
     int idx = 0;
     if (SceneRootOverride.IsValid())
@@ -85,7 +88,16 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
     if (!node.IsValid()) return;
     if (!node->GetTree()) return;
     ImGui::PushID(node->GetID().to_string().c_str());
-    ImGuiTreeNodeFlags showArrow = node->GetChildren().empty() ? ImGuiTreeNodeFlags_Leaf : 0;
+    ImGuiTreeNodeFlags showArrow = [&]() {
+        if (node->GetChildren().empty()) return ImGuiTreeNodeFlags_Leaf;
+        else {
+            for (auto child : node->GetChildren()) {
+                if (!child->HasFlag(ObjectFlags::HiddenFromTree)) return ImGuiTreeNodeFlags_None;
+            }
+            return ImGuiTreeNodeFlags_Leaf;
+        }
+    }();
+
     ImGuiTreeNodeFlags selected = node == GetSelectedNode() ? ImGuiTreeNodeFlags_Selected : 0;
     ImGuiTreeNodeFlags flags = showArrow | selected | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding;
 
@@ -95,9 +107,12 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 5));
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
 
-    bool open = ImGui::TreeNodeEx((node->GetName() + "##" + std::to_string(idx_count-1)).c_str(), flags);
+    bool open = ImGui::TreeNodeEx((node->GetName()).c_str(), flags);
+
     ImGui::PopStyleVar(2);
     ImGui::PopStyleColor(2);
+
+
     idx_count++;
     //bool bIsEditorUI = node->GetAncestorOfType<NodeEditorUI>() != nullptr || node->IsA<NodeEditorUI>();
     bool bIsEditorUI = false;
@@ -145,7 +160,15 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
         }
         ImGui::EndDragDropTarget();
     }
-        
+
+    if (bShowTypes) {
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.4f, 0.4f, 0.4f, 1.f));
+        ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::CalcTextSize(node->GetStaticClassFromThis().Name.string()).x - 30);
+        ImGui::Text(node->GetStaticClassFromThis().Name.string());
+        ImGui::PopStyleColor();
+    }
+
+
     // context menu
     if (GetSelectedNode() == node)
     {

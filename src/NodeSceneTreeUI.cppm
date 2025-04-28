@@ -23,6 +23,7 @@ public:
     Node* GetSelectedNode();
     void SetSelectedNode(Node* node);
     ObjectRef<Node> SceneRootOverride;
+    bool bShowTypes = true;
 private:
     void DrawNodeTree(ObjectRef<Node>& node, int& idx_count);
 };

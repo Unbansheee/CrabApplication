@@ -51,6 +51,7 @@ void NodeEditorUI::Init()
 void NodeEditorUI::Update(float dt)
 {
     Node::Update(dt);
+    ResourceManager::PollResourcesForChanges();
     frametime = dt;
 }
 

@@ -1,8 +1,1 @@
-{
-    "class": "ResourceMetadata",
-    "flags": 0,
-    "properties": {
-        "ResourceID": "d3426ad3-6a93-455d-8763-dbb4d7b48b44"
-    },
-    "uid": "eb34afdb-bc1a-4617-8592-1ca27482b5e6"
-}
+{"class":"ResourceMetadata","flags":0,"properties":{"ResourceID":"d3426ad3-6a93-455d-8763-dbb4d7b48b44"},"uid":"eb34afdb-bc1a-4617-8592-1ca27482b5e6"}

@@ -40,7 +40,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "1c9f2436-006d-4bc8-870d-08427cd104d1"
+                            "uid": "5542e5b1-dd9f-4f9b-9601-e4776edb869d"
                         }
                     ],
                     "class": "NodeBoxShape3D",
@@ -72,7 +72,7 @@
                             ]
                         ]
                     },
-                    "uid": "9cacad9b-e653-4986-836c-9ce36f5d9651"
+                    "uid": "694e3907-0ab2-4747-972c-a3f5f75ef092"
                 }
             ],
             "class": "NodeStaticBody3D",
@@ -101,7 +101,7 @@
                     ]
                 ]
             },
-            "uid": "a8fd8cf9-47ef-4050-850a-f745ada992af"
+            "uid": "2cef5b4a-c16b-4038-a5fa-86efcaefc2ed"
         },
         {
             "children": [],
@@ -134,7 +134,7 @@
                     ]
                 ]
             },
-            "uid": "529cdeb9-cc72-4d88-818d-282d6eb13660"
+            "uid": "cd5e662e-638e-4882-8150-df9a485c4e98"
         },
         {
             "children": [],
@@ -167,7 +167,7 @@
                     ]
                 ]
             },
-            "uid": "6fb65831-660c-4ffe-9295-b1aaab970823"
+            "uid": "595decd6-ec98-4bf5-9fd0-93e075cba02c"
         },
         {
             "children": [],
@@ -200,7 +200,7 @@
                     ]
                 ]
             },
-            "uid": "ed6f51c2-ca3e-4ab8-a0ee-55d229e8efaf"
+            "uid": "4c90f048-2048-463e-afc7-4a84a45a8364"
         },
         {
             "children": [
@@ -218,8 +218,8 @@
                         "isHidden": false,
                         "material": {
                             "import_type": "file",
-                            "source_file_path": "/res/NewMaterialResource.res",
-                            "uid": "3ba04aa2-3bab-4cb7-8e9d-10f7db759b03"
+                            "source_file_path": "/res/Meshes\\M_BowlingBall.res",
+                            "uid": "60bda0a6-fa7f-4dd6-bc88-b93437b00ddd"
                         },
                         "transform": [
                             [
@@ -240,7 +240,7 @@
                             ]
                         ]
                     },
-                    "uid": "c8ea280c-4538-4dea-89b5-4c0613889f1c"
+                    "uid": "37985d85-0186-4683-998a-40e21f114deb"
                 },
                 {
                     "children": [],
@@ -269,7 +269,7 @@
                             ]
                         ]
                     },
-                    "uid": "bf85f7ca-b0b6-4637-be29-74bd8b40cd64"
+                    "uid": "77dd8959-d880-41e6-8876-a5ba6c086e64"
                 }
             ],
             "class": "NodeRigidBody3D",
@@ -298,7 +298,7 @@
                     ]
                 ]
             },
-            "uid": "79c5be1d-a25c-4dab-94dc-bacd9bb6a606"
+            "uid": "7ca9d3e7-ed08-42a8-b89e-f3aaa2254004"
         },
         {
             "children": [
@@ -340,7 +340,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "5b06369f-f4a0-4a4e-9e44-aba6d0ebe678"
+                            "uid": "0a1d51ea-e8fb-46c2-a7d9-15991a65b4d8"
                         }
                     ],
                     "class": "NodeBoxShape3D",
@@ -372,7 +372,7 @@
                             ]
                         ]
                     },
-                    "uid": "14978e39-78c0-4059-b3ed-e602ad05cf90"
+                    "uid": "cb369748-c130-4e26-bef1-c50a0caafd58"
                 }
             ],
             "class": "NodeStaticBody3D",
@@ -401,7 +401,7 @@
                     ]
                 ]
             },
-            "uid": "eacaa4e9-82b1-40e4-9512-b5baafc28197"
+            "uid": "71fd731e-db20-4c0f-84f1-137fa943671c"
         },
         {
             "children": [],
@@ -434,7 +434,7 @@
                     ]
                 ]
             },
-            "uid": "9d5af674-3737-4d4a-aad4-b999cb7fc21f"
+            "uid": "9e27e9f9-5dec-4622-ac7a-3d13fd1bc943"
         },
         {
             "children": [],
@@ -467,7 +467,7 @@
                     ]
                 ]
             },
-            "uid": "ec522b1a-9583-4d44-afae-6bf092e9b56e"
+            "uid": "55ad3ccc-759f-452d-9226-bcec2a4cf6df"
         },
         {
             "children": [],
@@ -500,7 +500,7 @@
                     ]
                 ]
             },
-            "uid": "b6b7eeef-3499-480d-b42d-e70729f89028"
+            "uid": "0a189270-5727-4ef6-9264-d40f5fcc1140"
         },
         {
             "children": [
@@ -542,7 +542,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "156be0fc-5556-48fb-954b-114074e67b1c"
+                            "uid": "b906d943-0afe-469b-b42b-389a4f682958"
                         }
                     ],
                     "class": "NodeBoxShape3D",
@@ -574,7 +574,7 @@
                             ]
                         ]
                     },
-                    "uid": "9b400513-947d-47d5-9005-ea5b53815cde"
+                    "uid": "2be0091b-d945-498a-a462-3d07ecb7b169"
                 }
             ],
             "class": "NodeStaticBody3D",
@@ -603,7 +603,7 @@
                     ]
                 ]
             },
-            "uid": "af42d9be-0d68-473b-be41-007e2fe02628"
+            "uid": "f53869b5-1b85-4288-93a3-051004c10b78"
         }
     ],
     "class": "Node",
@@ -612,5 +612,5 @@
         "Name": "Root",
         "isHidden": false
     },
-    "uid": "bbe22083-7d97-4431-9318-fa48f44c111f"
+    "uid": "3bafbfa6-5747-4f5f-8ea0-b01d9168cfb2"
 }
