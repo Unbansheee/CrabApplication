@@ -44,6 +44,17 @@ void NodeContentBrowserPanel::Ready()
 void NodeContentBrowserPanel::Update(float dt)
 {
     Node::Update(dt);
+
+    auto dirIter = std::filesystem::directory_iterator(currentDirectory);
+    int fileCount = std::count_if(
+        begin(dirIter),
+        end(dirIter),
+        [](auto& entry) { return entry.path().extension() != ".meta"; }
+    );
+
+    if (fileCount != currentEntries.size()) {
+        RefreshBrowser();
+    }
 }
 
 void NodeContentBrowserPanel::DrawGUI()
@@ -93,7 +104,6 @@ void NodeContentBrowserPanel::DrawGUI()
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
 
     ImGui::SameLine();
-    //ImGui::NextColumn();
     ImGui::BeginChild("BrowserPanel");
     float panelWidth = ImGui::GetContentRegionAvail().x;
     float cellSize = padding + itemSize;
@@ -183,6 +193,7 @@ void NodeContentBrowserPanel::DrawResourceCreationMenu() {
                     ResourceManager::SaveResource(ptr, outPath);
                     ResourceManager::Load(outPath);
                     ImGui::CloseCurrentPopup();
+                    RefreshBrowser();
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Cancel")) {
@@ -212,11 +223,8 @@ std::vector<const ClassType*> NodeContentBrowserPanel::GetAvailableResourceTypes
 }
 
 void NodeContentBrowserPanel::SetCurrentDirectory(const std::filesystem::path &dir) {
-    if (dir == currentDirectory) return;
     currentDirectory = dir;
     currentEntries.clear();
-
-
 
     std::set<std::filesystem::directory_entry> files_in_directory;
     std::set<std::filesystem::directory_entry> directories_in_directory;

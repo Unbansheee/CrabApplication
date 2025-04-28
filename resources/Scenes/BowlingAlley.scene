@@ -40,7 +40,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "5542e5b1-dd9f-4f9b-9601-e4776edb869d"
+                            "uid": "5166cd8e-e5ca-405e-9e89-77e8b4f41dd7"
                         }
                     ],
                     "class": "NodeBoxShape3D",
@@ -72,7 +72,7 @@
                             ]
                         ]
                     },
-                    "uid": "694e3907-0ab2-4747-972c-a3f5f75ef092"
+                    "uid": "b84e7601-6655-42c2-b45d-cc42a0f0ea24"
                 }
             ],
             "class": "NodeStaticBody3D",
@@ -96,12 +96,12 @@
                     ],
                     [
                         1.0,
-                        1.0,
+                        1.0294297933578491,
                         1.0
                     ]
                 ]
             },
-            "uid": "2cef5b4a-c16b-4038-a5fa-86efcaefc2ed"
+            "uid": "c6d581d7-b37b-4d6d-8d86-19806634f518"
         },
         {
             "children": [],
@@ -112,7 +112,7 @@
                 "Scene": {
                     "import_type": "file",
                     "source_file_path": "/res/Scenes/BowlingPin.scene",
-                    "uid": "2a5f4c40-c6a1-435a-a7d1-72aa64667e4e"
+                    "uid": "0a68b9f0-6219-4073-a3f3-eec84aa43db8"
                 },
                 "isHidden": false,
                 "transform": [
@@ -134,7 +134,7 @@
                     ]
                 ]
             },
-            "uid": "cd5e662e-638e-4882-8150-df9a485c4e98"
+            "uid": "915e0bc1-3318-46a3-8cfd-de6dc43582e8"
         },
         {
             "children": [],
@@ -145,7 +145,7 @@
                 "Scene": {
                     "import_type": "file",
                     "source_file_path": "/res/Scenes/BowlingPin.scene",
-                    "uid": "2a5f4c40-c6a1-435a-a7d1-72aa64667e4e"
+                    "uid": "0a68b9f0-6219-4073-a3f3-eec84aa43db8"
                 },
                 "isHidden": false,
                 "transform": [
@@ -167,7 +167,7 @@
                     ]
                 ]
             },
-            "uid": "595decd6-ec98-4bf5-9fd0-93e075cba02c"
+            "uid": "ddf94b8a-a1d7-4092-ad15-74ca043c2ac1"
         },
         {
             "children": [],
@@ -178,7 +178,7 @@
                 "Scene": {
                     "import_type": "file",
                     "source_file_path": "/res/Scenes/BowlingPin.scene",
-                    "uid": "2a5f4c40-c6a1-435a-a7d1-72aa64667e4e"
+                    "uid": "0a68b9f0-6219-4073-a3f3-eec84aa43db8"
                 },
                 "isHidden": false,
                 "transform": [
@@ -200,7 +200,7 @@
                     ]
                 ]
             },
-            "uid": "4c90f048-2048-463e-afc7-4a84a45a8364"
+            "uid": "4e2d7420-843c-4d8a-9688-e147a3281ab1"
         },
         {
             "children": [
@@ -218,7 +218,7 @@
                         "isHidden": false,
                         "material": {
                             "import_type": "file",
-                            "source_file_path": "/res/Meshes\\M_BowlingBall.res",
+                            "source_file_path": "/res/Meshes/M_BowlingBall.res",
                             "uid": "60bda0a6-fa7f-4dd6-bc88-b93437b00ddd"
                         },
                         "transform": [
@@ -240,7 +240,7 @@
                             ]
                         ]
                     },
-                    "uid": "37985d85-0186-4683-998a-40e21f114deb"
+                    "uid": "abcaaf0c-cfcd-4186-83e7-e54f00fc195b"
                 },
                 {
                     "children": [],
@@ -269,7 +269,7 @@
                             ]
                         ]
                     },
-                    "uid": "77dd8959-d880-41e6-8876-a5ba6c086e64"
+                    "uid": "be276eac-fe8c-40cb-9401-64814cd5f9f5"
                 }
             ],
             "class": "NodeRigidBody3D",
@@ -298,7 +298,7 @@
                     ]
                 ]
             },
-            "uid": "7ca9d3e7-ed08-42a8-b89e-f3aaa2254004"
+            "uid": "f90a3311-7ba3-4703-8dc0-abc3b9d1c523"
         },
         {
             "children": [
@@ -340,7 +340,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "0a1d51ea-e8fb-46c2-a7d9-15991a65b4d8"
+                            "uid": "df6278cb-8eba-4435-b29d-16f102fadc16"
                         }
                     ],
                     "class": "NodeBoxShape3D",
@@ -372,7 +372,7 @@
                             ]
                         ]
                     },
-                    "uid": "cb369748-c130-4e26-bef1-c50a0caafd58"
+                    "uid": "a86f663f-d20a-44d1-9965-db7564e80cad"
                 }
             ],
             "class": "NodeStaticBody3D",
@@ -401,7 +401,7 @@
                     ]
                 ]
             },
-            "uid": "71fd731e-db20-4c0f-84f1-137fa943671c"
+            "uid": "dd0e8cb4-6bb4-4feb-ba12-37e03098a337"
         },
         {
             "children": [],
@@ -412,7 +412,7 @@
                 "Scene": {
                     "import_type": "file",
                     "source_file_path": "/res/Scenes/BowlingPin.scene",
-                    "uid": "2a5f4c40-c6a1-435a-a7d1-72aa64667e4e"
+                    "uid": "0a68b9f0-6219-4073-a3f3-eec84aa43db8"
                 },
                 "isHidden": false,
                 "transform": [
@@ -434,7 +434,7 @@
                     ]
                 ]
             },
-            "uid": "9e27e9f9-5dec-4622-ac7a-3d13fd1bc943"
+            "uid": "e9d63f66-c022-4758-a5a0-ccf7c2ba3ba8"
         },
         {
             "children": [],
@@ -445,7 +445,7 @@
                 "Scene": {
                     "import_type": "file",
                     "source_file_path": "/res/Scenes/BowlingPin.scene",
-                    "uid": "2a5f4c40-c6a1-435a-a7d1-72aa64667e4e"
+                    "uid": "0a68b9f0-6219-4073-a3f3-eec84aa43db8"
                 },
                 "isHidden": false,
                 "transform": [
@@ -467,7 +467,7 @@
                     ]
                 ]
             },
-            "uid": "55ad3ccc-759f-452d-9226-bcec2a4cf6df"
+            "uid": "ea307ef8-2ebd-4392-97d6-2abe4fd66b2b"
         },
         {
             "children": [],
@@ -478,7 +478,7 @@
                 "Scene": {
                     "import_type": "file",
                     "source_file_path": "/res/Scenes/BowlingPin.scene",
-                    "uid": "2a5f4c40-c6a1-435a-a7d1-72aa64667e4e"
+                    "uid": "0a68b9f0-6219-4073-a3f3-eec84aa43db8"
                 },
                 "isHidden": false,
                 "transform": [
@@ -500,7 +500,7 @@
                     ]
                 ]
             },
-            "uid": "0a189270-5727-4ef6-9264-d40f5fcc1140"
+            "uid": "6d53b600-3b71-40c2-acf8-b1e66e325e76"
         },
         {
             "children": [
@@ -542,7 +542,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "b906d943-0afe-469b-b42b-389a4f682958"
+                            "uid": "7d56d0a5-b06f-45d7-9ff6-976dccb60794"
                         }
                     ],
                     "class": "NodeBoxShape3D",
@@ -574,7 +574,7 @@
                             ]
                         ]
                     },
-                    "uid": "2be0091b-d945-498a-a462-3d07ecb7b169"
+                    "uid": "aec1cfa2-e72f-47c9-b42b-81d2eb67d37c"
                 }
             ],
             "class": "NodeStaticBody3D",
@@ -598,12 +598,28 @@
                     ],
                     [
                         0.9999998807907104,
-                        1.0,
+                        1.0479575395584106,
                         0.9999998807907104
                     ]
                 ]
             },
-            "uid": "f53869b5-1b85-4288-93a3-051004c10b78"
+            "uid": "a44ed27e-7874-4d5e-b157-e6fe936e6a26"
+        },
+        {
+            "children": [],
+            "class": "NodeEnvironment",
+            "flags": 0,
+            "properties": {
+                "BackgroundColour": [
+                    0.026100384071469307,
+                    0.032775625586509705,
+                    0.07425743341445923,
+                    1.0
+                ],
+                "Name": "NodeEnvironment",
+                "isHidden": false
+            },
+            "uid": "000c69a3-dd40-4de0-95c9-a0b6529e5e8e"
         }
     ],
     "class": "Node",
@@ -612,5 +628,5 @@
         "Name": "Root",
         "isHidden": false
     },
-    "uid": "3bafbfa6-5747-4f5f-8ea0-b01d9168cfb2"
+    "uid": "69be42b9-995a-4c91-a299-4b6e254f4f91"
 }

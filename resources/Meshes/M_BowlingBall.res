@@ -4,7 +4,7 @@
     "properties": {
         "ShaderModuleName": "default_shader",
         "name": "M_BowlingBall",
-        "sourcePath": "/res/Meshes\\M_BowlingBall.res"
+        "sourcePath": "/res/Meshes/M_BowlingBall.res"
     },
     "uid": "60bda0a6-fa7f-4dd6-bc88-b93437b00ddd",
     "uniforms": {
