@@ -1,10 +1,12 @@
 {
     "class": "MaterialResource",
+    "flags": 0,
     "properties": {
+        "ShaderModuleName": "default_shader",
         "name": "NewMaterialResource",
         "sourcePath": "/res/NewMaterialResource.res"
     },
-    "uid": "d78bb071-954c-48c1-a68a-e008f7606195",
+    "uid": "3ba04aa2-3bab-4cb7-8e9d-10f7db759b03",
     "uniforms": {
         "AlbedoTexture": {
             "import_type": "file",

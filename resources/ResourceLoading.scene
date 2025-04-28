@@ -3,18 +3,19 @@
         {
             "children": [],
             "class": "NodeMeshInstance3D",
+            "flags": 0,
             "properties": {
                 "Mesh": {
                     "import_type": "file",
-                    "source_file_path": "/engine/cube.obj",
-                    "uid": "485bbed0-d7df-4cdb-b7e8-02a1ba56cab4"
+                    "source_file_path": "/engine/Shapes/cube.obj",
+                    "uid": "cc784cd7-48bb-48ec-b9c6-cc1aef5bf2bc"
                 },
                 "Name": "NodeMeshInstance3D",
                 "isHidden": false,
                 "material": {
                     "import_type": "file",
                     "source_file_path": "/res/NewMaterialResource.res",
-                    "uid": "d78bb071-954c-48c1-a68a-e008f7606195"
+                    "uid": "3ba04aa2-3bab-4cb7-8e9d-10f7db759b03"
                 },
                 "transform": [
                     [
@@ -35,13 +36,14 @@
                     ]
                 ]
             },
-            "uid": "3ce5f803-9fc8-4e19-9277-f82feeaeede3"
+            "uid": "5fbcef58-c0d7-4fb4-89ee-0a2a8f9767a6"
         }
     ],
     "class": "Node",
+    "flags": 0,
     "properties": {
         "Name": "Root",
         "isHidden": false
     },
-    "uid": "b2ad4bcf-4f73-407d-998b-b4d83b832876"
+    "uid": "5ce23576-ff93-45eb-8621-d20a9a72b5ad"
 }

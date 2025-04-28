@@ -1,86 +1,22 @@
 {
     "children": [
         {
-            "children": [
-                {
-                    "children": [],
-                    "class": "NodeMeshInstance3D",
-                    "flags": 0,
-                    "properties": {
-                        "Mesh": {
-                            "import_type": "file",
-                            "source_file_path": "/res/Meshes/SM_BowlingPin.obj",
-                            "uid": "03129021-5bc1-4675-9a43-480fb494724e"
-                        },
-                        "Name": "NodeMeshInstance3D",
-                        "isHidden": false,
-                        "material": {
-                            "import_type": "file",
-                            "source_file_path": "/res/Meshes/M_BowlingPin.res",
-                            "uid": "d3426ad3-6a93-455d-8763-dbb4d7b48b44"
-                        },
-                        "transform": [
-                            [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            [
-                                1.0,
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            [
-                                1.0,
-                                1.0,
-                                1.0
-                            ]
-                        ]
-                    },
-                    "uid": "580786e1-91c0-4b47-802d-fb9fe15d2540"
-                },
-                {
-                    "children": [],
-                    "class": "NodeBoxShape3D",
-                    "flags": 0,
-                    "properties": {
-                        "Dimensions": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "Name": "NodeBoxShape3D",
-                        "isHidden": false,
-                        "transform": [
-                            [
-                                0.0,
-                                0.0,
-                                1.5006566047668457
-                            ],
-                            [
-                                1.0,
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            [
-                                1.0,
-                                1.0,
-                                1.0
-                            ]
-                        ]
-                    },
-                    "uid": "38216451-d3d3-442e-805f-133c48751c2c"
-                }
-            ],
-            "class": "NodeRigidBody3D",
+            "children": [],
+            "class": "NodeMeshInstance3D",
             "flags": 0,
             "properties": {
-                "Name": "NodeRigidBody3D",
+                "Mesh": {
+                    "import_type": "file",
+                    "source_file_path": "/res/Meshes/SM_BowlingPin.obj",
+                    "uid": "03129021-5bc1-4675-9a43-480fb494724e"
+                },
+                "Name": "NodeMeshInstance3D",
                 "isHidden": false,
-                "physicsProperties.Friction": 0.30000001192092896,
-                "physicsProperties.Restitution": 0.30000001192092896,
+                "material": {
+                    "import_type": "file",
+                    "source_file_path": "/res/Meshes/M_BowlingPin.res",
+                    "uid": "d3426ad3-6a93-455d-8763-dbb4d7b48b44"
+                },
                 "transform": [
                     [
                         0.0,
@@ -100,14 +36,67 @@
                     ]
                 ]
             },
-            "uid": "3bb62e38-047a-4cd6-80eb-ead1bfb71ba3"
+            "uid": "2462ed60-5a3a-444b-808e-a9f775a33162"
+        },
+        {
+            "children": [],
+            "class": "NodeBoxShape3D",
+            "flags": 0,
+            "properties": {
+                "Dimensions": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "Name": "NodeBoxShape3D",
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        2.0378897190093994
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.5,
+                        0.4081364870071411,
+                        2.0110883712768555
+                    ]
+                ]
+            },
+            "uid": "49cb9a0b-c364-465a-824d-f15c3af9a75c"
         }
     ],
-    "class": "Node",
+    "class": "NodeRigidBody3D",
     "flags": 0,
     "properties": {
-        "Name": "Root",
-        "isHidden": false
+        "Name": "NodeRigidBody3D",
+        "isHidden": false,
+        "physicsProperties.Friction": 0.30000001192092896,
+        "physicsProperties.Restitution": 0.30000001192092896,
+        "transform": [
+            [
+                0.0,
+                0.0,
+                0.0
+            ],
+            [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            [
+                1.0,
+                1.0,
+                1.0
+            ]
+        ]
     },
-    "uid": "38da7a79-312d-48af-bd5b-efa01b4c250f"
+    "uid": "2b396f5f-d346-47d6-b0a4-d6d283b167c1"
 }

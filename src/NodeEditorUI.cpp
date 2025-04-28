@@ -16,7 +16,7 @@ import Engine.GLTFSceneParser;
 import Engine.Resource.RuntimeTexture;
 import Engine.Resource.OBJMesh;
 import Engine.Resource.ResourceManager;
-
+import Engine.Node.Window;
 
 void NodeEditorUI::Init()
 {
@@ -142,6 +142,10 @@ void NodeEditorUI::DrawGUI()
         }
     }
 
+    auto window = GetAncestorOfType<NodeWindow>();
+    ImGui::SameLine();
+    ImGui::Checkbox("Collision Debug", &window->GetRenderer().bDebugDrawEnabled);
+
     ImGui::End();
     
 }
@@ -158,7 +162,7 @@ void NodeEditorUI::OpenScene(const std::string& path)
     NewScene();
     
     SceneSerializer ser;
-    ser.DeserializeScene(EditorRoot->GetSubtree().GetRoot<Node>(), path);
+    EditorRoot->GetSubtree().SetRoot(ser.DeserializeScene(path));
 }
 
 void NodeEditorUI::NewScene()
