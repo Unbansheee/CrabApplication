@@ -109,8 +109,7 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
 
     bool open = ImGui::TreeNodeEx((node->GetName()).c_str(), flags);
 
-    ImGui::PopStyleVar(2);
-    ImGui::PopStyleColor(2);
+
 
 
     idx_count++;
@@ -168,6 +167,8 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
         ImGui::PopStyleColor();
     }
 
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(2);
 
     // context menu
     if (GetSelectedNode() == node)
