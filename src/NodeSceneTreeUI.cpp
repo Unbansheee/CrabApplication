@@ -177,7 +177,9 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
             node->ForEachChildSafe<Node>([this, &idx_count](ObjectRef<Node>& child)
             {
                 if (child.IsValid()) {
-                    DrawNodeTree(child, idx_count);
+                    if (!child->HasFlag(ObjectFlags::HiddenFromTree)) {
+                        DrawNodeTree(child, idx_count);
+                    }
                 }
             });
 
@@ -186,7 +188,9 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
                 if (a) {
                     if (Node* rootPtr = a->GetSubtree().GetRoot<Node>()) {
                         auto root = ObjectRef<Node>(rootPtr);
-                        DrawNodeTree(root, idx_count);
+                        if (!root->HasFlag(ObjectFlags::HiddenFromTree)) {
+                            DrawNodeTree(root, idx_count);
+                        }
                     }
                 }
             }

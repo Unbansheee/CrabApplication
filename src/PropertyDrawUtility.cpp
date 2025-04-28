@@ -163,7 +163,8 @@ void PropertyDrawUtility::operator()(PropertyView& prop, std::shared_ptr<Resourc
     if (ImGui::BeginPopup("ResourceSelector"))
     {
         int i = 0;
-        for (auto& r : ResourceManager::GetAllResources())
+        auto allresources = ResourceManager::GetAllResources();
+        for (auto& r : allresources)
         {
             if (!r->IsA(*prop.property.reflectedObjectType)) continue;
             if (ImGui::Button((r->GetName() + "##" + std::to_string(i)).c_str()))

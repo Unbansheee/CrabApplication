@@ -1,0 +1,42 @@
+{
+    "children": [
+        {
+            "children": [],
+            "class": "NodeSceneInstance",
+            "properties": {
+                "Name": "NodeSceneInstance",
+                "Scene": {
+                    "import_type": "file",
+                    "source_file_path": "/res/Scenes/BowlingPin.scene",
+                    "uid": "72a40f68-8be5-4e76-9db2-f97c951c1473"
+                },
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "20b058ba-f632-43a1-9824-0ac2d2ec71fd"
+        }
+    ],
+    "class": "Node",
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "a693b52a-74b4-492d-a769-5560a26c9611"
+}

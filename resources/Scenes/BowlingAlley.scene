@@ -1,0 +1,261 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/cube.obj",
+                                    "uid": "cc784cd7-48bb-48ec-b9c6-cc1aef5bf2bc"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/FunnyMaterial.res",
+                                    "uid": "9fef9624-5bff-4286-88e5-9a70de98ac08"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "1131bba6-0bdd-406e-90a5-36f763362ca2"
+                        }
+                    ],
+                    "class": "NodeBoxShape3D",
+                    "flags": 0,
+                    "properties": {
+                        "Dimensions": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "Name": "NodeBoxShape3D",
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                10.0,
+                                3.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "ba59aefe-babd-4af0-bfd4-ed7c86ea7588"
+                }
+            ],
+            "class": "NodeStaticBody3D",
+            "flags": 0,
+            "properties": {
+                "Name": "NodeStaticBody3D",
+                "isHidden": false,
+                "physicsProperties.Friction": 0.30000001192092896,
+                "physicsProperties.Restitution": 0.30000001192092896,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "40f7c62c-f4df-42f9-b6e7-02590f4fe17e"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "class": "NodeMeshInstance3D",
+                                    "flags": 0,
+                                    "properties": {
+                                        "Mesh": {
+                                            "import_type": "file",
+                                            "source_file_path": "/res/Meshes/SM_BowlingPin.obj",
+                                            "uid": "03129021-5bc1-4675-9a43-480fb494724e"
+                                        },
+                                        "Name": "NodeMeshInstance3D",
+                                        "isHidden": false,
+                                        "material": {
+                                            "import_type": "file",
+                                            "source_file_path": "/res/Meshes/M_BowlingPin.res",
+                                            "uid": "d3426ad3-6a93-455d-8763-dbb4d7b48b44"
+                                        },
+                                        "transform": [
+                                            [
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            [
+                                                1.0,
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ]
+                                        ]
+                                    },
+                                    "uid": "fc953db2-5892-4a56-bcba-37424c43cd4f"
+                                },
+                                {
+                                    "children": [],
+                                    "class": "NodeBoxShape3D",
+                                    "flags": 0,
+                                    "properties": {
+                                        "Dimensions": [
+                                            1.0,
+                                            1.0,
+                                            1.0
+                                        ],
+                                        "Name": "NodeBoxShape3D",
+                                        "isHidden": false,
+                                        "transform": [
+                                            [
+                                                0.0,
+                                                0.0,
+                                                1.5006566047668457
+                                            ],
+                                            [
+                                                1.0,
+                                                0.0,
+                                                0.0,
+                                                0.0
+                                            ],
+                                            [
+                                                1.0,
+                                                1.0,
+                                                1.0
+                                            ]
+                                        ]
+                                    },
+                                    "uid": "f096c448-815d-481d-a33b-bad88994308d"
+                                }
+                            ],
+                            "class": "NodeRigidBody3D",
+                            "flags": 0,
+                            "properties": {
+                                "Name": "NodeRigidBody3D",
+                                "isHidden": false,
+                                "physicsProperties.Friction": 0.30000001192092896,
+                                "physicsProperties.Restitution": 0.30000001192092896,
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "01a6c8e5-7adc-47c8-be8f-d691d0653f84"
+                        }
+                    ],
+                    "class": "Node",
+                    "flags": 6,
+                    "properties": {
+                        "Name": "Root",
+                        "isHidden": false
+                    },
+                    "uid": "2b378b5f-3ef7-4e07-b709-b71a4c0e766a"
+                }
+            ],
+            "class": "NodeSceneInstance",
+            "flags": 0,
+            "properties": {
+                "Name": "NodeSceneInstance",
+                "Scene": {
+                    "import_type": "file",
+                    "source_file_path": "/res/Scenes/BowlingPin.scene",
+                    "uid": "2a5f4c40-c6a1-435a-a7d1-72aa64667e4e"
+                },
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        1.888810157775879
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "0b6eda72-fb93-4f08-bac3-549e73e86a95"
+        }
+    ],
+    "class": "Node",
+    "flags": 0,
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "551d4156-8fe4-4e71-ba18-d1106d48e46e"
+}
