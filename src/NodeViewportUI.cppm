@@ -23,6 +23,9 @@ namespace ImGuizmo
 
 export class NodeViewportUI : public Node
 {
+    CRAB_CLASS(NodeViewportUI, Node)
+    BEGIN_PROPERTIES
+    END_PROPERTIES
 public:
     public:
     NodeViewportUI() = default;
