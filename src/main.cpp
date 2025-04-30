@@ -5,6 +5,7 @@ import Engine.Node.ImGuiContextWindow;
 import Engine.Filesystem;
 
 import Editor.Node.EditorUI;
+import Engine.ScriptEngine;
 
 int main (int, char**) {
     auto n = Node::NewNode<Node>();
@@ -17,6 +18,9 @@ int main (int, char**) {
     app.GetSceneTree().SetUsePhysics(false);
 
     app.Begin();
+
+
+
     while (!app.ShouldClose())
     {
         if (window->WantsToClose())

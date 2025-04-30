@@ -14,6 +14,8 @@ import Engine.Reflection.ClassDB;
 import Engine.Transform;
 import Engine.Object.Ref;
 
+export class Resource;
+
 export struct PropertyDrawUtility
 {
     // Handle all supported types

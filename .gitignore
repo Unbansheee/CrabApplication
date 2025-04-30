@@ -92,3 +92,7 @@ test/test_runner
 */.cmake
 cmake-build*/
 .vs
+script/Generators/bin
+script/Generators/obj
+script/Scripts/bin
+script/Scripts/obj

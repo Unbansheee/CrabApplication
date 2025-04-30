@@ -3,9 +3,10 @@
 #include "ReflectionMacros.h"
 
 export module node_content_browser_panel;
-import Engine.Node;
 import std;
 import Engine.WGPU;
+import Engine.Node;
+
 
 export class TextureResource;
 

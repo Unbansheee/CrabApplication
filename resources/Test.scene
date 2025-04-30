@@ -1,15 +1,50 @@
 {
     "children": [
         {
-            "children": [],
-            "class": "NodeSceneInstance",
+            "children": [
+                {
+                    "children": [],
+                    "class": "NodeMeshInstance3D",
+                    "flags": 0,
+                    "properties": {
+                        "Mesh": {
+                            "import_type": "file",
+                            "source_file_path": "/engine/Shapes/cube.obj",
+                            "uid": "cc784cd7-48bb-48ec-b9c6-cc1aef5bf2bc"
+                        },
+                        "Name": "NodeMeshInstance3D",
+                        "isHidden": false,
+                        "material": {
+                            "import_type": "file",
+                            "source_file_path": "/res/Meshes/M_BowlingPin.res",
+                            "uid": "d3426ad3-6a93-455d-8763-dbb4d7b48b44"
+                        },
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "90dee670-0fdb-4a0a-bdef-2f322663e84d"
+                }
+            ],
+            "class": "Scripts.FunnyNode",
+            "flags": 0,
             "properties": {
-                "Name": "NodeSceneInstance",
-                "Scene": {
-                    "import_type": "file",
-                    "source_file_path": "/res/Scenes/BowlingPin.scene",
-                    "uid": "72a40f68-8be5-4e76-9db2-f97c951c1473"
-                },
+                "Name": "Scripts.FunnyNode",
                 "isHidden": false,
                 "transform": [
                     [
@@ -30,13 +65,14 @@
                     ]
                 ]
             },
-            "uid": "20b058ba-f632-43a1-9824-0ac2d2ec71fd"
+            "uid": "e636c003-7678-4f41-ac66-8edf89beab7d"
         }
     ],
     "class": "Node",
+    "flags": 0,
     "properties": {
         "Name": "Root",
         "isHidden": false
     },
-    "uid": "a693b52a-74b4-492d-a769-5560a26c9611"
+    "uid": "9ec2a1ef-02e3-46ea-b05b-d4dc480891b1"
 }

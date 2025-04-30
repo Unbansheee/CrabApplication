@@ -1,0 +1,21 @@
+{
+    "children": [
+        {
+            "children": [],
+            "class": "Scripts.FunnyNode",
+            "flags": 0,
+            "properties": {
+                "Name": "Scripts.FunnyNode",
+                "isHidden": false
+            },
+            "uid": "5fb4b4f5-45b7-4c30-b03d-46e28feb5157"
+        }
+    ],
+    "class": "Node",
+    "flags": 0,
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "c7f49e54-c805-4207-95ae-ba8141d71942"
+}

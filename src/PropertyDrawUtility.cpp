@@ -9,6 +9,7 @@ import Engine.Resource.ResourceManager;
 import Engine.Node;
 import Engine.Resource;
 import Engine.Resource.Mesh;
+import Engine.Reflection.Class;
 
 void PropertyDrawUtility::operator()(PropertyView& prop, int& value)
 {
