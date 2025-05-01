@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Scripts;
 
@@ -21,6 +23,12 @@ public class Node : Object
     [NativeBind("ExitTree", typeof(void), typeof(IntPtr))]
     private static ExitTreeDelegate? NativeExitTree;
     
+    [NativeBind("SetName", typeof(void), typeof(IntPtr), typeof(nint))]
+    private static SetNameDelegate? NativeSetName;
+    
+    [NativeBind("NativeGetName", typeof(void), typeof(IntPtr), typeof(nint))]
+    private static NativeGetNameDelegate? NativeGetName;
+    
     protected virtual void EnterTree() {  
         NativeEnterTree?.Invoke(_nativeOwner);
     }
@@ -38,5 +46,25 @@ public class Node : Object
     protected virtual void Update(float dt)
     {
         NativeUpdate?.Invoke(_nativeOwner, dt);
+    }
+
+    public string Name
+    {
+        get
+        {
+            var ptr = Marshal.AllocHGlobal(512);
+            NativeGetName.Invoke(_nativeOwner, ptr);
+            string name = Marshal.PtrToStringUni(ptr)!;
+            Marshal.FreeHGlobal(ptr);
+            return name;
+        }
+        set
+        {
+            var nameBytes = Encoding.ASCII.GetBytes(value + '\0');
+            var ptr = Marshal.AllocHGlobal(nameBytes.Length);
+            Marshal.Copy(nameBytes, 0, ptr, nameBytes.Length);
+            
+            NativeSetName.Invoke(_nativeOwner, ptr);
+        }
     }
 }

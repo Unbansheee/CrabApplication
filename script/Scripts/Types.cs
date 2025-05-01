@@ -15,6 +15,31 @@ public struct Vector2
     }
 }
 
+
+[StructLayout(LayoutKind.Sequential)]
+public struct Vector2U
+{
+    public uint X;
+    public uint Y;
+    
+    public override string ToString()
+    {
+        return "{" + $"{X}, {Y}" + "}";
+    }
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct Vector2I
+{
+    public int X { get; set; } 
+    public int Y { get; set; } 
+    
+    public override string ToString()
+    {
+        return "{" + $"{X}, {Y}" + "}";
+    }
+}
+
 [StructLayout(LayoutKind.Sequential)]
 public struct Vector3
 {
@@ -78,24 +103,4 @@ public struct Transform
 }
 
 
-public class FunnyNode : Node3D
-{
-    public FunnyNode(IntPtr nativeOwner) : base(nativeOwner) {}
-
-    private float accumulatedTime;
-    
-    protected override void EnterTree()
-    {
-        base.EnterTree();
-    }
-
-    protected override void Update(float dt)
-    {
-        base.Update(dt);
-        
-        accumulatedTime += dt;
-        Position = new Vector3(0, 0, (float)Math.Sin(accumulatedTime) * 3);
-        Console.WriteLine(Position.Z);
-    }
-}
 
