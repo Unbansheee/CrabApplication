@@ -1,50 +1,13 @@
 {
     "children": [
         {
-            "children": [
-                {
-                    "children": [],
-                    "class": "NodeMeshInstance3D",
-                    "flags": 0,
-                    "properties": {
-                        "Mesh": {
-                            "import_type": "file",
-                            "source_file_path": "/engine/Shapes/cube.obj",
-                            "uid": "cc784cd7-48bb-48ec-b9c6-cc1aef5bf2bc"
-                        },
-                        "Name": "NodeMeshInstance3D",
-                        "isHidden": false,
-                        "material": {
-                            "import_type": "file",
-                            "source_file_path": "/res/Meshes/M_BowlingPin.res",
-                            "uid": "d3426ad3-6a93-455d-8763-dbb4d7b48b44"
-                        },
-                        "transform": [
-                            [
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            [
-                                1.0,
-                                0.0,
-                                0.0,
-                                0.0
-                            ],
-                            [
-                                1.0,
-                                1.0,
-                                1.0
-                            ]
-                        ]
-                    },
-                    "uid": "90dee670-0fdb-4a0a-bdef-2f322663e84d"
-                }
-            ],
-            "class": "Scripts.FunnyNode",
+            "children": [],
+            "class": "Scripts.TestScriptNode",
             "flags": 0,
             "properties": {
-                "Name": "Scripts.FunnyNode",
+                "GoonCave": "Hehehahaha",
+                "Name": "GREGGY",
+                "NumberProperty": 25,
                 "isHidden": false,
                 "transform": [
                     [
@@ -65,7 +28,7 @@
                     ]
                 ]
             },
-            "uid": "e636c003-7678-4f41-ac66-8edf89beab7d"
+            "uid": "04b0d96e-37c6-40d7-9bd6-c5eb62af65f5"
         }
     ],
     "class": "Node",
@@ -74,5 +37,5 @@
         "Name": "Root",
         "isHidden": false
     },
-    "uid": "9ec2a1ef-02e3-46ea-b05b-d4dc480891b1"
+    "uid": "52919884-6388-4d60-9443-5ab681ae890a"
 }

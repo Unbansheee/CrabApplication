@@ -19,7 +19,9 @@ void NodeInspectorUI::DrawGUI()
 
         std::string currentCategory;
         bool drawCurrentCategory = true;
-        for (auto p : ViewedNode->GetPropertiesFromThis())
+
+        auto& props = ViewedNode->GetPropertiesFromThis();
+        for (auto p : props)
         {
 
             if (p.flags & PropertyFlags::HideFromInspector) continue;

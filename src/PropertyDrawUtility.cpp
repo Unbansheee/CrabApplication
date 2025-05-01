@@ -4,7 +4,7 @@
 
 
 module Engine.PropertyDraw;
-import node_content_browser_panel;
+import Editor.ContentBrowserPanel;
 import Engine.Resource.ResourceManager;
 import Engine.Node;
 import Engine.Resource;

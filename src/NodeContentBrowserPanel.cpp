@@ -3,13 +3,11 @@
 #include "imgui_internal.h"
 #include "imgui/misc/cpp/imgui_stdlib.h"
 
-module node_content_browser_panel;
+module Editor.ContentBrowserPanel;
 import Engine.Resource.ResourceManager;
-import Engine.WGPU;
 import Engine.Resource.ImageTexture;
 import Editor.AssetEditorRegistry;
 import Editor.AssetEditor;
-import Engine.Application;
 import Engine.Filesystem;
 
 namespace fs = std::filesystem;

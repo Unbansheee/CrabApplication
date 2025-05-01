@@ -5,20 +5,32 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 
 namespace Scripts;
+
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+public struct ScriptPropertyInfo
+{
+    public nint Name;
+    public nint Type;
+    public nint DisplayName;
+}
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
 public struct ScriptInfo
 {
     public nint Name; // char*
     public nint ParentClassName; // char*
+    public int PropertyCount; // int
+    public nint Properties; // ScriptPropertyInfo*
 }
 
 
 public static class ScriptHost
 {
     private static readonly List<Type> _scriptTypes = new();
+    private static ScriptInfoMarshaler _marshaler = new ScriptInfoMarshaler();
 
     [UnmanagedCallersOnly(EntryPoint = "RegisterAllScripts")]
     public static void RegisterAllScripts()
@@ -52,42 +64,18 @@ public static class ScriptHost
     {
         var types = _scriptTypes;
 
-        var list = new List<ScriptInfo>();
-        foreach (var t in types)
-        {
-            var nameBytes = Encoding.ASCII.GetBytes(t.FullName! + '\0');
-            var ptr = Marshal.AllocHGlobal(nameBytes.Length);
-            Marshal.Copy(nameBytes, 0, ptr, nameBytes.Length);
-
-            bool parentIsNative =
-                (t.BaseType?.GetCustomAttributes(typeof(NativeEngineTypeAttribute), false).Length != 0);
-            var parentNameBytes = Encoding.ASCII.GetBytes(parentIsNative ? t.BaseType.Name! + '\0': t.BaseType.FullName! + '\0');
-            var parentNamePtr = Marshal.AllocHGlobal(nameBytes.Length);
-            Marshal.Copy(parentNameBytes, 0, parentNamePtr, parentNameBytes.Length);
-            
-            list.Add(new ScriptInfo
-            {
-                Name = ptr,
-                ParentClassName = parentNamePtr
-            });
-        }
-
-        var bufferSize = list.Count * Marshal.SizeOf<ScriptInfo>();
-        var buffer = Marshal.AllocHGlobal(bufferSize);
-        for (int i = 0; i < list.Count; ++i)
-            Marshal.StructureToPtr(list[i], buffer + i * Marshal.SizeOf<ScriptInfo>(), false);
-
-        return buffer;
+        _marshaler = new ScriptInfoMarshaler();
+        IntPtr scriptList = _marshaler.MarshalScriptInfoList(_scriptTypes);
+        
+        return scriptList;
     }
     
     [UnmanagedCallersOnly(EntryPoint = "CreateScriptInstance")]
     public static unsafe IntPtr CreateScriptInstance(IntPtr nativeOwner, char* typeName) {
         string instanceType = Marshal.PtrToStringUni((IntPtr)typeName);
-        Console.WriteLine("Trying to spawn a " + instanceType);
         var instance = Activator.CreateInstance(_scriptTypes.Find(type => type.FullName == instanceType) ??
                                                 throw new InvalidOperationException(), nativeOwner) as Scripts.Object;
-        
-        
+
         GCHandle handle = GCHandle.Alloc(instance);
         return (IntPtr)handle;
     }
@@ -153,3 +141,116 @@ public static class ScriptHost
     }
 }
 
+public static class ReflectionBridge
+{
+
+}
+
+public sealed class ScriptInfoMarshaler : IDisposable
+{
+    private readonly List<IntPtr> _allocated = new();
+    private IntPtr _scriptInfoArray;
+
+    public IntPtr MarshalScriptInfoList(IEnumerable<Type> types)
+    {
+        var list = new List<ScriptInfo>();
+        foreach (var t in types)
+        {
+            bool parentIsNative =
+                (t.BaseType?.GetCustomAttributes(typeof(NativeEngineTypeAttribute), false).Length != 0);
+            
+            var namePtr = AllocString(t.FullName!);
+            var parentName = parentIsNative ? t.BaseType.Name!: t.BaseType.FullName!;
+            var parentNamePtr = AllocString(parentName);
+
+            var props = GetClassProperties(t);
+            var propArrayPtr = AllocStructArray(props);
+            
+            
+            list.Add(new ScriptInfo
+            {
+                Name = namePtr,
+                ParentClassName = parentNamePtr,
+                PropertyCount = props.Length,
+                Properties = propArrayPtr
+            });
+        }
+        
+        _scriptInfoArray = AllocStructArray(list.ToArray());
+        return _scriptInfoArray;
+    }
+
+    public ScriptPropertyInfo[] GetClassProperties(Type type)
+    {
+        var props = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        var result = new List<ScriptPropertyInfo>();
+
+        foreach (var prop in props)
+        {
+            var attr = prop.GetCustomAttribute<SerializeFieldAttribute>();
+            if (attr != null)
+            {
+                var info = new ScriptPropertyInfo();
+                info.Name = AllocString(prop.Name);
+                info.Type = AllocString(prop.PropertyType.FullName ?? "Unknown");
+                info.DisplayName = AllocString(attr.DisplayName);
+
+                result.Add(info);
+                
+                Console.WriteLine(prop.Name + " " + attr.DisplayName);
+
+            }
+            
+
+        }
+        
+        var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        foreach (var field in fields)
+        {
+            var attr = field.GetCustomAttribute<SerializeFieldAttribute>();
+            if (attr != null)
+            {
+                var info = new ScriptPropertyInfo();
+                info.Name = AllocString(field.Name);
+                info.Type = AllocString(field.FieldType.FullName ?? "Unknown");
+                info.DisplayName = AllocString(attr.DisplayName);
+
+                result.Add(info);
+            }
+        }
+
+        return result.ToArray();
+    }
+    
+    private IntPtr AllocString(string s)
+    {
+        var ptr = Marshal.StringToHGlobalAnsi(s);
+        _allocated.Add(ptr);
+        return ptr;
+    }
+
+    private IntPtr AllocStructArray<T>(T[] items)
+    {
+        int size = Marshal.SizeOf<T>();
+        IntPtr arrayPtr = Marshal.AllocHGlobal(size * items.Length);
+        _allocated.Add(arrayPtr); // Track the whole array block
+
+        for (int i = 0; i < items.Length; ++i)
+        {
+            IntPtr itemPtr = arrayPtr + i * size;
+            Marshal.StructureToPtr(items[i], itemPtr, false);
+        }
+
+        return arrayPtr;
+    }
+
+    public void Dispose()
+    {
+        Console.WriteLine("Disposing");
+        foreach (var ptr in _allocated)
+            Marshal.FreeHGlobal(ptr);
+
+        _allocated.Clear();
+    }
+    
+}

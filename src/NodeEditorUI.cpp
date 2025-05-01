@@ -17,6 +17,7 @@ import Engine.Resource.RuntimeTexture;
 import Engine.Resource.OBJMesh;
 import Engine.Resource.ResourceManager;
 import Engine.Node.Window;
+import Engine.Filesystem;
 
 void NodeEditorUI::Init()
 {
@@ -72,7 +73,7 @@ void NodeEditorUI::DrawGUI()
             {
                 nfdu8char_t *outPath;
                 nfdu8filteritem_t filters[1] = { { "Scene", "scene" }};
-                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, RESOURCE_DIR);
+                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, Filesystem::AbsolutePath(RESOURCE_DIR).c_str());
                 if (result == NFD_OKAY)
                 {
                     OpenScene(outPath);
@@ -85,7 +86,7 @@ void NodeEditorUI::DrawGUI()
                 
                 nfdu8char_t *outPath;
                 nfdu8filteritem_t filters[1] = { { "Scene", "scene" }};
-                nfdresult_t result = NFD::SaveDialog(outPath, filters, 1, RESOURCE_DIR);
+                nfdresult_t result = NFD::SaveDialog(outPath, filters, 1, Filesystem::AbsolutePath(RESOURCE_DIR).c_str());
                 if (result == NFD_OKAY)
                 {
                     SaveScene(outPath);
@@ -99,7 +100,7 @@ void NodeEditorUI::DrawGUI()
             {
                 nfdu8char_t *outPath;
                 nfdu8filteritem_t filters[1] = { { "GLB", "glb" }};
-                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, RESOURCE_DIR);
+                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, Filesystem::AbsolutePath(RESOURCE_DIR).c_str());
                 if (result == NFD_OKAY)
                 {
                     ImportGLB(outPath);
@@ -118,7 +119,9 @@ void NodeEditorUI::DrawGUI()
         }
         if (ImGui::BeginMenu("Edit"))
         {
-            
+            if (ImGui::MenuItem("Reload Modules")) {
+                Application::Get().GetScriptEngine()->ReloadModule(L"Dotnet/Scripts.dll");
+            }
             ImGui::EndMenu();
         };
         ImGui::EndMainMenuBar();

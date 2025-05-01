@@ -3,7 +3,7 @@
 #include "ReflectionMacros.h"
 
 export module Editor.Node.EditorUI;
-import node_content_browser_panel;
+import Editor.ContentBrowserPanel;
 import node_editor_camera_3d;
 import node_editor_scene_root;
 import node_scene_tree_ui;

@@ -8,8 +8,6 @@ module;
 
 export module Editor.SceneFileEditor;
 import Editor.AssetEditorRegistry;
-import Engine.Node;
-import Engine.Resource;
 import Editor.AssetEditor;
 import Engine.Resource.Scene;
 import Editor.Node.EditorUI;
@@ -24,14 +22,3 @@ public:
     void Ready() override;
 
 };
-
-void SceneFileEditor::Ready() {
-    AssetEditor::Ready();
-
-    auto rootNode = GetAncestorOfType<NodeEditorUI>();
-    rootNode->NewScene();
-    rootNode->EditorRoot->GetSubtree().SetRoot(std::static_pointer_cast<SceneResource>(Context)->Instantiate());
-    rootNode->EditorSceneTree->SceneRootOverride = rootNode->EditorRoot->GetSubtree().GetRoot<Node>();
-
-    RemoveFromParent();
-}

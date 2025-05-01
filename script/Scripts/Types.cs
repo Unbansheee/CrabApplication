@@ -103,4 +103,13 @@ public struct Transform
 }
 
 
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+public class SerializeFieldAttribute : Attribute
+{
+    public string DisplayName { get; set; }
 
+    public SerializeFieldAttribute(string displayName = "")
+    {
+        DisplayName = displayName;
+    }
+}

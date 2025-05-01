@@ -28,7 +28,7 @@ public class Resource : Object
             }
         }
         
-        var nameBytes = Encoding.ASCII.GetBytes(path! + '\0');
+        var nameBytes = Encoding.ASCII.GetBytes(path!);
         var ptr = Marshal.AllocHGlobal(nameBytes.Length);
         Marshal.Copy(nameBytes, 0, ptr, nameBytes.Length);
         

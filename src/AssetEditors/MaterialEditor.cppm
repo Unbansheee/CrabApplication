@@ -6,9 +6,7 @@ module;
 
 export module Editor.MaterialEditor;
 import Editor.AssetEditorRegistry;
-import Engine.Node;
 import Engine.Resource.Material;
-import Engine.Resource;
 import Editor.AssetEditor;
 
 export class MaterialEditor : public AssetEditor{

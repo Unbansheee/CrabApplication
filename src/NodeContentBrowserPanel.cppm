@@ -2,15 +2,12 @@
 #pragma once
 #include "ReflectionMacros.h"
 
-export module node_content_browser_panel;
+export module Editor.ContentBrowserPanel;
 import std;
 import Engine.WGPU;
 import Engine.Node;
 
-
 export class TextureResource;
-
-
 export struct ResourcePathDragDropData
 {
     ResourcePathDragDropData(const std::string& path)

@@ -47,8 +47,7 @@ void NodeViewportUI::DrawGUI()
         CreateViewTexture(windowSize.x, windowSize.y);
         CreateIDPassTextures(windowSize.x, windowSize.y);
 
-        std::cout << "Viewport Resize" << std::endl;
-        resizeCooldown = 0.25f;
+        resizeCooldown = 0.5f;
     }
 
     clearTexturePass.Execute(PickingPassTexture);

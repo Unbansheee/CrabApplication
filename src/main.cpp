@@ -1,14 +1,10 @@
 
 import Engine.Application;
-import Engine.Node;
 import Engine.Node.ImGuiContextWindow;
 import Engine.Filesystem;
-
 import Editor.Node.EditorUI;
-import Engine.ScriptEngine;
 
 int main (int, char**) {
-    auto n = Node::NewNode<Node>();
     auto& app = Application::Get();
     Filesystem::AddFileSystemDirectory("/res", RESOURCE_DIR);
 
@@ -18,9 +14,6 @@ int main (int, char**) {
     app.GetSceneTree().SetUsePhysics(false);
 
     app.Begin();
-
-
-
     while (!app.ShouldClose())
     {
         if (window->WantsToClose())

@@ -9,7 +9,7 @@ import Engine.PropertyDraw;
 import Engine.WGPU;
 import Engine.ShaderCompiler.Types;
 import Engine.Resource.Texture;
-import node_content_browser_panel;
+import Editor.ContentBrowserPanel;
 import Engine.Resource.ResourceManager;
 import Engine.Application;
 
@@ -27,11 +27,9 @@ void MaterialEditor::DrawGUI() {
             ResourceManager::SaveResource(Context);
         }
 
-
         if (ImGui::Button("Recompile Shader")) {
-            std::static_pointer_cast<MaterialResource>(Context)->LoadFromShaderPath(Application::Get().GetDevice(), "ghghg");
+            std::static_pointer_cast<MaterialResource>(Context)->RecompileShader();
         }
-
 
         PropertyDrawUtility p;
         for (auto prop : Context->GetPropertiesFromThis()) {

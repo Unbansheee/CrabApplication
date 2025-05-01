@@ -155,3 +155,9 @@ add_custom_command(TARGET CrabApplication POST_BUILD
         ${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/vendor/nethost/nethost.dll
         "$<TARGET_FILE_DIR:CrabApplication>"
 )
+
+add_custom_command(TARGET CrabApplication POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/vendor/slang/bin/slang.dll
+        "$<TARGET_FILE_DIR:CrabApplication>"
+)

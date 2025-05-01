@@ -60,10 +60,7 @@ public class Node : Object
         }
         set
         {
-            var nameBytes = Encoding.ASCII.GetBytes(value + '\0');
-            var ptr = Marshal.AllocHGlobal(nameBytes.Length);
-            Marshal.Copy(nameBytes, 0, ptr, nameBytes.Length);
-            
+            var ptr = Marshal.StringToHGlobalAnsi(value);
             NativeSetName.Invoke(_nativeOwner, ptr);
         }
     }
