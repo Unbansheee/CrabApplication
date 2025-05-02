@@ -1,11 +1,13 @@
 ﻿using System;
 
-namespace Scripts;
+namespace CrabEngine;
 
 [NativeEngineType]
 public class Object
 {
     protected IntPtr _nativeOwner = IntPtr.Zero;
+
+    public IntPtr NativeOwner => _nativeOwner;
 
     public Object(IntPtr nativeOwner)
     {

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 
-namespace Scripts;
+namespace CrabEngine;
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
 public struct ScriptPropertyInfo
@@ -26,31 +27,54 @@ public struct ScriptInfo
     public nint Properties; // ScriptPropertyInfo*
 }
 
-
 public static class ScriptHost
 {
     private static readonly List<Type> _scriptTypes = new();
     private static ScriptInfoMarshaler _marshaler = new ScriptInfoMarshaler();
+    private static List<ScriptModule> _loadedModules = new List<ScriptModule>();
 
-    [UnmanagedCallersOnly(EntryPoint = "RegisterAllScripts")]
-    public static void RegisterAllScripts()
+    private static Dictionary<IntPtr, Object> _collisionChecker = new Dictionary<IntPtr, Object>();
+    
+    [UnmanagedCallersOnly(EntryPoint = "LoadScriptAssembly")]
+    public static void LoadScriptAssembly(IntPtr pathPtr, IntPtr libName)
     {
-        var scriptTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(a => a.GetTypes())
-            .Where(t => typeof(Scripts.Object).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-            .Where(t => t.GetCustomAttributes(typeof(NativeEngineTypeAttribute), false).Length == 0);
+        string path = Marshal.PtrToStringUni(pathPtr);
+        string lib = Marshal.PtrToStringUni(libName);
+        
+        Console.WriteLine("[C# Engine] Loading Library: " + lib);
 
-        foreach (var type in scriptTypes)
+        var module = ScriptEngine.LoadScriptAssembly(path, lib);
+
+        if (module == null)
         {
-            _scriptTypes.Add(type);
-            System.Console.WriteLine("Initialized script: " + type.Name);
+            Console.WriteLine($"[C# Engine] Failed to load library [{lib}] at [{path}]");
+            return;
         }
+        
+        Console.WriteLine("[C# Engine] Library Loaded: " + lib);
+        
+        _scriptTypes.AddRange(module.GetScriptTypes());
+        _loadedModules.Add(module);
+        module.InvokeEntryPoint();
+    }
+    
+    [UnmanagedCallersOnly(EntryPoint = "UnloadScriptAssembly")]
+    public static void UnloadScriptAssembly(IntPtr pathPtr)
+    {
+        string? path = Marshal.PtrToStringUni(pathPtr);
+        var module = _loadedModules.First(a => a.AssemblyPath == path);
+        _scriptTypes.RemoveAll(a => module.GetScriptTypes().Contains(a));
+        _loadedModules.Remove(module);
+        module?.Unload();
     }
 
     [UnmanagedCallersOnly(EntryPoint = "GetScriptCount")]
-    public static int GetScriptCount()
+    public static int GetScriptCount(IntPtr assemblyPath)
     {
-        return _scriptTypes.Count;
+        var pathStr = Marshal.PtrToStringUni(assemblyPath);
+        var mod = _loadedModules.FirstOrDefault(a => a.AssemblyPath == pathStr);
+        
+        return mod.GetScriptTypes().Count;
     }
     
     [UnmanagedCallersOnly(EntryPoint = "PrintTransform")]
@@ -60,9 +84,12 @@ public static class ScriptHost
     }
     
     [UnmanagedCallersOnly(EntryPoint = "GetScriptInfoList")]
-    public static nint GetScriptInfoList()
+    public static nint GetScriptInfoList(IntPtr assemblyPath)
     {
-        var types = _scriptTypes;
+        var pathStr = Marshal.PtrToStringUni(assemblyPath);
+        var mod = _loadedModules.FirstOrDefault(a => a.AssemblyPath == pathStr);
+        
+        var types = mod.GetScriptTypes();
 
         _marshaler = new ScriptInfoMarshaler();
         IntPtr scriptList = _marshaler.MarshalScriptInfoList(_scriptTypes);
@@ -71,12 +98,19 @@ public static class ScriptHost
     }
     
     [UnmanagedCallersOnly(EntryPoint = "CreateScriptInstance")]
-    public static unsafe IntPtr CreateScriptInstance(IntPtr nativeOwner, char* typeName) {
+    public static unsafe IntPtr CreateScriptInstance(IntPtr nativeOwner, IntPtr typeName) {
         string instanceType = Marshal.PtrToStringUni((IntPtr)typeName);
         var instance = Activator.CreateInstance(_scriptTypes.Find(type => type.FullName == instanceType) ??
-                                                throw new InvalidOperationException(), nativeOwner) as Scripts.Object;
+                                                throw new InvalidOperationException(), nativeOwner) as Object;
 
+        if (instance == null)
+            throw new InvalidOperationException($"Could not create instance of {instanceType}");
+        
         GCHandle handle = GCHandle.Alloc(instance);
+        _collisionChecker[nativeOwner] = instance;
+        
+        Console.WriteLine($"Created {instanceType} instance for native ptr 0x{nativeOwner:X}, GCHandle: 0x{GCHandle.ToIntPtr(handle):X}");
+        
         return (IntPtr)handle;
     }
     
@@ -117,6 +151,23 @@ public static class ScriptHost
     {
         string name = Marshal.PtrToStringUni((IntPtr)methodName)!;
         object? instance = GCHandle.FromIntPtr(handle).Target;
+
+        if (instance is not Object obj)
+        {
+            throw new InvalidCastException("Handle does not point to a valid Object");
+        }
+        
+        if (_collisionChecker.TryGetValue(obj.NativeOwner, out var expected))
+        {
+            if (!ReferenceEquals(expected, instance))
+            {
+                Console.WriteLine($"[ERROR] Handle mismatch! Native 0x{obj.NativeOwner:X} is bound to different instance.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"[WARNING] Native 0x{obj.NativeOwner:X} not tracked in instance map.");
+        }
         
         var method = instance!.GetType().GetMethod(name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
         if (method == null) throw new MissingMethodException(name);
@@ -132,12 +183,22 @@ public static class ScriptHost
         if (returnBuffer != null && result != null) {
             Marshal.StructureToPtr(result, new IntPtr(returnBuffer), false);
         }
+        
     }
     
     [UnmanagedCallersOnly(EntryPoint = "DestroyScript")]
     public static void DestroyScript(IntPtr handle) {
         var gch = GCHandle.FromIntPtr(handle);
+        var instance = gch.Target;
+        
+        if (instance is Object obj)
+        {
+            IntPtr nativePtr = obj.NativeOwner; // assuming your Object base class has a NativeOwner property
+            _collisionChecker.Remove(nativePtr);
+            Console.WriteLine($"Destroyed script for native 0x{nativePtr:X}");
+        }
         gch.Free();
+
     }
 }
 

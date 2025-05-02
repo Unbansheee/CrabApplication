@@ -1,0 +1,147 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [],
+                    "class": "NodeMeshInstance3D",
+                    "flags": 0,
+                    "properties": {
+                        "Mesh": {
+                            "import_type": "file",
+                            "source_file_path": "/res/Meshes/SM_BowlingPin.obj",
+                            "uid": "03129021-5bc1-4675-9a43-480fb494724e"
+                        },
+                        "Name": "NodeMeshInstance3D",
+                        "isHidden": false,
+                        "material": {
+                            "import_type": "file",
+                            "source_file_path": "/res/Meshes/M_BowlingPin.res",
+                            "uid": "d3426ad3-6a93-455d-8763-dbb4d7b48b44"
+                        },
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "a496edaa-8b20-4d98-82cb-3af98f5eaf8b"
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Meshes/SM_BowlingPin.obj",
+                                    "uid": "03129021-5bc1-4675-9a43-480fb494724e"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Meshes/M_BowlingPin.res",
+                                    "uid": "d3426ad3-6a93-455d-8763-dbb4d7b48b44"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "e093ca56-8b99-4163-9a09-2247c3ae0de6"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "ChildNode",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                -3.282309055328369,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "84a0d39d-4a07-44ee-ad93-f3a7a6db4979"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "ParentNode",
+                "SpinSpeed": 3.0,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "d1024353-23c3-4ff2-acf6-9ece3df058a2"
+        }
+    ],
+    "class": "Node",
+    "flags": 0,
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "07c15bdc-c408-4af5-99c2-c14febf2db24"
+}

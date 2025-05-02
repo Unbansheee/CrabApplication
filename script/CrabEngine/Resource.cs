@@ -2,7 +2,7 @@
 using System.Text;
 using Generated;
 
-namespace Scripts;
+namespace CrabEngine;
 
 [NativeEngineType]
 public class Resource : Object

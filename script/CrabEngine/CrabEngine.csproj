@@ -13,6 +13,8 @@
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <PublishAot>false</PublishAot>
         <PublishTrimmed>false</PublishTrimmed>
+        <AssemblyName>CrabEngine</AssemblyName>
+        <RootNamespace>CrabEngine</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

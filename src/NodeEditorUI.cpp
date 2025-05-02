@@ -73,7 +73,7 @@ void NodeEditorUI::DrawGUI()
             {
                 nfdu8char_t *outPath;
                 nfdu8filteritem_t filters[1] = { { "Scene", "scene" }};
-                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, Filesystem::AbsolutePath(RESOURCE_DIR).c_str());
+                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, Filesystem::AbsolutePath("/res/").c_str());
                 if (result == NFD_OKAY)
                 {
                     OpenScene(outPath);
@@ -86,7 +86,7 @@ void NodeEditorUI::DrawGUI()
                 
                 nfdu8char_t *outPath;
                 nfdu8filteritem_t filters[1] = { { "Scene", "scene" }};
-                nfdresult_t result = NFD::SaveDialog(outPath, filters, 1, Filesystem::AbsolutePath(RESOURCE_DIR).c_str());
+                nfdresult_t result = NFD::SaveDialog(outPath, filters, 1, Filesystem::AbsolutePath("/res/").c_str());
                 if (result == NFD_OKAY)
                 {
                     SaveScene(outPath);
@@ -100,7 +100,7 @@ void NodeEditorUI::DrawGUI()
             {
                 nfdu8char_t *outPath;
                 nfdu8filteritem_t filters[1] = { { "GLB", "glb" }};
-                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, Filesystem::AbsolutePath(RESOURCE_DIR).c_str());
+                nfdresult_t result = NFD::OpenDialog(outPath, filters, 1, Filesystem::AbsolutePath("/res/").c_str());
                 if (result == NFD_OKAY)
                 {
                     ImportGLB(outPath);

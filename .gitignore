@@ -96,3 +96,7 @@ script/Generators/bin
 script/Generators/obj
 script/Scripts/bin
 script/Scripts/obj
+script/CrabApplication/bin
+script/CrabApplication/obj
+script/CrabEngine/bin
+script/CrabEngine/obj

@@ -5,6 +5,7 @@ project(
     LANGUAGES CXX C # programming languages used by the project
 )
 
+include(cmake/AddDotnetProject.cmake)
 
 file(GLOB_RECURSE SOURCES
         src/*.h
@@ -123,41 +124,8 @@ endif()
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CrabApplication)
 
 
-# === C# Script Project ===
-set(CSHARP_PROJECT ${CMAKE_SOURCE_DIR}/script/Scripts/Scripts.csproj)
-set(CSHARP_OUTPUT_DIR ${CMAKE_BINARY_DIR}/ScriptsOut)
+add_dotnet_project(CrabApplication ${CMAKE_SOURCE_DIR}/script/CrabEngine/CrabEngine.csproj ScriptsOut)
+add_dotnet_project(CrabApplication ${CMAKE_SOURCE_DIR}/script/CrabApplication/CrabApplication.csproj ScriptsOut)
 
-add_custom_command(
-        TARGET CrabApplication PRE_LINK
-        COMMAND dotnet publish ${CSHARP_PROJECT} -c Release -o  ${CSHARP_OUTPUT_DIR}
-        COMMENT "Building C# scripts"
-        VERBATIM
-)
 
-add_custom_target(BuildScripts ALL
-        DEPENDS ${CSHARP_OUTPUT_DIR}/Scripts.dll
-)
 
-# Make your C++ engine depend on the scripts
-add_dependencies(CrabApplication BuildScripts)
-
-# Optionally copy outputs next to your binary
-add_custom_command(TARGET CrabApplication POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CSHARP_OUTPUT_DIR}/Scripts.dll
-        ${CSHARP_OUTPUT_DIR}/Scripts.runtimeconfig.json
-        ${CSHARP_OUTPUT_DIR}/Scripts.deps.json
-        "$<TARGET_FILE_DIR:CrabApplication>/Dotnet"
-)
-
-add_custom_command(TARGET CrabApplication POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/vendor/nethost/nethost.dll
-        "$<TARGET_FILE_DIR:CrabApplication>"
-)
-
-add_custom_command(TARGET CrabApplication POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/vendor/slang/bin/slang.dll
-        "$<TARGET_FILE_DIR:CrabApplication>"
-)

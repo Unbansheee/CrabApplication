@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace Scripts;
+namespace CrabEngine;
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void SetPropertyDelegate(IntPtr instanceHandle, IntPtr propName, IntPtr value);
@@ -26,7 +26,7 @@ public static class InteropBootstrap
         string property = Marshal.PtrToStringAnsi(propName)!;
 
         {
-            var prop = scriptObject.GetType().GetProperty(property);
+            var prop = scriptObject.GetType().GetProperty(property, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
             if (prop != null)
             {
                 if (prop.PropertyType == typeof(string))
@@ -48,7 +48,7 @@ public static class InteropBootstrap
 
 
         {
-            var field = scriptObject.GetType().GetField(property);
+            var field = scriptObject.GetType().GetField(property, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
             if (field != null)
             {
                 if (field.FieldType == typeof(string))
@@ -80,7 +80,7 @@ public static class InteropBootstrap
         string property = Marshal.PtrToStringAnsi(propName)!;
 
         {
-            var prop = scriptObject.GetType().GetProperty(property);
+            var prop = scriptObject.GetType().GetProperty(property, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
             if (prop != null)
             {
                 if (prop.PropertyType == typeof(string))
@@ -106,7 +106,7 @@ public static class InteropBootstrap
 
 
         {
-            var field = scriptObject.GetType().GetField(property);
+            var field = scriptObject.GetType().GetField(property, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
             if (field != null)
             {
                 if (field.FieldType == typeof(string))
