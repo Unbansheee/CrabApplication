@@ -8,7 +8,7 @@ public class SpinnerNode : CrabEngine.Node3D
     public SpinnerNode(IntPtr nativeOwner) : base(nativeOwner) {}
 
     [SerializeField("Spin Speed")]
-    public float SpinSpeed = 10;
+    public float SpinSpeed = 3;
     
     protected override void EnterTree()
     {
@@ -18,6 +18,6 @@ public class SpinnerNode : CrabEngine.Node3D
     protected override void Update(float dt)
     {
         base.Update(dt);
-        Orientation *= Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), SpinSpeed * dt);
+        Orientation *= Quaternion.CreateFromAxisAngle(new Vector3(0, 0, 1), SpinSpeed * dt);
     }
 }

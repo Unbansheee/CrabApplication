@@ -123,11 +123,7 @@ void NodeEditorUI::DrawGUI()
                 auto scriptEngine = Application::Get().GetScriptEngine();
                 std::vector<std::wstring> paths;
                 for (auto& path : scriptEngine->GetModules()) {
-                    paths.push_back(path.first);
-                }
-
-                for (auto& p : paths) {
-                    scriptEngine->ReloadModule(p);
+                    scriptEngine->EnqueueModuleReload(path.first);
                 }
             }
             ImGui::EndMenu();
