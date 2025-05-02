@@ -14,6 +14,7 @@ public class ScriptLoadContext : AssemblyLoadContext
 
     protected override Assembly Load(AssemblyName assemblyName)
     {
+        
         var path = _resolver.ResolveAssemblyToPath(assemblyName);
         return path != null ? LoadFromAssemblyPath(path) : null;
     }
@@ -25,7 +26,7 @@ public class ScriptModule
     private Assembly _loadedAssembly;
     private string _libName;
     
-    private static readonly List<Type> _scriptTypes = new();
+    private static List<Type> _scriptTypes = new();
 
     public string AssemblyPath { get; }
 
@@ -64,9 +65,12 @@ public class ScriptModule
         _context?.Unload();
         _context = null;
         _loadedAssembly = null;
+        _scriptTypes = new List<Type>();
 
         GC.Collect();
         GC.WaitForPendingFinalizers();
+        
+        Console.WriteLine("[C# Engine] Unloaded Assembly " + AssemblyPath);
     }
 }
 
@@ -74,11 +78,18 @@ public static class ScriptEngine
 {
     public static ScriptModule? LoadScriptAssembly(string path, string libName)
     {
-        var context = new ScriptLoadContext(path);
+        string originalPath = path;
+        string tempDir = Path.Combine(Path.GetTempPath(), "ScriptShadow");
+        Directory.CreateDirectory(tempDir);
+        
+        string shadowPath = Path.Combine(tempDir, $"CrabApplication_{Guid.NewGuid()}.dll");
+        File.Copy(originalPath, shadowPath, overwrite: true);
+        
+        var context = new ScriptLoadContext(shadowPath);
         Assembly? assembly = null;
         try
         {
-            assembly = context.LoadFromAssemblyPath(path);
+            assembly = context.LoadFromAssemblyPath(shadowPath);
         }
         catch (Exception e)
         {
@@ -86,6 +97,6 @@ public static class ScriptEngine
             return null;
         }
         
-        return new ScriptModule(context, assembly, path, libName);
+        return new ScriptModule(context, assembly, originalPath, libName);
     }
 }

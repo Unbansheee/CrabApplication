@@ -8,7 +8,7 @@ public class SpinnerNode : CrabEngine.Node3D
     public SpinnerNode(IntPtr nativeOwner) : base(nativeOwner) {}
 
     [SerializeField("Spin Speed")]
-    public float SpinSpeed = 0.5f;
+    public float SpinSpeed = 10;
     
     protected override void EnterTree()
     {

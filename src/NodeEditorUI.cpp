@@ -120,7 +120,15 @@ void NodeEditorUI::DrawGUI()
         if (ImGui::BeginMenu("Edit"))
         {
             if (ImGui::MenuItem("Reload Modules")) {
-                Application::Get().GetScriptEngine()->ReloadModule(L"Dotnet/Scripts.dll");
+                auto scriptEngine = Application::Get().GetScriptEngine();
+                std::vector<std::wstring> paths;
+                for (auto& path : scriptEngine->GetModules()) {
+                    paths.push_back(path.first);
+                }
+
+                for (auto& p : paths) {
+                    scriptEngine->ReloadModule(p);
+                }
             }
             ImGui::EndMenu();
         };
