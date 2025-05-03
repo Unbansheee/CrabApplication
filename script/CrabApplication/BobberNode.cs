@@ -12,6 +12,7 @@ public class BobberNode : CrabEngine.Node3D
     
     [SerializeField("Bob Speed")] 
     public float BobSpeed = 1;
+    
 
     private float _accumulatedTime;
     

@@ -37,8 +37,10 @@ add_custom_command(TARGET CrabApplication POST_BUILD
         COMMENT "Copying CrabEngine resources to output directory"
 )
 
-include(cmake/AddDotnetSupport.cmake)
-add_dotnet_project(CrabApplication ${CMAKE_SOURCE_DIR}/script/CrabEngine/CrabEngine.csproj ScriptsOut)
-add_dotnet_project(CrabApplication ${CMAKE_SOURCE_DIR}/script/CrabApplication/CrabApplication.csproj ScriptsOut)
+
+
+add_dotnet_project(CrabApplication
+        ${CMAKE_SOURCE_DIR}/script/CrabApplication/CrabApplication.csproj
+        $<TARGET_FILE_DIR:CrabApplication>/Dotnet)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CrabApplication)

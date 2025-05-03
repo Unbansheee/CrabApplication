@@ -4,13 +4,13 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+
+            <OutputPath Condition=" '$(CmakeOutputDir)' == '' ">bin\$(Configuration)\</OutputPath>
+            <OutputPath Condition=" '$(CmakeOutputDir)' != '' ">$(CmakeOutputDir)\Dotnet\</OutputPath>
     </PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="CrabEngine">
-      <HintPath>..\CrabEngine\bin\Release\net9.0\win-x64\CrabEngine.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
-
+    <ItemGroup>
+        <PackageReference Include="crabengine" Version="1.0.0" />
+    </ItemGroup>
+    
 </Project>
