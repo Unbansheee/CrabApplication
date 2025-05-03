@@ -3,6 +3,7 @@ project(CrabEditor VERSION 0.1.0 LANGUAGES C CXX)
 
 file(GLOB_RECURSE SOURCES src/*.h src/*.hpp src/*.c src/*.cpp)
 file(GLOB_RECURSE MODULE_FILES CONFIGURE_DEPENDS LIST_DIRECTORIES false src/*.cppm)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_executable(CrabApplication ${SOURCES})
 set_target_properties(CrabApplication PROPERTIES CXX_STANDARD 23 CXX_STANDARD_REQUIRED ON)
@@ -44,5 +45,7 @@ add_dotnet_project(CrabApplication
 add_dotnet_project(CrabApplication
         ${CMAKE_SOURCE_DIR}/script/CrabModule/CrabModule.csproj
         $<TARGET_FILE_DIR:CrabApplication>/Dotnet)
+
+
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CrabApplication)
