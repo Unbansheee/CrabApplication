@@ -6,9 +6,9 @@ import Engine.Application;
 void NodeEditorCamera3D::HandleMouseMovement(Vector2 movement)
 {
     movement *= LookSensitivity * 60.f * Application::Get().DeltaTime();
-    Pitch = glm::clamp(Pitch - movement.y, -89.9f, 89.9f);
+    Pitch = glm::clamp(Pitch + movement.y, -89.9f, 89.9f);
     auto startYaw = Yaw;
-    startYaw -= movement.x;
+    startYaw += movement.x;
     if (startYaw > 360.f)
     {
         startYaw -= 360.f;

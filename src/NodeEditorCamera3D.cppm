@@ -7,6 +7,7 @@ export module node_editor_camera_3d;
 import Engine.Node.Camera3D;
 import Engine.Types;
 import Engine.Node;
+import Engine.Input;
 
 export class NodeEditorCamera3D : public NodeCamera3D
 {
@@ -21,7 +22,7 @@ public:
 
     void HandleMouseMovement(Vector2 movement);
     void HandleKeyboardMovement(Vector3 movement);
-    
+
     float LookSensitivity = 1.f;
     float MoveSpeed = 1.f;
     float Yaw;

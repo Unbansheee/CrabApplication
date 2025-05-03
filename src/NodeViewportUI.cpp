@@ -87,20 +87,15 @@ void NodeViewportUI::DrawGUI()
 
     if (ViewTarget.IsValid())
     {
-        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right && ImGui::IsWindowHovered())) {
-            InitialClickPos = {ImGui::GetMousePos().x, ImGui::GetMousePos().y};
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsWindowHovered()) {
+            InitialClickPos = ViewTarget->GetMousePosition();
+            ViewTarget->SetMouseVisible(false);
         }
 
         if (ImGui::IsMouseDown(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
         {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_None);
-            Vector2 CurrentPos = {ImGui::GetMousePos().x, ImGui::GetMousePos().y};
-            Vector2 Drag = CurrentPos - InitialClickPos;
-            //ImVec2 move = {Drag.x, Drag.y};
-            //ImGui::GetIO().WantSetMousePos = true;
-           // ImGui::GetIO().MousePos = {InitialClickPos.x, InitialClickPos.y};
-            auto move = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right, 0.f);
-            ImGui::ResetMouseDragDelta(ImGuiMouseButton_Right);
+            auto move = InitialClickPos - ViewTarget->GetMousePosition();
+            ViewTarget->SetMousePosition(InitialClickPos.x, InitialClickPos.y);
 
             if (ActiveCamera)
             {
@@ -139,10 +134,11 @@ void NodeViewportUI::DrawGUI()
                 ActiveCamera->HandleKeyboardMovement(movement);
             } else bIsControllingCamera = false;
         }
-        if (ImGui::IsMouseReleased(ImGuiMouseButton_Right))
+        else if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) && ImGui::IsWindowHovered())
         {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
             bIsControllingCamera = false;
+            InitialClickPos = {0,0};
+            ViewTarget->SetMouseVisible(true);
         }
         
         // Normal render pass

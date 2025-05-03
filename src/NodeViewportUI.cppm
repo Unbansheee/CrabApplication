@@ -71,6 +71,8 @@ public:
 
     void OnPixelValueClicked(uint32_t value);
 
+    InputResult HandleInput(const InputEvent &event) override;
+
     std::vector<Node*> RenderedNodes;
     ObjectRef<NodeEditorCamera3D> ActiveCamera;
 
@@ -78,3 +80,14 @@ public:
     std::queue<Vector2> mouseMoveBuffer;
     void EditTransform(const View& view, Matrix4& matrix);
 };
+
+InputResult NodeViewportUI::HandleInput(const InputEvent &event) {
+
+    if (event.type == InputEvent::Type::Scroll) {
+        if (ActiveCamera.IsValid()) {
+            ActiveCamera->MoveSpeed += event.scroll.yoffset/2.f;
+            ActiveCamera->MoveSpeed = std::clamp(ActiveCamera->MoveSpeed, 0.1f, 25.f);
+        }
+    }
+    return InputResult::Ignored;
+}
