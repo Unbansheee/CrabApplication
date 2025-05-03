@@ -26,7 +26,5 @@ public class BobberNode : CrabEngine.Node3D
         base.Update(dt);
         _accumulatedTime += dt;
         Position = new Vector3(Position.X, Position.Y, MathF.Sin(_accumulatedTime * BobSpeed) * BobDistance);
-        Console.WriteLine("Bobbing Hehe");
-
     }
 }

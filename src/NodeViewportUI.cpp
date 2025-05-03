@@ -122,11 +122,11 @@ void NodeViewportUI::DrawGUI()
                 }
                 if (ImGui::IsKeyDown(ImGuiKey_A))
                 {
-                    movement -= Vector3{0, 1, 0};
+                    movement += Vector3{0, 1, 0};
                 }
                 if (ImGui::IsKeyDown(ImGuiKey_D))
                 {
-                    movement += Vector3{0, 1, 0};
+                    movement -= Vector3{0, 1, 0};
                 }
                 if (ImGui::IsKeyDown(ImGuiKey_E))
                 {
@@ -151,7 +151,7 @@ void NodeViewportUI::DrawGUI()
 
         CopySurface();
 
-        ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<WGPUTextureView>(*ViewTextureView)), imageSize);
+        ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<WGPUTextureView>(*ViewTextureView)), imageSize, ImVec2(0, 0), ImVec2(1, 1));
         if (ImGui::IsItemHovered())
         {
             bIsMouseOverViewport = true;
@@ -172,7 +172,7 @@ void NodeViewportUI::DrawGUI()
     
     if (selectedNode.IsValid())
     {
-        if (auto node3d = dynamic_cast<Node3D*>(selectedNode.Get()))
+        if (auto node3d = selectedNode.Cast<Node3D>())
         {
             auto t = selectedNode->GetTransform();
             auto mat = t.ModelMatrix;

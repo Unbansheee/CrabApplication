@@ -1,0 +1,10 @@
+{
+    "class": "TextureImportSettings",
+    "flags": 0,
+    "properties": {
+        "ResourceID": "dbbb0967-0ae9-40e7-a19a-ce6bd820efd9",
+        "generateMipmaps": true,
+        "sRGB": true
+    },
+    "uid": "51a20599-a1b5-4cc2-9ef5-b82d81d561dd"
+}

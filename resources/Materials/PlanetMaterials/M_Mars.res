@@ -2,20 +2,20 @@
     "class": "MaterialResource",
     "flags": 0,
     "properties": {
-        "ShaderModuleName": "default_shader",
-        "name": "FunnyMaterial",
-        "sourcePath": "/res/FunnyMaterial.res"
+        "ShaderModuleName": "planet_shader",
+        "name": "M_Mars",
+        "sourcePath": "/res/Materials/PlanetMaterials/M_Mars.res"
     },
-    "uid": "9fef9624-5bff-4286-88e5-9a70de98ac08",
+    "uid": "14991eaa-6d6e-4ce6-87db-343565200ee2",
     "uniforms": {
         "AlbedoTexture": {
             "import_type": "file",
-            "source_file_path": "/engine/Textures/T_DefaultResourceThumbnail.png",
+            "source_file_path": "/res/Textures/T_Mars.jpg",
             "type": 2
         },
         "NormalTexture": {
             "import_type": "file",
-            "source_file_path": "/engine/Textures/T_StopButton.png",
+            "source_file_path": "/engine/null_texture_black.png",
             "type": 2
         },
         "uMaterialProperties": {
@@ -26,8 +26,8 @@
             },
             "Hardness": 32.0,
             "Kd": 1.0,
-            "Ks": 1.0,
-            "NormalStrength": 1.0,
+            "Ks": 0.30000001192092896,
+            "NormalStrength": 0.0,
             "type": 1
         }
     }

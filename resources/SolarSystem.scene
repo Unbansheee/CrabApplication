@@ -1,0 +1,987 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [],
+                    "class": "NodeMeshInstance3D",
+                    "flags": 0,
+                    "properties": {
+                        "Mesh": {
+                            "import_type": "file",
+                            "source_file_path": "/engine/Shapes/sphere.obj",
+                            "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                        },
+                        "Name": "NodeMeshInstance3D",
+                        "isHidden": false,
+                        "material": {
+                            "import_type": "file",
+                            "source_file_path": "/res/Materials/PlanetMaterials/M_Sun.res",
+                            "uid": "14425694-0b53-4c51-95f2-94a87d572872"
+                        },
+                        "transform": [
+                            [
+                                0.0,
+                                0.0,
+                                4.781862799063674e-07
+                            ],
+                            [
+                                1.0,
+                                0.0,
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                1.0,
+                                1.0,
+                                1.0
+                            ]
+                        ]
+                    },
+                    "uid": "533556b7-c4ac-479b-be29-9d0d4c254dc8"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "Sun",
+                "SpinSpeed": 0.20000000298023224,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        -1.1151706758028013e-07
+                    ],
+                    [
+                        -0.3292284607887268,
+                        0.0,
+                        0.0,
+                        0.9442503452301025
+                    ],
+                    [
+                        4.010000228881836,
+                        4.010000228881836,
+                        4.010000228881836
+                    ]
+                ]
+            },
+            "uid": "8f84ac53-4c9b-421b-b84d-78c8ca8f429d"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/sphere.obj",
+                                    "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/PlanetMaterials/M_Mercury.res",
+                                    "uid": "2d1e2976-5358-4020-b246-2c1894972948"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        4.781862799063674e-07
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "93cb1d14-5922-4178-86bd-ef5a3f36ce5b"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "Mercury",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                3.636673927307129,
+                                -3.28226900100708,
+                                -1.1615522055308247e-07
+                            ],
+                            [
+                                -0.9492608308792114,
+                                0.0,
+                                0.0,
+                                -0.31449010968208313
+                            ],
+                            [
+                                0.3100000023841858,
+                                0.3100000023841858,
+                                0.3100000023841858
+                            ]
+                        ]
+                    },
+                    "uid": "b31b3646-292a-4b10-9411-8f24be1d8094"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "MercuryOrbit",
+                "SpinSpeed": 3.0,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        -0.9492608308792114,
+                        0.0,
+                        0.0,
+                        -0.31449010968208313
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "70513d40-4d87-4fa9-8c50-2d7f99e6d0dd"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/sphere.obj",
+                                    "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/PlanetMaterials/M_Venus.res",
+                                    "uid": "b2850c45-c6cd-4359-8f57-039a99f57bba"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "e500b815-3f04-44c2-a7e2-31b8ce202342"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "Venus",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                5.526156425476074,
+                                -4.414032936096191,
+                                3.7973669009261357e-07
+                            ],
+                            [
+                                -0.9492608308792114,
+                                0.0,
+                                0.0,
+                                -0.31449010968208313
+                            ],
+                            [
+                                0.5,
+                                0.5,
+                                0.5
+                            ]
+                        ]
+                    },
+                    "uid": "590ea908-75fd-4e5e-a8a4-0906ab071658"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "VenusOrbit",
+                "SpinSpeed": 2.0,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.9773421287536621,
+                        0.0,
+                        0.0,
+                        0.21166589856147766
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "0f6199b2-fc01-4947-b91f-824841d48a39"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/sphere.obj",
+                                    "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/PlanetMaterials/M_Neptune.res",
+                                    "uid": "0f6086da-3b57-4bea-82ec-69637452615b"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        4.781862799063674e-07
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "0734528e-a829-400c-acd5-bc85f6e2afa0"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "Neptune",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                25.77790069580078,
+                                -27.199298858642578,
+                                -1.5804374697836465e-06
+                            ],
+                            [
+                                -0.9492608308792114,
+                                0.0,
+                                0.0,
+                                -0.31449010968208313
+                            ],
+                            [
+                                0.8700000047683716,
+                                0.8700000047683716,
+                                0.8700000047683716
+                            ]
+                        ]
+                    },
+                    "uid": "3dc36407-d815-4eba-97b0-a90522b2ab75"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "NeptuneOrbit",
+                "SpinSpeed": 0.10000000149011612,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.5791230201721191,
+                        0.0,
+                        0.0,
+                        0.8152401447296143
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "159722ec-b692-49a5-8fb8-108ba3e1c393"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/sphere.obj",
+                                    "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/PlanetMaterials/M_Earth.res",
+                                    "uid": "c1711a7d-de37-4ce9-98b0-dd479d4bcec6"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "2fabdeec-93b0-45ed-bea7-b5c3f65be29d"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "Earth",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                7.690817832946777,
+                                -6.33298397064209,
+                                6.986979315115605e-07
+                            ],
+                            [
+                                -0.9492608308792114,
+                                0.0,
+                                0.0,
+                                -0.31449010968208313
+                            ],
+                            [
+                                0.7300000190734863,
+                                0.7300000190734863,
+                                0.7300000190734863
+                            ]
+                        ]
+                    },
+                    "uid": "f4c3f165-05c3-40b7-8465-58681460c350"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "EarthOrbit",
+                "SpinSpeed": 1.5,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        -0.15927813947200775,
+                        0.0,
+                        0.0,
+                        0.9872337579727173
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "1b772e2f-003b-4842-8183-c3c899cdc347"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/sphere.obj",
+                                    "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/PlanetMaterials/M_Mars.res",
+                                    "uid": "14991eaa-6d6e-4ce6-87db-343565200ee2"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "7d17c9aa-82b6-4377-9fc0-e8b7dfe27e8e"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "Mars",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                9.729337692260742,
+                                -8.656103134155273,
+                                -9.5367431640625e-07
+                            ],
+                            [
+                                -0.9492608308792114,
+                                0.0,
+                                0.0,
+                                -0.31449010968208313
+                            ],
+                            [
+                                0.3500000238418579,
+                                0.3500000238418579,
+                                0.3500000238418579
+                            ]
+                        ]
+                    },
+                    "uid": "1c20813a-ab5e-4b1f-b97a-292e77a708f5"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "MarsOrbit",
+                "SpinSpeed": 1.0,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        -0.9943193197250366,
+                        0.0,
+                        0.0,
+                        -0.10643807053565979
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "1a788159-3c2e-4be8-9091-8ecda4321bbf"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/sphere.obj",
+                                    "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/PlanetMaterials/M_Jupiter.res",
+                                    "uid": "7fe294c4-2539-497e-893c-11b0e6c10f0b"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        4.781862799063674e-07
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "5c55a647-88c4-4b0c-a806-5b13aa825840"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "Jupiter",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                13.900162696838379,
+                                -12.67313003540039,
+                                1.712931293695874e-06
+                            ],
+                            [
+                                -0.9492608308792114,
+                                0.0,
+                                0.0,
+                                -0.31449010968208313
+                            ],
+                            [
+                                1.5800000429153442,
+                                1.5800000429153442,
+                                1.5800000429153442
+                            ]
+                        ]
+                    },
+                    "uid": "384b21d3-8b5a-4d5b-b606-120eda8362e4"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "JupiterOrbit",
+                "SpinSpeed": 0.699999988079071,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.925361692905426,
+                        0.0,
+                        0.0,
+                        0.37908557057380676
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "da587a51-3c14-4367-bcc3-b2889034b8d1"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/sphere.obj",
+                                    "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/PlanetMaterials/M_Saturn.res",
+                                    "uid": "6565e2fb-363a-4ffe-b1dc-947c5d3b525b"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        4.781862799063674e-07
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "319f6ce9-e06f-4061-9f98-ff2230483376"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "Saturn",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                19.56515121459961,
+                                -19.016695022583008,
+                                7.169831519604486e-07
+                            ],
+                            [
+                                -0.9492608308792114,
+                                0.0,
+                                0.0,
+                                -0.31449010968208313
+                            ],
+                            [
+                                1.7346000671386719,
+                                1.7346000671386719,
+                                1.7346000671386719
+                            ]
+                        ]
+                    },
+                    "uid": "d05f401c-a073-4994-936c-0c7b419af14b"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "SaturnOrbit",
+                "SpinSpeed": 0.4000000059604645,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        -0.7832126021385193,
+                        0.0,
+                        0.0,
+                        -0.6217540502548218
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "fde3d6b3-2630-4a93-b5fb-b04efec0ff4c"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/sphere.obj",
+                                    "uid": "adb485de-4c1c-418a-9791-0b3e68e96a4c"
+                                },
+                                "Name": "NodeMeshInstance3D",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/PlanetMaterials/M_Uranus.res",
+                                    "uid": "2d27dc39-0bf9-4508-bf1f-22f7631a9910"
+                                },
+                                "transform": [
+                                    [
+                                        0.0,
+                                        0.0,
+                                        4.781862799063674e-07
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        1.0,
+                                        1.0,
+                                        1.0
+                                    ]
+                                ]
+                            },
+                            "uid": "e5ac1673-c4e6-4865-9943-63d03367a161"
+                        }
+                    ],
+                    "class": "CrabApplication.SpinnerNode",
+                    "flags": 0,
+                    "properties": {
+                        "Name": "Uranus",
+                        "SpinSpeed": 3.0,
+                        "isHidden": false,
+                        "transform": [
+                            [
+                                22.71766471862793,
+                                -23.53839683532715,
+                                -8.138216145425758e-08
+                            ],
+                            [
+                                -0.9492608308792114,
+                                0.0,
+                                0.0,
+                                -0.31449010968208313
+                            ],
+                            [
+                                0.8500000238418579,
+                                0.8500000238418579,
+                                0.8500000238418579
+                            ]
+                        ]
+                    },
+                    "uid": "72ed6483-5d59-4607-b499-f04bb25ab1c6"
+                }
+            ],
+            "class": "CrabApplication.SpinnerNode",
+            "flags": 0,
+            "properties": {
+                "Name": "UranusOrbit",
+                "SpinSpeed": 0.20000000298023224,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        -0.3292284607887268,
+                        0.0,
+                        0.0,
+                        0.9442503452301025
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "f7683f85-7695-48c6-84e5-a2f61d1ca49c"
+        },
+        {
+            "children": [],
+            "class": "NodeEnvironment",
+            "flags": 0,
+            "properties": {
+                "BackgroundColour": [
+                    0.0004901489010080695,
+                    0.0,
+                    0.004950523376464844,
+                    1.0
+                ],
+                "Name": "NodeEnvironment",
+                "isHidden": false
+            },
+            "uid": "c5807556-daf4-4055-a51f-df74764adc8c"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "class": "NodeMeshInstance3D",
+                            "flags": 0,
+                            "properties": {
+                                "Mesh": {
+                                    "import_type": "file",
+                                    "source_file_path": "/engine/Shapes/plane.obj",
+                                    "uid": "41b97684-37a3-4ae7-a9cf-0b4c840a709a"
+                                },
+                                "Name": "Message",
+                                "isHidden": false,
+                                "material": {
+                                    "import_type": "file",
+                                    "source_file_path": "/res/Materials/M_Message.res",
+                                    "uid": "38353538-c16e-437b-9954-a6c6e41daf54"
+                                },
+                                "transform": [
+                                    [
+                                        1.5260000228881836,
+                                        0.0524260550737381,
+                                        0.4417743682861328
+                                    ],
+                                    [
+                                        1.0,
+                                        0.0,
+                                        0.0,
+                                        0.0
+                                    ],
+                                    [
+                                        0.9878973960876465,
+                                        1.0000871419906616,
+                                        1.011999249458313
+                                    ]
+                                ]
+                            },
+                            "uid": "50004513-5c75-4760-8915-372e7e241ca9"
+                        }
+                    ],
+                    "class": "NodeMeshInstance3D",
+                    "flags": 0,
+                    "properties": {
+                        "Mesh": {
+                            "import_type": "file",
+                            "source_file_path": "/engine/Shapes/plane.obj",
+                            "uid": "41b97684-37a3-4ae7-a9cf-0b4c840a709a"
+                        },
+                        "Name": "Jens",
+                        "isHidden": false,
+                        "material": {
+                            "import_type": "file",
+                            "source_file_path": "/res/Materials/M_Jens.res",
+                            "uid": "f0b8c90c-d33c-4e77-858a-43f8952684e1"
+                        },
+                        "transform": [
+                            [
+                                78.2697982788086,
+                                10.742635726928711,
+                                -0.7525115013122559
+                            ],
+                            [
+                                0.5716087818145752,
+                                0.5658553242683411,
+                                -0.4222883880138397,
+                                -0.41802364587783813
+                            ],
+                            [
+                                10.0,
+                                10.0,
+                                10.0
+                            ]
+                        ]
+                    },
+                    "uid": "7e16e881-ee9a-4565-819d-114be86458c4"
+                }
+            ],
+            "class": "CrabApplication.BobberNode",
+            "flags": 0,
+            "properties": {
+                "BobDistance": 2.0,
+                "BobSpeed": 1.0,
+                "Name": "CrabApplication.BobberNode",
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "6b697611-5031-4b63-8658-5f19d4bd98c4"
+        }
+    ],
+    "class": "Node",
+    "flags": 0,
+    "properties": {
+        "Name": "Root",
+        "isHidden": false
+    },
+    "uid": "1b8f019d-f779-4c86-b143-b9dfc9e4cb50"
+}
