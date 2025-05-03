@@ -8,6 +8,10 @@ int main (int, char**) {
     auto& app = Application::Get();
     Filesystem::AddFileSystemDirectory("/res", RESOURCE_DIR);
 
+    app.GetScriptEngine()->LoadModule(Filesystem::StringToWString(Filesystem::AbsolutePath("/dotnet/CrabApplication.dll")), L"CrabApplication");
+    app.GetScriptEngine()->LoadModule(Filesystem::StringToWString(Filesystem::AbsolutePath("/dotnet/CrabModule.dll")), L"CrabModule");
+
+
     auto window = app.GetSceneTree().SetRoot(Node::NewNode<NodeImGUIContextWindow>("Crab Editor"));
     window->SetSurfaceDrawEnabled(false);
     window->AddChild<NodeEditorUI>("EditorUI");

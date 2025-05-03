@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <OutputPath Condition=" '$(CmakeOutputDir)' == '' ">bin\$(Configuration)\</OutputPath>
+        <OutputPath Condition=" '$(CmakeOutputDir)' != '' ">$(CmakeOutputDir)\Dotnet\</OutputPath>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="crabengine" Version="1.0.0" />
+    </ItemGroup>
+
+</Project>

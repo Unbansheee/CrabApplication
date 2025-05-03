@@ -100,3 +100,9 @@ script/CrabApplication/bin
 script/CrabApplication/obj
 script/CrabEngine/bin
 script/CrabEngine/obj
+**/obj/Debug/*
+**/obj/Release/*
+**/bin/Debug/*
+**/bin/Release/*
+**script/**/obj/*
+**script/**/bin/*
