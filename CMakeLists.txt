@@ -1,134 +1,44 @@
 cmake_minimum_required(VERSION 3.28)
-project(
-    CrabEditor # name of the project, which will also be the name of the visual studio solution if you use it
-    VERSION 0.1.0 # any version number
-    LANGUAGES CXX C # programming languages used by the project
+project(CrabEditor VERSION 0.1.0 LANGUAGES C CXX)
+
+file(GLOB_RECURSE SOURCES src/*.h src/*.hpp src/*.c src/*.cpp)
+file(GLOB_RECURSE MODULE_FILES CONFIGURE_DEPENDS LIST_DIRECTORIES false src/*.cppm)
+
+add_executable(CrabApplication ${SOURCES})
+set_target_properties(CrabApplication PROPERTIES CXX_STANDARD 23 CXX_STANDARD_REQUIRED ON)
+
+add_subdirectory(vendor/CrabEngine)
+target_link_libraries(CrabApplication PRIVATE CrabEngine)
+
+target_include_directories(CrabApplication PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-include(cmake/AddDotnetProject.cmake)
-
-file(GLOB_RECURSE SOURCES
-        src/*.h
-        src/*.c
-        src/*.hpp
-        src/*.cpp
-        resources/*.wgsl
-)
-
-# Find all module interface files
-file(GLOB_RECURSE MODULE_FILES 
-    CONFIGURE_DEPENDS  # Optional: Watch for new files
-    LIST_DIRECTORIES false
-    src/*.cppm
-)
-
-add_executable(CrabApplication
-        ${SOURCES}
-)
-
-set_target_properties(CrabApplication PROPERTIES
-    CXX_STANDARD 23
-    CXX_STANDARD_REQUIRED ON
-    CXX_EXTENSIONS OFF
-    COMPILE_WARNING_AS_ERROR OFF
-)
-
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(INTERPROCEDURAL_OPTIMIZATION ON)
-
-if (MSVC)
-    target_compile_options(CrabApplication PRIVATE /W4)
-    # Disable warning C4244: conversion from 'int' to 'short', possible loss of data
-    target_compile_options(CrabApplication PUBLIC /wd4244)
-    target_compile_options(CrabApplication PUBLIC /MP)
-else()
-    target_compile_options(CrabApplication PRIVATE -Wall -Wextra -pedantic)
-endif()
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(CrabApplication PRIVATE -fmodules-ts)
-    target_compile_options(CrabApplication PRIVATE -fmodule-header)
-endif()
-
-set(ENGINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine)
-add_subdirectory(${ENGINE_SOURCE_DIR})
-
-target_link_libraries(CrabApplication PUBLIC CrabEngine)
-
-# We add an option to enable different settings when developing the CrabApplication than
-# when distributing it.
-option(DEV_MODE "Set up development helper settings" ON)
-
-if(DEV_MODE)
-    # In dev mode, we load resources from the source tree, so that when we
-    # dynamically edit resources (like shaders), these are correctly
-    # versionned.
-    target_compile_definitions(CrabApplication PRIVATE
-            RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources"
-    )
-else()
-    # In release mode, we just load resources relatively to wherever the
-    # executable is launched from, so that the binary is portable
-    target_compile_definitions(CrabApplication PRIVATE
-            RESOURCE_DIR="./resources"
-    )
-
-    #target_copy_engine_resources(CrabApplication)
-
-    add_custom_command(TARGET CrabApplication POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E remove_directory "$<TARGET_FILE_DIR:CrabApplication>/resources"
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_CURRENT_SOURCE_DIR}/resources"
-            "$<TARGET_FILE_DIR:CrabApplication>/resources"
-    )
-
-    add_custom_command(TARGET CrabApplication POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E remove_directory "$<TARGET_FILE_DIR:CrabApplication>/Engine/resources"
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${ENGINE_SOURCE_DIR}/resources"
-            "$<TARGET_FILE_DIR:CrabApplication>/Engine/resources"
-    )
-
-endif()
-
-target_compile_definitions(CrabApplication PUBLIC GLM_FORCE_DEPTH_ZERO_TO_ONE)
-target_compile_definitions(CrabApplication PUBLIC GLM_FORCE_LEFT_HANDED)
-
-target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/vendor)
-target_include_directories(CrabApplication PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_include_directories(CrabApplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/CrabEngine/vendor)
-target_include_directories(CrabApplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/CrabEngine/vendor/imgui)
-target_include_directories(CrabApplication PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/CrabEngine/src)
-
-target_copy_webgpu_binaries(CrabApplication)
-
-target_compile_definitions(CrabApplication PUBLIC "$<$<CONFIG:Debug>:_DEBUG>")
+target_compile_definitions(CrabApplication PRIVATE "$<$<CONFIG:Debug>:_DEBUG>")
+target_compile_definitions(CrabApplication PRIVATE RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources")
 
 target_sources(CrabApplication
-  PUBLIC
-    FILE_SET "modules"
-    TYPE CXX_MODULES
-    BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
-    FILES ${MODULE_FILES}
+        PUBLIC
+        FILE_SET "modules"
+        TYPE CXX_MODULES
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}
+        FILES ${MODULE_FILES}
 )
 
-# In Application's CMakeLists.txt
-if (MSVC)
-  target_link_options(CrabApplication PRIVATE "/WHOLEARCHIVE:CrabEngine")
-elseif (GCC OR CLANG)
-  target_link_options(CrabApplication PRIVATE "-Wl,--whole-archive" "CrabEngine" "-Wl,--no-whole-archive")
-endif()
+target_copy_engine_resources(CrabApplication)
+target_copy_crabengine_dependencies(CrabApplication)
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CrabApplication)
+add_custom_command(TARGET CrabApplication POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/resources"
+        "$<TARGET_FILE_DIR:CrabApplication>/resources"
+        COMMENT "Copying CrabEngine resources to output directory"
+)
 
-
+include(cmake/AddDotnetSupport.cmake)
 add_dotnet_project(CrabApplication ${CMAKE_SOURCE_DIR}/script/CrabEngine/CrabEngine.csproj ScriptsOut)
 add_dotnet_project(CrabApplication ${CMAKE_SOURCE_DIR}/script/CrabApplication/CrabApplication.csproj ScriptsOut)
 
-add_custom_command(TARGET CrabApplication POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/vendor/slang/bin/slang.dll
-        "$<TARGET_FILE_DIR:CrabApplication>"
-)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CrabApplication)

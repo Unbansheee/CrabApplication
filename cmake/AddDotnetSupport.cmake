@@ -22,12 +22,7 @@ function(add_dotnet_project TARGET_NAME CSHARP_PROJECT_PATH OUTPUT_SUBDIR)
             "$<TARGET_FILE_DIR:${TARGET_NAME}>/Dotnet"
     )
 
-    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND}
-            -DSRC=${CSHARP_OUTPUT_DIR}/${PROJ_NAME}.runtimeconfig.json
-            -DDST=$<TARGET_FILE_DIR:${TARGET_NAME}>/Dotnet
-            -P ${CMAKE_SOURCE_DIR}/cmake/CopyIfExists.cmake
-    )
+    target_copy_if_exists(${TARGET_NAME} ${CSHARP_OUTPUT_DIR}/${PROJ_NAME}.runtimeconfig.json $<TARGET_FILE_DIR:${TARGET_NAME}>/Dotnet)
 
     # Copy nethost.dll for embedding
     add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
