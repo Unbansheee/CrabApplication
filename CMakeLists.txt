@@ -127,5 +127,8 @@ set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT C
 add_dotnet_project(CrabApplication ${CMAKE_SOURCE_DIR}/script/CrabEngine/CrabEngine.csproj ScriptsOut)
 add_dotnet_project(CrabApplication ${CMAKE_SOURCE_DIR}/script/CrabApplication/CrabApplication.csproj ScriptsOut)
 
-
-
+add_custom_command(TARGET CrabApplication POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/vendor/CrabEngine/vendor/slang/bin/slang.dll
+        "$<TARGET_FILE_DIR:CrabApplication>"
+)
