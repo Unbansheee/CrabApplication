@@ -87,7 +87,7 @@ void NodeSceneTreeUI::DrawNodeTree(ObjectRef<Node>& node, int& idx_count)
 {
     if (!node.IsValid()) return;
     if (!node->GetTree()) return;
-    ImGui::PushID(node->GetID().to_string().c_str());
+    ImGui::PushID(node->GetID().ToString().c_str());
     ImGuiTreeNodeFlags showArrow = [&]() {
         if (node->GetChildren().empty()) return ImGuiTreeNodeFlags_Leaf;
         else {

@@ -186,6 +186,6 @@ void PropertyDrawUtility::operator()(PropertyView& prop, std::shared_ptr<Resourc
 
 void PropertyDrawUtility::operator()(PropertyView &prop, ObjectRef<Object> &val) {
     ImGui::Text(prop.displayName().c_str());
-    std::string name = val.IsValid() ? val->GetID().to_string() : "NULL";
+    std::string name = val.IsValid() ? val->GetID().ToString() : "NULL";
     ImGui::Text(name.c_str());
 }
