@@ -1,4 +1,4 @@
 [submodule "vendor/CrabEngine"]
 	path = vendor/CrabEngine
 	url = https://github.com/Unbansheee/CrabEngine.git
-	branch = modules
+	branch = main
