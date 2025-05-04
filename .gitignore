@@ -106,3 +106,4 @@ script/CrabEngine/obj
 **/bin/Release/*
 **script/**/obj/*
 **script/**/bin/*
+Debug
