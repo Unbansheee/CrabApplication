@@ -38,7 +38,7 @@
                             ]
                         ]
                     },
-                    "uid": "533556b7-c4ac-479b-be29-9d0d4c254dc8"
+                    "uid": "ae77d48b-8858-4f3f-a254-5c8a825e4505"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -66,7 +66,7 @@
                     ]
                 ]
             },
-            "uid": "8f84ac53-4c9b-421b-b84d-78c8ca8f429d"
+            "uid": "35f53a63-6d32-4372-8041-fd370aaf6f9a"
         },
         {
             "children": [
@@ -108,7 +108,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "93cb1d14-5922-4178-86bd-ef5a3f36ce5b"
+                            "uid": "af8ce773-553e-405a-a083-bbb0ab22361d"
                         }
                     ],
                     "class": "CrabApplication.SpinnerNode",
@@ -136,7 +136,7 @@
                             ]
                         ]
                     },
-                    "uid": "b31b3646-292a-4b10-9411-8f24be1d8094"
+                    "uid": "f3e0b06f-16fc-4c05-89eb-01adb691ee86"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -164,7 +164,7 @@
                     ]
                 ]
             },
-            "uid": "70513d40-4d87-4fa9-8c50-2d7f99e6d0dd"
+            "uid": "8aaaa27c-3da8-450b-80a6-3a4dd88387e0"
         },
         {
             "children": [
@@ -206,7 +206,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "e500b815-3f04-44c2-a7e2-31b8ce202342"
+                            "uid": "7a30fcf7-5f8e-4d64-abcf-7948bda59732"
                         }
                     ],
                     "class": "CrabApplication.SpinnerNode",
@@ -234,7 +234,7 @@
                             ]
                         ]
                     },
-                    "uid": "590ea908-75fd-4e5e-a8a4-0906ab071658"
+                    "uid": "14ac6665-63a2-450f-a31b-28fd98a1b5b9"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -262,7 +262,7 @@
                     ]
                 ]
             },
-            "uid": "0f6199b2-fc01-4947-b91f-824841d48a39"
+            "uid": "76f16140-ff7a-4441-b89a-dc8e84e0b8db"
         },
         {
             "children": [
@@ -304,7 +304,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "0734528e-a829-400c-acd5-bc85f6e2afa0"
+                            "uid": "110942de-c91b-482b-854e-d372f51c979d"
                         }
                     ],
                     "class": "CrabApplication.SpinnerNode",
@@ -332,7 +332,7 @@
                             ]
                         ]
                     },
-                    "uid": "3dc36407-d815-4eba-97b0-a90522b2ab75"
+                    "uid": "b59b6545-8738-422b-ad7c-0949c7c76b51"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -360,7 +360,7 @@
                     ]
                 ]
             },
-            "uid": "159722ec-b692-49a5-8fb8-108ba3e1c393"
+            "uid": "2c6d4220-92c3-4af3-b56a-01d4a08f1b33"
         },
         {
             "children": [
@@ -402,7 +402,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "2fabdeec-93b0-45ed-bea7-b5c3f65be29d"
+                            "uid": "d9441e67-2632-4d0c-9aad-61d3bfa67044"
                         }
                     ],
                     "class": "CrabApplication.SpinnerNode",
@@ -430,7 +430,7 @@
                             ]
                         ]
                     },
-                    "uid": "f4c3f165-05c3-40b7-8465-58681460c350"
+                    "uid": "ea0c1d03-df29-4e40-9085-abe2fc881dd2"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -458,7 +458,7 @@
                     ]
                 ]
             },
-            "uid": "1b772e2f-003b-4842-8183-c3c899cdc347"
+            "uid": "bd35e33c-cac4-4539-a5b3-b904e09c3cf8"
         },
         {
             "children": [
@@ -500,7 +500,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "7d17c9aa-82b6-4377-9fc0-e8b7dfe27e8e"
+                            "uid": "5b065b82-2715-444d-a4a2-2ab669ae0c22"
                         }
                     ],
                     "class": "CrabApplication.SpinnerNode",
@@ -528,7 +528,7 @@
                             ]
                         ]
                     },
-                    "uid": "1c20813a-ab5e-4b1f-b97a-292e77a708f5"
+                    "uid": "d2d5a9e5-bfcf-491f-9255-e5eee6e1954a"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -556,7 +556,7 @@
                     ]
                 ]
             },
-            "uid": "1a788159-3c2e-4be8-9091-8ecda4321bbf"
+            "uid": "367e5dc4-8ea5-4e6f-9ee8-c13bc15faa2f"
         },
         {
             "children": [
@@ -598,7 +598,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "5c55a647-88c4-4b0c-a806-5b13aa825840"
+                            "uid": "e5a0d79d-59ad-4a97-9045-4140b21745ba"
                         }
                     ],
                     "class": "CrabApplication.SpinnerNode",
@@ -626,7 +626,7 @@
                             ]
                         ]
                     },
-                    "uid": "384b21d3-8b5a-4d5b-b606-120eda8362e4"
+                    "uid": "92878834-d4fe-4646-afb9-1fc69da91b82"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -654,7 +654,7 @@
                     ]
                 ]
             },
-            "uid": "da587a51-3c14-4367-bcc3-b2889034b8d1"
+            "uid": "b5bfca24-346c-48c9-8054-701dd7fe295c"
         },
         {
             "children": [
@@ -696,7 +696,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "319f6ce9-e06f-4061-9f98-ff2230483376"
+                            "uid": "2a881abf-1540-432e-b041-40a273b95528"
                         }
                     ],
                     "class": "CrabApplication.SpinnerNode",
@@ -724,7 +724,7 @@
                             ]
                         ]
                     },
-                    "uid": "d05f401c-a073-4994-936c-0c7b419af14b"
+                    "uid": "a8ca19a0-0052-451b-b178-fc0017216fb2"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -752,7 +752,7 @@
                     ]
                 ]
             },
-            "uid": "fde3d6b3-2630-4a93-b5fb-b04efec0ff4c"
+            "uid": "9a7d406c-a3f1-41df-b171-402eb20f5560"
         },
         {
             "children": [
@@ -794,7 +794,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "e5ac1673-c4e6-4865-9943-63d03367a161"
+                            "uid": "88f9cfd0-2c4e-4354-9ce6-f7a421bf1f98"
                         }
                     ],
                     "class": "CrabApplication.SpinnerNode",
@@ -822,7 +822,7 @@
                             ]
                         ]
                     },
-                    "uid": "72ed6483-5d59-4607-b499-f04bb25ab1c6"
+                    "uid": "56df2aa0-eb86-4c79-876b-644952bf6ed2"
                 }
             ],
             "class": "CrabApplication.SpinnerNode",
@@ -850,7 +850,7 @@
                     ]
                 ]
             },
-            "uid": "f7683f85-7695-48c6-84e5-a2f61d1ca49c"
+            "uid": "96604f47-b907-4bff-b285-e59608d69f71"
         },
         {
             "children": [],
@@ -866,7 +866,7 @@
                 "Name": "NodeEnvironment",
                 "isHidden": false
             },
-            "uid": "c5807556-daf4-4055-a51f-df74764adc8c"
+            "uid": "dece68ca-5d12-4050-87c9-9ee9fd37c2bb"
         },
         {
             "children": [
@@ -908,7 +908,7 @@
                                     ]
                                 ]
                             },
-                            "uid": "50004513-5c75-4760-8915-372e7e241ca9"
+                            "uid": "d6b9b461-821c-4894-a16c-7d84fd885fc0"
                         }
                     ],
                     "class": "NodeMeshInstance3D",
@@ -945,7 +945,7 @@
                             ]
                         ]
                     },
-                    "uid": "7e16e881-ee9a-4565-819d-114be86458c4"
+                    "uid": "4ae40392-1495-42e2-859b-6e2241b2fb1b"
                 }
             ],
             "class": "CrabApplication.BobberNode",
@@ -974,7 +974,40 @@
                     ]
                 ]
             },
-            "uid": "6b697611-5031-4b63-8658-5f19d4bd98c4"
+            "uid": "e0eaff00-30a8-4320-96c6-cb2f7042ce74"
+        },
+        {
+            "children": [],
+            "class": "NodeSceneInstance",
+            "flags": 0,
+            "properties": {
+                "Name": "NodeSceneInstance",
+                "Scene": {
+                    "import_type": "file",
+                    "source_file_path": "/res/Prefabs/CameraController.scene",
+                    "uid": "e376552e-e872-4461-823f-a1c3e6130839"
+                },
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "11e95639-3f31-46f5-ab46-c702a80e951c"
         }
     ],
     "class": "Node",
@@ -983,5 +1016,5 @@
         "Name": "Root",
         "isHidden": false
     },
-    "uid": "1b8f019d-f779-4c86-b143-b9dfc9e4cb50"
+    "uid": "07771629-4a32-4003-93d3-d508787c84cb"
 }

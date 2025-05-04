@@ -15,6 +15,8 @@ public:
     virtual void Ready() override;
     virtual void Update(float dt) override;
 
+    InputResult HandleInput(const InputEvent &event) override;
+
     void Run();
     void Stop();
 

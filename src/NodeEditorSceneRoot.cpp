@@ -1,6 +1,6 @@
 ﻿module node_editor_scene_root;
 import Engine.GFX.Renderer;
-
+import Engine.Node.Window;
 void NodeEditorSceneRoot::Init()
 {
     Node::Init();
@@ -48,6 +48,13 @@ void NodeEditorSceneRoot::Update(float dt)
     {
         EditorTree.Update(dt);
     }
+}
+
+InputResult NodeEditorSceneRoot::HandleInput(const InputEvent &event) {
+    if (bIsActive) {
+        NodeWindow::PropagateInputToChildren(GetSubtree().GetRoot(), event);
+    }
+    return Node::HandleInput(event);
 }
 
 void NodeEditorSceneRoot::Render(Renderer& Visitor)

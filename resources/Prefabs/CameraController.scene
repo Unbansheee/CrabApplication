@@ -1,0 +1,60 @@
+{
+    "children": [
+        {
+            "children": [],
+            "class": "NodeCamera3D",
+            "flags": 0,
+            "properties": {
+                "FOV": 45.0,
+                "FarClippingPlane": 1000.0,
+                "Name": "NodeCamera3D",
+                "NearClippingPlane": 0.009999999776482582,
+                "isHidden": false,
+                "transform": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ]
+            },
+            "uid": "d492bb41-1dfe-41fa-a6bd-9f4e861a3cf5"
+        }
+    ],
+    "class": "CrabModule.CameraController",
+    "flags": 0,
+    "properties": {
+        "Name": "Root",
+        "isHidden": false,
+        "transform": [
+            [
+                0.0,
+                0.0,
+                0.0
+            ],
+            [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+            ],
+            [
+                1.0,
+                1.0,
+                1.0
+            ]
+        ]
+    },
+    "uid": "ba024a55-cdba-432b-b177-ea1848ba3fe9"
+}

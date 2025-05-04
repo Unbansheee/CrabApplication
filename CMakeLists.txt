@@ -6,7 +6,7 @@ file(GLOB_RECURSE MODULE_FILES CONFIGURE_DEPENDS LIST_DIRECTORIES false src/*.cp
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Uncomment to force DEV_MODE setting. DEV_MODE ON means the program will use the resources from the source root, not the build directory
-#set(DEV_MODE OFF CACHE BOOL "Override DEV_MODE" FORCE)
+# set(DEV_MODE OFF CACHE BOOL "Override DEV_MODE" FORCE)
 
 add_executable(CrabApplication ${SOURCES})
 set_target_properties(CrabApplication PROPERTIES CXX_STANDARD 23 CXX_STANDARD_REQUIRED ON)
