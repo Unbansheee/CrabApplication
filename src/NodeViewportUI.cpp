@@ -12,6 +12,8 @@ import Engine.Math;
 import Engine.Compute.ClearTexture;
 import Engine.Resource.ResourceManager;
 
+// this whole thing is absolutely horriffic
+
 void NodeViewportUI::Ready()
 {
     Node::Ready();
@@ -19,12 +21,7 @@ void NodeViewportUI::Ready()
     if (auto window = GetAncestorOfType<NodeWindow>())
     {
         ViewTarget = window;
-        
     }
-
-    //cam.ProjectionMatrix = glm::perspective(45 * PI / 180, GetAspectRatio(), 0.01f, 1000.0f);
-   // cam.ViewMatrix = glm::lookAt(glm::vec3(4.0f, 0.f, 0.0f), glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
-    //cam.Position = glm::vec3(4.0f, 0.f, 0.0f);
     
     CreateDepthTexture(windowSize.x, windowSize.y);
     CreateRenderTexture(windowSize.x, windowSize.y);
@@ -63,7 +60,7 @@ void NodeViewportUI::DrawGUI()
     {
         if (ViewTarget.IsValid())
         {
-            if (auto editorCam = dynamic_cast<NodeEditorCamera3D*>(ViewTarget->ActiveCamera.Get()))
+            if (auto editorCam = ViewTarget->ActiveCamera.Cast<NodeEditorCamera3D>())
             {
                 ActiveCamera = editorCam;
             }
@@ -451,4 +448,14 @@ void NodeViewportUI::CreateDepthTexture(uint32_t width, uint32_t height)
     vd.aspect = wgpu::TextureAspect::All;
     vd.usage = wgpu::TextureUsage::RenderAttachment;
     DepthTextureView = WindowDepthTexture->createView(vd);
+}
+
+InputResult NodeViewportUI::HandleInput(const InputEvent &event) {
+    if (event.type == InputEvent::Type::Scroll) {
+        if (ActiveCamera.IsValid()) {
+            ActiveCamera->MoveSpeed += event.scroll.yoffset/2.f;
+            ActiveCamera->MoveSpeed = std::clamp(ActiveCamera->MoveSpeed, 0.1f, 25.f);
+        }
+    }
+    return InputResult::Ignored;
 }

@@ -190,12 +190,14 @@ void NodeEditorUI::SaveScene(const std::string& path)
 void NodeEditorUI::ImportGLB(const std::string &path) {
     GLTFSceneParser parser;
     auto gltf = parser.ParseGLTF(Application::Get().GetDevice(), path);
+    /*
     if (SelectedNode) {
         SelectedNode->AddChild(std::move(gltf));
     }
     else {
         EditorSceneTree->GetRootNode()->AddChild(std::move(gltf));
     }
+    */
 }
 
 

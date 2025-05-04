@@ -10,7 +10,7 @@ void NodeSceneTreeUI::DrawGUI()
 {
     Node::DrawGUI();
 
-    ImGui::Begin(Name.c_str());
+    ImGui::Begin(GetName().c_str());
     if (ImGui::BeginPopup("Add Node Menu"))
     {
         auto classes = ClassDB::Get().GetSubclassesOf<Node>();
@@ -20,7 +20,7 @@ void NodeSceneTreeUI::DrawGUI()
             if (ImGui::Button(t->Name.string()))
             {
                 Object* n = t->Initializer();
-                Node* node = dynamic_cast<Node*>(n);
+                Node* node = Object::Cast<Node>(n);
                 auto instance = Node::InitializeNode(node, t->Name.string());
                 if (auto editor = GetAncestorOfType<NodeEditorUI>())
                 {
