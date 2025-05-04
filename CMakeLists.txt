@@ -23,9 +23,9 @@ target_include_directories(CrabApplication PRIVATE
 target_compile_definitions(CrabApplication PRIVATE "$<$<CONFIG:Debug>:_DEBUG>")
 
 if (DEV_MODE)
-    target_compile_definitions(CrabEngine PUBLIC RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources")
+    target_compile_definitions(CrabApplication PUBLIC RESOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/resources")
 else()
-    target_compile_definitions(CrabEngine PUBLIC RESOURCE_DIR="./resources")
+    target_compile_definitions(CrabApplication PUBLIC RESOURCE_DIR="./resources")
     target_copy_engine_resources(CrabApplication)
 
     add_custom_command(TARGET CrabApplication POST_BUILD
@@ -37,7 +37,6 @@ else()
 endif()
 
 target_copy_crabengine_dependencies(CrabApplication)
-
 
 target_sources(CrabApplication
         PUBLIC
