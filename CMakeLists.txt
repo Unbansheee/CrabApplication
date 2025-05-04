@@ -57,3 +57,4 @@ add_dotnet_project(CrabApplication
 
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT CrabApplication)
+set_property(TARGET CrabApplication PROPERTY VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:CrabApplication>)
