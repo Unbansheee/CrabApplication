@@ -13,7 +13,7 @@ CrabApplication is an application built with CrabEngine
 ## CrabEngine Features
 - WebGPU-Native 3D renderer
 - Slang shader compilation
-- Material system based on Slang modules
+- Material system based on Slang modules and shader reflection
 - .NET Core C# scripting
 - .NET DLL hot reloading
 - Jolt physics
@@ -23,7 +23,7 @@ CrabApplication is an application built with CrabEngine
   
 ## Build instructions
 ### Prerequisites
-- .NET 9
+- .NET 9.0 Runtime Installed
 - MSVC 17.6 (others untested. Compiler supporting C++20 modules and import std is required)
 - CMake 3.28 or newer (others untested)
 
@@ -44,7 +44,7 @@ cd CrabApplication
 cmake -S . -B build -G "Visual Studio 17 2022" -DDEV_MODE:BOOL=OFF
 ```
 
-3. Open Visual Studio Solution
+3. Open Visual Studio Solution from the build folder
 4. Build and Run CrabApplication (x64).
    The build may fail the first time as it sets up the C# dependencies. Run it again.
 
@@ -53,3 +53,8 @@ cmake -S . -B build -G "Visual Studio 17 2022" -DDEV_MODE:BOOL=OFF
 Changes can be made to C# script modules under CrabApplication/script. Scripts will be compiled upon building the application.
 Changes can also be made at runtime. Edit the script, then run the "Build_\<Module\>_Scripts" target inside Visual Studio. The scripts will be recompiled and the DLL will be reloaded.
 Native bindings are still work-in-progress.
+
+## Known Issues
+- Editor Jank
+- Sometimes the C++ compilation can fail due to object mismatches. This is a modules bug, and building again will solve it.
+- Runtime shader recompilation can be finnicky
