@@ -1,6 +1,8 @@
 # CrabApplication
 
-CrabApplication is an application built with CrabEngine
+<img width="1282" height="992" alt="CrabApplication_fXLfYxzmar" src="https://github.com/user-attachments/assets/34bdea0c-e6e8-4956-b481-800e1fb10496" />
+
+Crab Application is an application built with Crab Engine, to demonstrate usage, and to serve as a basic scene editor. It also makes use of the C# scripting features of Crab Engine.
 #### Running the application with the flag --editor will open the editor. Otherwise it will run standalone. Alternatively the FORCE_EDITOR_ON define in main.cpp can be set to 1.
 
 ## CrabApplication Features
@@ -10,17 +12,6 @@ CrabApplication is an application built with CrabEngine
 - Scene running
 - Asset hot reloading
 
-## CrabEngine Features
-- WebGPU-Native 3D renderer
-- Slang shader compilation
-- Material system based on Slang modules and shader reflection
-- .NET Core C# scripting
-- .NET DLL hot reloading
-- Jolt physics
-- Custom reflection rystem
-- Automatic property serialization and deserialization
-- C++20 Modules
-  
 ## Build instructions
 ### Prerequisites
 - .NET 9.0 Runtime Installed
